@@ -1,6 +1,6 @@
 import './App.css';
 import { Col, Row } from 'antd';
-import Header from './components/header/header';
+import Header from './components/navbar/navbar';
 import Navigation from './components/navigation/navigation';
 
 function App() {
