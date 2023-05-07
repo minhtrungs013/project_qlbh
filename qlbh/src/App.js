@@ -12,6 +12,7 @@ function App() {
         </Col>
         <Col span={20}>
         <Header></Header>
+       
         </Col>
       </Row>
     </div>
