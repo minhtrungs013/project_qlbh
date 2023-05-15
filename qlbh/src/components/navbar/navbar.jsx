@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import "./navbar.css"
 import { MenuOutlined, SearchOutlined, BellOutlined, PoweroffOutlined, MenuUnfoldOutlined, DownOutlined } from '@ant-design/icons';
-export default function Navbar() {
+export default function Navbar(props) {
     const [check, setCheck] = useState(false)
 
     function check1() {
@@ -17,7 +17,7 @@ export default function Navbar() {
             <div className='navbar__item'>
                 <div className='navbar__left'>
                     <div className='search_icon'>
-                        <MenuOutlined />
+                        <MenuOutlined onClick={props.onClick}/>
                     </div>
                     <input type="text" className='search_item' placeholder='Sreach...' />
                     <div className='search_item-icon'>

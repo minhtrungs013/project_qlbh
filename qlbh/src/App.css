@@ -3,6 +3,14 @@
   /* background-color: #f2edf3; */
 }
 
+.name{
+  transition: .5s ease;
+  border-right: 1px solid #e7e5e5;
+}
+.name1{
+  transition: .5s ease;
+}
+
 .App-logo {
   height: 40vmin;
   pointer-events: none;

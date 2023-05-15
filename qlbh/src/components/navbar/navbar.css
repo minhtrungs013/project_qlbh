@@ -1,7 +1,10 @@
 .navbar {
     padding: 0 20px;
-    box-shadow: 1px 1px 15px 1px rgba(17, 18, 19, 0.35);
+    box-shadow: 10px 1px 15px 1px rgba(17, 18, 19, 0.35);
     border-bottom-left-radius: 6px;
+    border-bottom: 1px solid #f1f0f0;
+    margin-bottom: 20px;
+
 }
 
 .navbar__item {
@@ -54,7 +57,7 @@
     color: #656a6e;
     position: absolute;
     font-size: 14px;
-    left: 85px;
+    left: 80px;
 }
 
 .user {
@@ -99,12 +102,13 @@
 
 .user__list {
     display: none;
-    top: 49%;
+    z-index: 2;
+    top: 7%;
     position: absolute;
     background-color: #fff7ff;
     height: 100px;
     width: 150px;
-    right: 18.2%;
+    right: 17%;
     border-radius: 10px;
     box-shadow: 0 1px 15px 1px rgba(17, 18, 19, 0.35);
 
@@ -132,13 +136,15 @@
 
 .todo {
     position: fixed;
+    z-index: 2;
     max-height: 874px;
     height: 100%;
     width: 300px;
     background: white;
     right: -300px;
     top: 70px;
-    transition: example .5s ease;
+    transition: .5s ease;
+    transform: scaleX(0px);
     box-shadow: 0 10px 10px 1px rgba(17, 18, 19, 0.35);
 }
 
@@ -146,15 +152,11 @@
 .todo1 {
     right: 0;
 }
-@keyframes example {
-    from {right: -300px;}
-    to {right: 0;}
-  }
 
 .todo__heading {
     height: 40px;
     width: 100%;
-    background: linear-gradient(90deg,#b5ff60,#0acf1b);
+    background: linear-gradient(90deg, #b5ff60, #0acf1b);
     font-size: 16px;
     font-weight: 500;
     color: #646566;
@@ -175,11 +177,11 @@
     display: flex;
     justify-content: space-between;
     padding-bottom: 5px;
-    margin-top: 10px;
+    padding-top: 10px;
 }
 
-.todo__item:hover{
-    background-color: #e0e1e2;
+.todo__item:hover {
+    background-color: rgb(246, 247, 247);
 }
 
 .profile {
