@@ -24,13 +24,7 @@
 
 .Navigate__item {
     cursor: pointer;
-    position: relative;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 25px 0;
     padding-left: 20px;
-
 }
 
 .Navigate__item:hover {
@@ -38,6 +32,16 @@
     box-shadow: 0 3px 3px 1px rgba(66, 236, 89, 0.35);
     border-radius: 6px;
 
+}
+
+.navbar__center-link{
+    position: relative;
+    display: flex;
+    text-decoration: none;
+    text-align: center;
+    padding: 25px 0;
+    align-items: center;
+    justify-content: space-between;
 }
 
 .fade-in {

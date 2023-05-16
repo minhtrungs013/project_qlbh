@@ -26,7 +26,7 @@ export default function Navbar(props) {
                 </div>
                 <div className='navbar__rigth'>
                     <div className='user'>
-                        <img src="https://i.pinimg.com/originals/91/cb/54/91cb545176720cc851687a7263984600.jpg" alt="" className='user_img' />
+                        <img src="https://vapa.vn/wp-content/uploads/2022/12/anh-dep-lam-hinh-nen-002.jpg" alt="" className='user_img' />
                         <span className='user__name'>Bích Diễm </span>
                         <DownOutlined className='user__icon' />
                         <div className='user__list'>aaa</div>
@@ -52,7 +52,7 @@ export default function Navbar(props) {
                             <ul className='todo__list'>
                                 <li className='todo__item'>
                                     <div class="profile">
-                                        <img src="https://i.pinimg.com/originals/91/cb/54/91cb545176720cc851687a7263984600.jpg" alt="profile" />
+                                        <img src="https://vapa.vn/wp-content/uploads/2022/12/anh-dep-lam-hinh-nen-002.jpg" alt="profile" />
                                         <span class="online"></span>
                                     </div>
                                     <div class="info">
@@ -64,7 +64,7 @@ export default function Navbar(props) {
                                 </li>
                                 <li className='todo__item'>
                                     <div class="profile">
-                                        <img src="https://i.pinimg.com/originals/91/cb/54/91cb545176720cc851687a7263984600.jpg" alt="profile" />
+                                        <img src="https://vapa.vn/wp-content/uploads/2022/12/anh-dep-lam-hinh-nen-002.jpg" alt="profile" />
                                         <span class="online"></span>
                                     </div>
                                     <div class="info">
@@ -76,7 +76,7 @@ export default function Navbar(props) {
                                 </li>
                                 <li className='todo__item'>
                                     <div class="profile">
-                                        <img src="https://i.pinimg.com/originals/91/cb/54/91cb545176720cc851687a7263984600.jpg" alt="profile" />
+                                        <img src="https://vapa.vn/wp-content/uploads/2022/12/anh-dep-lam-hinh-nen-002.jpg" alt="profile" />
                                         <span class="online"></span>
                                     </div>
                                     <div class="info">
