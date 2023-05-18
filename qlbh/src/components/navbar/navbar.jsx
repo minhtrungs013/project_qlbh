@@ -51,39 +51,39 @@ export default function Navbar(props) {
                             </div>
                             <ul className='todo__list'>
                                 <li className='todo__item'>
-                                    <div class="profile">
+                                    <div className="profile">
                                         <img src="https://vapa.vn/wp-content/uploads/2022/12/anh-dep-lam-hinh-nen-002.jpg" alt="profile" />
-                                        <span class="online"></span>
+                                        <span className="online"></span>
                                     </div>
-                                    <div class="info">
+                                    <div className="info">
                                         <p>Thomas Douglas</p>
-                                        <p class="info__ac" >Available</p>
+                                        <p className="info__ac" >Available</p>
                                     </div>
-                                    <small class="text-muted my-auto">19 min
+                                    <small className="text-muted my-auto">19 min
                                     </small>
                                 </li>
                                 <li className='todo__item'>
-                                    <div class="profile">
+                                    <div className="profile">
                                         <img src="https://vapa.vn/wp-content/uploads/2022/12/anh-dep-lam-hinh-nen-002.jpg" alt="profile" />
-                                        <span class="online"></span>
+                                        <span className="online"></span>
                                     </div>
-                                    <div class="info">
+                                    <div className="info">
                                         <p>Thomas Douglas</p>
-                                        <p class="info__ac" >Available</p>
+                                        <p className="info__ac" >Available</p>
                                     </div>
-                                    <small class="text-muted my-auto">19 min
+                                    <small className="text-muted my-auto">19 min
                                     </small>
                                 </li>
                                 <li className='todo__item'>
-                                    <div class="profile">
+                                    <div className="profile">
                                         <img src="https://vapa.vn/wp-content/uploads/2022/12/anh-dep-lam-hinh-nen-002.jpg" alt="profile" />
-                                        <span class="online"></span>
+                                        <span className="online"></span>
                                     </div>
-                                    <div class="info">
+                                    <div className="info">
                                         <p>Thomas Douglas</p>
-                                        <p class="info__ac" >Available</p>
+                                        <p className="info__ac" >Available</p>
                                     </div>
-                                    <small class="text-muted my-auto">19 min
+                                    <small className="text-muted my-auto">19 min
                                     </small>
                                 </li>
                             </ul>

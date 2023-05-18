@@ -52,6 +52,7 @@
 }
 
 .header__center {
+    cursor: pointer;
     border-radius: 7px;
     padding-left: 40px;
     position: relative;
@@ -62,6 +63,7 @@
 }
 
 .header__rigth {
+    cursor: pointer;
     border-radius: 7px;
     padding-left: 40px;
     position: relative;
