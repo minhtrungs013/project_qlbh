@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import "./product.css"
-import { Space, Table, Tag, Button, Col, Row, Modal } from 'antd';
+import { Space, Table, Tag, Button, Col, Row, Modal, Checkbox, Form, Input } from 'antd';
 import { PicRightOutlined, DeleteOutlined, EditOutlined } from '@ant-design/icons';
 const columns = [
     {
@@ -194,6 +194,13 @@ export default function Product() {
         setIsModalOpen(false);
     };
 
+    const onFinish = (values) => {
+        console.log('Success:', values);
+    };
+    const onFinishFailed = (errorInfo) => {
+
+        console.e('Failed:', errorInfo.errorFields[0].errors[0]);
+    };
 
     return (
         <>
@@ -212,14 +219,129 @@ export default function Product() {
                 </div>
                 <Table columns={columns} dataSource={data} />
             </div>
-            <Modal title="Create Product" open={isModalOpen} onOk={handleOk} onCancel={handleCancel} width={1000}>
+            <Modal title="Create Product" open={isModalOpen} onOk={handleOk} onCancel={handleCancel} width={800}>
                 <Row>
-                    <Col span={24} className='name'>
-                        <div>sâ</div>
+                    <Col span={24} className='1name'>
+                        <Form
+                            name="basic"
+                            labelCol={{
+                                span: 8,
+                            }}
+                            wrapperCol={{
+                                span: 16,
+                            }}
+                            style={{
+                                Width: '100%',
+                            }}
+                            initialValues={{
+                                remember: true,
+                            }}
+                            onFinish={onFinish}
+                            onFinishFailed={onFinishFailed}
+                            autoComplete="off"
+                        >
+                            <Row>
+                                <Col span={12} className='1name'>
+                                    <Form.Item
+                                        label="nameProduct"
+                                        name="nameProduct"
+                                        rules={[
+                                            {
+                                                required: true,
+                                                message: 'Please input your name Product!',
+                                            },
+                                        ]}
+                                    >
+                                        <Input />
+                                    </Form.Item>
+                                </Col>
+                                <Col span={12} className='1name'>
+                                    <Form.Item
+                                        label="description"
+                                        name="description"
+                                        rules={[
+                                            {
+                                                required: true,
+                                                message: 'Please input your description!',
+                                            },
+                                        ]}
+                                    >
+                                        <Input />
+                                    </Form.Item>
+                                </Col>
+                                <Col span={12} className='1name'>
+                                    <Form.Item
+                                        label="status"
+                                        name="status"
+                                        rules={[
+                                            {
+                                                required: true,
+                                                message: 'Please input your status!',
+                                            },
+                                        ]}
+                                    >
+                                        <Input />
+                                    </Form.Item>
+                                </Col>
+                                <Col span={12} className='1name'>
+                                    <Form.Item
+                                        label="quantity"
+                                        name="quantity"
+                                        rules={[
+                                            {
+                                                required: true,
+                                                message: 'Please input your quantity!',
+                                            },
+                                        ]}
+                                    >
+                                        <Input />
+                                    </Form.Item>
+                                </Col>
+                                <Col span={12} className='1name'>
+                                    <Form.Item
+                                        label="Tags"
+                                        name="Tags"
+                                        rules={[
+                                            {
+                                                required: true,
+                                                message: 'Please input your Tags!',
+                                            },
+                                        ]}
+                                    >
+                                        <Input />
+                                    </Form.Item>
+                                </Col>
+                                <Col span={12} className='1name'>
+                                    <Form.Item
+                                        label="Tags"
+                                        name="Tags"
+                                        rules={[
+                                            {
+                                                required: true,
+                                                message: 'Please input your Tags!',
+                                            },
+                                        ]}
+                                    >
+                                        <Input />
+                                    </Form.Item>
+                                </Col>
+                                <Col span={12} className='1name'>
+                                    <Form.Item
+                                        wrapperCol={{
+                                            offset: 8,
+                                            span: 16,
+                                        }}
+                                    >
+                                        <Button type="primary" htmlType="submit">
+                                            Submit
+                                        </Button>
+                                    </Form.Item>
+                                </Col>
+                            </Row>
+                        </Form>
                     </Col>
                 </Row>
-            </Modal>
+            </Modal >
         </>
-
     )
 }

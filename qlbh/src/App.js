@@ -5,6 +5,7 @@ import { Col, Row } from 'antd';
 import Navbar from './components/navbar/navbar';
 import Product from './components/product/product';
 import Home from './components/home/home';
+import Chat from './components/chat/chat';
 import Navigation from './components/navigation/navigation';
 
 function App() {
@@ -34,6 +35,9 @@ function App() {
             </Routes>
             <Routes>
               <Route path="/product" element={<Product />} />
+            </Routes>
+            <Routes>
+              <Route path="/chat" element={<Chat />} />
             </Routes>
           </Col>
         </Row>

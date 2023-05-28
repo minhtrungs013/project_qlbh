@@ -38,8 +38,8 @@ export default function Navigation(props) {
                     </Link>
                 </li>
                 <li className='Navigate__item '>
-                    <Link className="navbar__center-link " to="/product">
-                        {props.check ? null : (<p className={props.check ? "" : 'fade-in'}> Icons</p>)}
+                    <Link className="navbar__center-link " to="/chat">
+                        {props.check ? null : (<p className={props.check ? "" : 'fade-in'}> chat</p>)}
                         <CommentOutlined className='Navigate__item-icon' />
                     </Link>
                 </li>
