@@ -45,12 +45,9 @@
 .people-list {
     width: 275px;
     overflow: hidden;
-    -moz-transition: .5s;
-    -o-transition: .5s;
-    -webkit-transition: .5s;
-    transition: .5s;
+    display: grid;
+    grid-template-rows: 11vh 64vh 13vh;
     border-right: 1px solid #e8eaf0;
-
 
 }
 
@@ -59,7 +56,6 @@
     margin-bottom: 0;
     padding-left: 0;
     float: left;
-    height: 745px;
     z-index: 10;
     overflow-y: auto;
     width: 100%;

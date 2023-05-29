@@ -26,21 +26,19 @@ const Conversation = ({ data, currentUser, online }) => {
   return (
     <>
       <div className="follower conversation">
-        <div>
+        <div className="conversation__body" >
           {online && <div className="online-dot"></div>}
           <img
-            src="https://bootdey.com/img/Content/avatar/avatar1.png"
+            src="https://i.pinimg.com/564x/62/ed/6e/62ed6ea71018a57a3ab0c8c959d78cb0.jpg"
             alt="Profile"
             className="followerImage"
-            style={{ width: "50px", height: "50px" }}
           />
-          <div className="name" style={{fontSize: '0.8rem'}}>
-            <span>{userData?.firstname} {userData?.lastname}</span>
-            <span style={{color: online?"#51e200":""}}>{online? "Online" : "Offline"}</span>
+          <div  style={{fontSize: '0.8rem'}} className="followeruser" >
+            <h4>{userData?.firstname} {userData?.lastname}</h4>
+            <h5 style={{color: online ? "#51e200": "#a7b5a0"}}>{online? "Online" : "Offline"}</h5>
           </div>
         </div>
       </div>
-      <hr style={{ width: "85%", border: "0.1px solid #ececec" }} />
     </>
   );
 };

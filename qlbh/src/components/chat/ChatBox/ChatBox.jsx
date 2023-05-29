@@ -98,34 +98,21 @@ useEffect(()=> {
               <div className="follower">
                 <div>
                   <img
-                    src={
-                      userData?.profilePicture
-                        ? process.env.REACT_APP_PUBLIC_FOLDER +
-                          userData.profilePicture
-                        : process.env.REACT_APP_PUBLIC_FOLDER +
-                          "defaultProfile.png"
-                    }
+                    src="https://bootdey.com/img/Content/avatar/avatar1.png"
                     alt="Profile"
                     className="followerImage"
                     style={{ width: "50px", height: "50px" }}
                   />
-                  <div className="name" style={{ fontSize: "0.9rem" }}>
+                  <div  style={{ fontSize: "0.9rem" }}>
                     <span>
                       {userData?.firstname} {userData?.lastname}
                     </span>
                   </div>
                 </div>
               </div>
-              <hr
-                style={{
-                  width: "95%",
-                  border: "0.1px solid #ececec",
-                  marginTop: "20px",
-                }}
-              />
             </div>
             {/* chat-body */}
-            <div className="chat-body" >
+            <div id="style-1" className="chat-body" >
               {messages.map((message) => (
                 <>
                   <div ref={scroll}
@@ -160,7 +147,7 @@ useEffect(()=> {
           </>
         ) : (
           <span className="chatbox-empty-message">
-            Tap on a chat to start conversation...
+            Select a chat or start a new one...
           </span>
         )}
       </div>
