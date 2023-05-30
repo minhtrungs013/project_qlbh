@@ -18,10 +18,6 @@ export default function Chat() {
     const [sendMessage, setSendMessage] = useState(null);
     const [receivedMessage, setReceivedMessage] = useState(null);
 
-
-    const setUserID = (value) => {
-        localStorage.setItem("userID", value);
-    }
     const onchangrUserID = (value) => {
         setText(value);
     }
@@ -79,9 +75,6 @@ export default function Chat() {
     return (
         <>
             <div className="chat__left">
-                <button onClick={() => {
-                    setUserID(text)
-                }} >aaaa</button>
                 <Row gutter={1}>
                     <Col span={4} className='name3'>
                         <div id="plist" className="people-list">
