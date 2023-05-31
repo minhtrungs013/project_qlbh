@@ -10,23 +10,13 @@ export default function Login() {
     const [password, setPassword] = useState(null);
     const [isLoggedIn, setIsLoggedIn] = useState(false);
 
-
-    const userData = {
-        username: "",
-        password: ""
-    }
-
-    const [data, setData] = useState(userData);
-
-
     const handleSubmit = async (event) => {
         event.preventDefault();
         // Kiểm tra thông tin đăng nhập
         if (username !== null && password !== null) {
-            setData({ username: username, password: password })
             try {
                 setIsLoggedIn(true);
-                const response = await API.post('/auth/login',data);
+                const response = await API.post('/auth/login',{username, password});
                 localStorage.setItem("userID", response.data._id);
                 localStorage.setItem("LoggedIn", isLoggedIn);
                 navigate("/")
@@ -39,7 +29,6 @@ export default function Login() {
             console.log('Tên đăng nhập hoặc mật khẩu không chính xác!');
         }
     };
-
 
     const handleUsernameChange = (event) => {
         setUsername(event.target.value);

@@ -1,8 +1,12 @@
 import React, { useState } from 'react'
 import "./navbar.css"
+import {  useNavigate } from "react-router-dom";
+
 import { MenuOutlined, SearchOutlined, BellOutlined, PoweroffOutlined, MenuUnfoldOutlined, DownOutlined } from '@ant-design/icons';
 export default function Navbar(props) {
     const [check, setCheck] = useState(false)
+    const navigate = useNavigate();
+
 
     function check1() {
         if (check === false) {
@@ -11,6 +15,10 @@ export default function Navbar(props) {
         } else {
             setCheck(false)
         }
+    }
+    const logOut = () => {
+        localStorage.setItem("LoggedIn",false);
+        navigate("/login");
     }
     return (
         <div className='navbar'>
@@ -38,7 +46,7 @@ export default function Navbar(props) {
                         <BellOutlined />
                     </div>
                     <div className='navbar__rigth-icon'>
-                        <PoweroffOutlined className='power' />
+                        <PoweroffOutlined className='power'  onClick={logOut}/>
                     </div>
                     <div className='navbar__rigth-icon'>
                         <MenuUnfoldOutlined className='MenuUnfold ' onClick={() => check1()} />
