@@ -17,47 +17,44 @@ function App() {
   function handleClick() {
     if (checkNavigate === false) {
       setCheckNavigate(true)
-      console.log(checkNavigate)
     } else {
       setCheckNavigate(false)
-      console.log(checkNavigate)
 
     }
   }
 
   useEffect(() => {
-    if (!isLoggedIn || isLoggedIn === null) {
+    if (isLoggedIn === 'false' || isLoggedIn === 'null') {
       navigate("/login");
     }
   }, [isLoggedIn]);
 
-  // console.log(isLoggedIn);
   return (
       <div className= {isLoggedIn !== 'false' ? 'App_login' : 'App'}>
         <Routes>
           <Route path="/login" exact element={<Login />} />
         </Routes>
 
-          {isLoggedIn && (
-            <Row gutter={1}>
-              <Col span={checkNavigate ? 1 : 3} className='name'>
-                <Navigation check={checkNavigate}></Navigation>
-              </Col>
-              <Col span={checkNavigate ? 23 : 21} className='name1'>
-                <Navbar onClick={handleClick} ></Navbar>
-                <Routes>
-                  <Route path="/" element={<Home />} />
-                </Routes>
-                <Routes>
-                  <Route path="/product" element={<Product />} />
-                </Routes>
-                <Routes>
-                  <Route path="/chat" element={<Chat />} />
-                </Routes>
-              </Col>
-            </Row>
-          )}
-      </div>
+      {isLoggedIn === "true" ? (
+        <Row gutter={1}>
+          <Col span={checkNavigate ? 1 : 3} className='name'>
+            <Navigation check={checkNavigate}></Navigation>
+          </Col>
+          <Col span={checkNavigate ? 23 : 21} className='name1'>
+            <Navbar onClick={handleClick} ></Navbar>
+            <Routes>
+              <Route path="/" element={<Home />} />
+            </Routes>
+            <Routes>
+              <Route path="/product" element={<Product />} />
+            </Routes>
+            <Routes>
+              <Route path="/chat" element={<Chat />} />
+            </Routes>
+          </Col>
+        </Row>
+      ) : null}
+    </div>
   );
 }
 

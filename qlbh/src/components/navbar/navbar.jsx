@@ -18,6 +18,7 @@ export default function Navbar(props) {
     }
     const logOut = () => {
         localStorage.setItem("LoggedIn",false);
+        localStorage.setItem("userID",'');
         navigate("/login");
     }
     return (

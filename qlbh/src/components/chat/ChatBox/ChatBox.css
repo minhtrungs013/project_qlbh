@@ -33,7 +33,8 @@
 }
 
 #style-1::-webkit-scrollbar-thumb {
-    background-color: #a1a1a0;
+    background: linear-gradient(98.63deg, #24e4f0 0%, #358ff9 100%);
+    border-radius: 10px;
 }
 
 #style-1::-webkit-scrollbar-track {

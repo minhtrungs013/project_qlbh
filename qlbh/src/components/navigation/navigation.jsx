@@ -5,7 +5,6 @@ import { useState } from 'react';
 import { HomeOutlined, CommentOutlined, WechatOutlined, InstagramOutlined, CodepenOutlined, CameraOutlined, CoffeeOutlined, EnvironmentOutlined, HeartOutlined, Html5Outlined } from '@ant-design/icons';
 
 export default function Navigation(props) {
-    console.log(props.check)
     return (
         <div className='Navigate'>
             <div className='Navigate__heading'>

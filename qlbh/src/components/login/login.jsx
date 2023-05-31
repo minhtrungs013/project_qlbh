@@ -1,33 +1,44 @@
 import React, { useRef, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "./login.css"
-import { Checkbox, Col, Row } from 'antd';
-import axios from 'axios'
+import { Checkbox, Col, Row, message } from 'antd';
+import { loginAPI } from "../../api/service/AuthService";
+
 export default function Login() {
+    const [messageApi, contextHolder] = message.useMessage();
     const navigate = useNavigate();
-    const API = axios.create({ baseURL: 'http://localhost:5000' });
     const [username, setUsername] = useState(null);
     const [password, setPassword] = useState(null);
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const isLoggedIn = localStorage.getItem("LoggedIn");
+
+    useEffect(() => {
+        if (isLoggedIn === 'true') {
+          navigate("/");
+        }
+    }, [isLoggedIn]);
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-        // Kiểm tra thông tin đăng nhập
-        if (username !== null && password !== null) {
-            try {
-                setIsLoggedIn(true);
-                const response = await API.post('/auth/login',{username, password});
-                localStorage.setItem("userID", response.data._id);
-                localStorage.setItem("LoggedIn", isLoggedIn);
-                navigate("/")
-                console.log('Đăng nhập thành công!', response.data._id);
-                // setData(response.data);
-            } catch (error) {
-                console.error('Lỗi khi lấy dữ liệu:', error);
-            }
+        if (username === null || password === null) {
+            messageApi.open({
+                type: 'warning',
+                content: 'You need to enter all the information',
+            });
         } else {
-            console.log('Tên đăng nhập hoặc mật khẩu không chính xác!');
+            await loginAPI('auth/login', { username, password })
+                .then((response) => {
+                    localStorage.setItem("userID", response.data._id);
+                    localStorage.setItem("LoggedIn", true);
+                    navigate("/")
+                })
+                .catch((error) => {
+                    messageApi.open({
+                        type: 'error',
+                        content: error.response.data,
+                    });
+                });
         }
+
     };
 
     const handleUsernameChange = (event) => {
@@ -39,46 +50,50 @@ export default function Login() {
     };
 
     return (
-        <div className='login'>
-            <div className='login_body'>
-                <Row gutter={1}>
-                    <Col span={12}>
-                        <div className='login_left'>
-                            <div className='login_img'>
+        <>
+            {contextHolder}
+            <div className='login'>
+                <div className='login_body'>
+                    <Row gutter={1}>
+                        <Col span={12}>
+                            <div className='login_left'>
+                                <div className='login_img'>
+                                </div>
                             </div>
-                        </div>
-                    </Col>
-                    <Col span={12}>
-                        <div className='login_rigth'>
-                            <h1 className='login_heading'> Login</h1>
-                            <form onSubmit={handleSubmit} className='login_form'>
-                                <div className='login_item'>
-                                    <label className='login_text'> User Name</label>
-                                    <input type="text" className='login_input' onChange={handleUsernameChange} placeholder='User name' />
-                                </div>
-                                <div className='login_item'>
-                                    <label className='login_text'> Password</label>
-                                    <input type="password" className='login_input' onChange={handlePasswordChange} placeholder='password' />
-                                </div>
-                                <div className='login_item'>
-                                    <Checkbox className='login_check'></Checkbox>
-                                    <span className='login_check-text'>Remember me</span>
-                                </div>
-                                <div className='login_item'>
-                                    <button type="submit" className='login_button'>Login</button>
-                                </div>
-                                <div className='login_item'>
-                                    <span className="login_register-text ">Do not have an account?. </span>
-                                    <Link className="login_item-link " to="/register">Create an account</Link>
-                                </div>
-                            </form>
-                        </div>
+                        </Col>
+                        <Col span={12}>
+                            <div className='login_rigth'>
+                                <h1 className='login_heading'> Login</h1>
+                                <form onSubmit={handleSubmit} className='login_form'>
+                                    <div className='login_item'>
+                                        <label className='login_text'> User Name</label>
+                                        <input type="text" className='login_input' onChange={handleUsernameChange} placeholder='User name' />
+                                    </div>
+                                    <div className='login_item'>
+                                        <label className='login_text'> Password</label>
+                                        <input type="password" className='login_input' onChange={handlePasswordChange} placeholder='password' />
+                                    </div>
+                                    <div className='login_item'>
+                                        <Checkbox className='login_check'></Checkbox>
+                                        <span className='login_check-text'>Remember me</span>
+                                    </div>
+                                    <div className='login_item'>
+                                        <button type="submit" className='login_button'>Login</button>
+                                    </div>
+                                    <div className='login_item'>
+                                        <span className="login_register-text ">Do not have an account?. </span>
+                                        <Link className="login_item-link " to="/register">Create an account</Link>
+                                    </div>
+                                </form>
+                            </div>
 
-                    </Col>
-                </Row>
+                        </Col>
+                    </Row>
 
 
+                </div>
             </div>
-        </div>
+        </>
+
     )
 }

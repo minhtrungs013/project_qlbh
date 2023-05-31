@@ -26,7 +26,6 @@ export default function Chat() {
         socket.current = io("ws://localhost:8800");
         socket.current.emit("new-user-add", userId);
         socket.current.on("get-users", (users) => {
-            console.log(users);
             setOnlineUsers(users);
         });
     }, [userId]);
@@ -42,10 +41,8 @@ export default function Chat() {
     // Get the message from socket server
     useEffect(() => {
         socket.current.on("recieve-message", (data) => {
-            console.log(data)
             setReceivedMessage(data);
         }
-
         );
     }, []);
 
@@ -66,11 +63,6 @@ export default function Chat() {
         const online = onlineUsers.find((user) => user.userId === chatMember);
         return online ? true : false;
     };
-
-
-
-
-    console.log(chats);
 
     return (
         <>

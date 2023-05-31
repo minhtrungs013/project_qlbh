@@ -5,8 +5,6 @@ import { PicRightOutlined } from '@ant-design/icons';
 import { Col, Row } from 'antd';
 import Header from '../header/header';
 export default function Home() {
-   
-
     const [data, setData] = useState([]);
 
     useEffect(() => {

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import "./product.css"
-import { Space, Table, Tag, Button, Col, Row, Modal, Checkbox, Form, Input } from 'antd';
+import { Space, Table, Tag, Button, Col, Row, Modal, Form, Input } from 'antd';
 import { PicRightOutlined, DeleteOutlined, EditOutlined } from '@ant-design/icons';
 const columns = [
     {
