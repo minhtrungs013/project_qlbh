@@ -29,7 +29,7 @@ const Conversation = ({ data, currentUser, online }) => {
         <div className="conversation__body" >
           {online && <div className="online-dot"></div>}
           <img
-            src="https://i.pinimg.com/564x/62/ed/6e/62ed6ea71018a57a3ab0c8c959d78cb0.jpg"
+            src={userData?.image}
             alt="Profile"
             className="followerImage"
           />

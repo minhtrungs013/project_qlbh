@@ -1,12 +1,14 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import "./navbar.css"
 import {  useNavigate } from "react-router-dom";
+import { getUserById } from "../../api/service/UserService";
 
 import { MenuOutlined, SearchOutlined, BellOutlined, PoweroffOutlined, MenuUnfoldOutlined, DownOutlined } from '@ant-design/icons';
 export default function Navbar(props) {
     const [check, setCheck] = useState(false)
     const navigate = useNavigate();
-
+    const userId = localStorage.getItem("userID");
+    const [userData, setUserData] = useState(null)
 
     function check1() {
         if (check === false) {
@@ -16,6 +18,13 @@ export default function Navbar(props) {
             setCheck(false)
         }
     }
+
+    useEffect(() => {
+        getUserById(`user/${userId}`).then((res) => {
+            setUserData(res.data);
+        });
+      }, []);
+
     const logOut = () => {
         localStorage.setItem("LoggedIn",false);
         localStorage.setItem("userID",'');
@@ -35,8 +44,8 @@ export default function Navbar(props) {
                 </div>
                 <div className='navbar__rigth'>
                     <div className='user'>
-                        <img src="https://vapa.vn/wp-content/uploads/2022/12/anh-dep-lam-hinh-nen-002.jpg" alt="" className='user_img' />
-                        <span className='user__name'>Bích Diễm </span>
+                        <img src={userData?.image} alt="" className='user_img' />
+                        <span className='user__name'>{userData?.lastname + ' ' + userData?.firstname  }</span>
                         <DownOutlined className='user__icon' />
                         <div className='user__list'>aaa</div>
                     </div>

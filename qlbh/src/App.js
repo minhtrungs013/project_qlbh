@@ -8,6 +8,7 @@ import Home from './components/home/home';
 import Chat from './components/chat/chat';
 import Navigation from './components/navigation/navigation';
 import Login from './components/login/login';
+import Register from './components/register/register';
 
 function App() {
   const navigate = useNavigate();
@@ -30,11 +31,13 @@ function App() {
   }, [isLoggedIn]);
 
   return (
-      <div className= {isLoggedIn !== 'false' ? 'App_login' : 'App'}>
+      <div className= {isLoggedIn === 'false' ? 'App_login' : 'App'}>
         <Routes>
           <Route path="/login" exact element={<Login />} />
         </Routes>
-
+        <Routes>
+          <Route path="/register" exact element={<Register />} />
+        </Routes>
       {isLoggedIn === "true" ? (
         <Row gutter={1}>
           <Col span={checkNavigate ? 1 : 3} className='name'>

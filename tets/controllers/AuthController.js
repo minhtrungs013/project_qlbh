@@ -19,12 +19,12 @@ export const registerUser = async (req, res) => {
 
     // changed
     const user = await newUser.save();
-    const token = jwt.sign(
-      { username: user.username, id: user._id },
-      process.env.JWTKEY,
-      { expiresIn: "1h" }
-    );
-    res.status(200).json({ user, token });
+    // const token = jwt.sign(
+    //   { username: user.username, id: user._id },
+    //   process.env.JWTKEY,
+    //   { expiresIn: "1h" }
+    // );
+    res.status(200).json(user);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

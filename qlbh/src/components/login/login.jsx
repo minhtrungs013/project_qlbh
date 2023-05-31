@@ -82,7 +82,7 @@ export default function Login() {
                                     </div>
                                     <div className='login_item'>
                                         <span className="login_register-text ">Do not have an account?. </span>
-                                        <Link className="login_item-link " to="/register">Create an account</Link>
+                                        <Link  className="login_item-link " to="/register">Create an account</Link>
                                     </div>
                                 </form>
                             </div>

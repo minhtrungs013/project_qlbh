@@ -15,7 +15,7 @@ router.get('/:id', getUser);
 router.get('/',getAllUsers)
 router.put('/:id', updateUser)
 router.delete('/:id', deleteUser)
-router.put('/:id/follow', followUser)
-router.put('/:id/unfollow', unfollowUser)
+router.put('/follow/:id', followUser)
+router.put('/unfollow/:id', unfollowUser)
 
 export default router
