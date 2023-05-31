@@ -33,7 +33,7 @@ function App() {
 
   // console.log(isLoggedIn);
   return (
-      <div className='App'>
+      <div className= {isLoggedIn !== 'false' ? 'App_login' : 'App'}>
         <Routes>
           <Route path="/login" exact element={<Login />} />
         </Routes>
