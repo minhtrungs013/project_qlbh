@@ -43,7 +43,6 @@
 }
 
 .people-list {
-    width: 275px;
     overflow: hidden;
     display: grid;
     grid-template-rows: 11vh 64vh 13vh;
