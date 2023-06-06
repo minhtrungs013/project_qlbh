@@ -14,6 +14,7 @@ import PostRoute from './routers/PostRoute.js'
 import ChatRoute from './routers/ChatRoute.js'
 import MessageRoute from './routers/MessageRoute.js'
 import UploadRoute from './routers/UploadRoute.js'
+import ProductRoute from './routers/ProductRoute.js'
 
 // middleware
 app.use(bodyParser.json({ limit: "30mb", extended: true }));
@@ -38,3 +39,4 @@ app.use('/posts', PostRoute)
 app.use('/chat', ChatRoute)
 app.use('/message', MessageRoute)
 app.use('/upload', UploadRoute)
+app.use('/product', ProductRoute)
