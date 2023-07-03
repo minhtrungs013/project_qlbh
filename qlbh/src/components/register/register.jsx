@@ -53,19 +53,18 @@ export default function Register() {
                 content: 'You need to enter all the information',
             });
         } else {
-            console.log(newAccount);
-            // await registerAPI('auth/register', newAccount)
-            //     .then((response) => {
-            //         localStorage.setItem("userID", response.data._id);
-            //         localStorage.setItem("LoggedIn", true);
-            //         navigate("/")
-            //     })
-            //     .catch((error) => {
-            //         messageApi.open({
-            //             type: 'error',
-            //             content: error.response.data.message,
-            //         });
-            //     });
+            await registerAPI('auth/register', newAccount)
+                .then((response) => {
+                    localStorage.setItem("userID", response.data._id);
+                    localStorage.setItem("LoggedIn", true);
+                    navigate("/")
+                })
+                .catch((error) => {
+                    messageApi.open({
+                        type: 'error',
+                        content: error.response.data.message,
+                    });
+                });
         }
 
     };

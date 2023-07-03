@@ -54,6 +54,7 @@ export const createProduct = async (req, res) => {
     const user = await UserModel.findById(userId);
     if (user.isAdmin === true) {
         try {
+            console.log("jajajaj");
             // have to change this
             const newProduct = new ProductModel(req.body);
             const product = await newProduct.save();

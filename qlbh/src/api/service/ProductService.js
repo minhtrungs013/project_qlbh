@@ -13,7 +13,7 @@ export function updateProduct(endpoint, body) {
     return API.put(`${API_BASE}/${endpoint}`, body);
 }
 export function createProduct(endpoint, body) {
-    return API.put(`${API_BASE}/${endpoint}`, body);
+    return API.post(`${API_BASE}/${endpoint}`, body);
 }
 export function deleteProductById(endpoint, body) {
     return API.put(`${API_BASE}/${endpoint}`, body);
