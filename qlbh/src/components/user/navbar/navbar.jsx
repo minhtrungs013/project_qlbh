@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from 'react'
 import "./navbar.css"
-import {  useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { getUserById } from "../../../api/service/UserService";
+import { HomeOutlined, MenuOutlined, SearchOutlined, BellOutlined, PoweroffOutlined, DownOutlined } from '@ant-design/icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faBook, faSpellCheck, faBlog, faBars } from '@fortawesome/free-solid-svg-icons';
 
-import { MenuOutlined, SearchOutlined, BellOutlined, PoweroffOutlined, MenuUnfoldOutlined, DownOutlined } from '@ant-design/icons';
+
 export default function Navbar(props) {
     const [check, setCheck] = useState(false)
     const navigate = useNavigate();
@@ -23,42 +26,71 @@ export default function Navbar(props) {
         getUserById(`user/${userId}`).then((res) => {
             setUserData(res.data);
         });
-      }, []);
+    }, []);
 
     const logOut = () => {
-        localStorage.setItem("LoggedIn",false);
-        localStorage.setItem("userID",'');
+        localStorage.setItem("LoggedIn", false);
+        localStorage.setItem("userID", '');
         navigate("/login");
     }
     return (
         <div className='navbar'>
             <div className='navbar__item'>
                 <div className='navbar__left'>
-                    <div className='search_icon'>
-                        <MenuOutlined onClick={props.onClick}/>
+                    <div className='Navigate__heading1'>
+                        <img src="https://vapa.vn/wp-content/uploads/2022/12/anh-dep-lam-hinh-nen-002.jpg" alt="" className='user_img1' />
                     </div>
-                    <input type="text" className='search_item' placeholder='Sreach...' />
-                    <div className='search_item-icon'>
+                    <input type="text" className='user__search_item' placeholder='Sreach...' />
+                    <div className='user__search_item-icon'>
                         <SearchOutlined />
                     </div>
                 </div>
+                <div className='navbar__center'>
+                    <ul className='navbar__center-list'>
+                        <li className='navbar__center-item'>
+                            <Link className="navbar__center-item-link " to="/vocabulary">
+                                <FontAwesomeIcon className='navbar__item-icon' icon={faBook} />
+                                Vocabulary
+                            </Link>
+                        </li>
+                        <li className='navbar__center-item'>
+                            <Link className="navbar__center-item-link " to="/grammar">
+                                <FontAwesomeIcon className='navbar__item-icon' icon={faSpellCheck} />
+                                Grammar
+                            </Link>
+                        </li>
+                        <li className='navbar__center-item'>
+                            <Link className="navbar__center-item-link " to="/blog">
+                                <FontAwesomeIcon className='navbar__item-icon' icon={faBlog} />
+                                Blog
+                            </Link>
+
+                        </li>
+                        <li className='navbar__center-item'>
+                            <Link className="navbar__center-item-link " to="/test">
+                                <FontAwesomeIcon className='navbar__item-icon' icon={faBars} />
+                                Test
+                            </Link>
+                        </li>
+                    </ul>
+                </div>
                 <div className='navbar__rigth'>
                     <div className='user'>
-                        <img src={userData?.image} alt="" className='user_img' />
-                        <span className='user__name'>{userData?.lastname + ' ' + userData?.firstname  }</span>
-                        <DownOutlined className='user__icon' />
-                        <div className='user__list'>aaa</div>
+                        {/* <img src={userData?.image} alt="" className='user_img' /> */}
+                        <img src="https://nv.edu.vn/wp-content/uploads/2020/08/english-course.jpg" alt="" className='user_img' />
+                        {/* <span className='user__name'>{userData?.lastname + ' ' + userData?.firstname}</span> */}
+                        <span className='user__name'>trung đỗ</span>
                     </div>
-                    <div className='navbar__rigth-icon'>
+                    <div className='navbar__rigth-user-icon'>
+                        <BellOutlined  />
+                    </div>
+                    <div className='navbar__rigth-user-icon'>
+                        <PoweroffOutlined className='power' onClick={logOut} />
+                    </div>
+                    <div className='navbar__rigth-user-icon'>
                         <MenuOutlined />
                     </div>
-                    <div className='navbar__rigth-icon'>
-                        <BellOutlined />
-                    </div>
-                    <div className='navbar__rigth-icon'>
-                        <PoweroffOutlined className='power'  onClick={logOut}/>
-                    </div>
-                    <div className='navbar__rigth-icon'>
+                    {/* <div className='navbar__rigth-icon'>
                         <MenuUnfoldOutlined className='MenuUnfold ' onClick={() => check1()} />
                         <div className={check === true ? 'todo todo1 ' : 'todo'} >
                             <div className='todo__heading' >
@@ -106,7 +138,7 @@ export default function Navbar(props) {
                                 </li>
                             </ul>
                         </div>
-                    </div>
+                    </div> */}
                 </div>
             </div>
         </div>

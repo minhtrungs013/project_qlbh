@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { BrowserRouter, Route, Routes, useNavigate } from "react-router-dom";
+import {  Route, Routes  } from "react-router-dom";
 import { Col, Row } from 'antd';
 import Navbar from './navbar/navbar';
 import Product from './product/product';

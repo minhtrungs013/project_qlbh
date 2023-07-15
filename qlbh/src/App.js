@@ -4,6 +4,8 @@ import { Route, Routes, useNavigate } from "react-router-dom";
 import Login from './components/login/login';
 import Register from './components/register/register';
 import Admin from './components/admin/admin';
+import User from './components/user/user';
+
 
 function App() {
   const navigate = useNavigate();
@@ -25,7 +27,8 @@ function App() {
         <Route path="/register" exact element={<Register />} />
       </Routes>
       {isLoggedIn === "true" ? (
-        <Admin></Admin>
+        // <Admin></Admin>
+        <User></User>
       ) : null}
     </div>
   );
