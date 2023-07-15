@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import "./navbar.css"
 import {  useNavigate } from "react-router-dom";
-import { getUserById } from "../../api/service/UserService";
+import { getUserById } from "../../../api/service/UserService";
 
 import { MenuOutlined, SearchOutlined, BellOutlined, PoweroffOutlined, MenuUnfoldOutlined, DownOutlined } from '@ant-design/icons';
 export default function Navbar(props) {

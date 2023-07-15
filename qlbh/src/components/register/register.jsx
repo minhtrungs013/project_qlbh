@@ -95,7 +95,7 @@ export default function Register() {
                                     </div>
                                     <div className='register_item'>
                                         <label className='register_text'> Last name</label>
-                                        <input type="file" className='register_input' name="lastname" onChange={handleRegisterForm} placeholder='Last name' />
+                                        <input type="text" className='register_input' name="lastname" onChange={handleRegisterForm} placeholder='Last name' />
                                     </div>
                                     <div className='register_item'>
                                         <label className='register_text'> Password</label>

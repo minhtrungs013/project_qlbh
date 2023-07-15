@@ -25,7 +25,7 @@ export default function Login() {
                 content: 'You need to enter all the information',
             });
         } else {
-            await loginAPI('auth/login', { username, password })
+            await loginAPI('accounts/login', { username, password })
                 .then((response) => {
                     localStorage.setItem("userID", response.data._id);
                     localStorage.setItem("LoggedIn", true);

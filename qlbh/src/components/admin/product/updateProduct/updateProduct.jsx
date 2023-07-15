@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Space, Table, Tag, Button, Col, Row, Modal, Form, Input, Checkbox, message, Upload } from 'antd';
-import { updateProduct, getProductById } from "../../../api/service/ProductService";
+import { updateProduct, getProductById } from "../../../../api/service/ProductService";
 
 export default function UpdateProduct({ isModalUpdate, handleOkUpdate, handleCancelUpdate, productId, getAllProduct1, form }) {
     const userId = localStorage.getItem("userID");

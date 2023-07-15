@@ -2,7 +2,7 @@ import React, { useRef, useEffect, useState } from "react";
 import "./chat.css"
 import { SearchOutlined } from '@ant-design/icons';
 import { Col, Row } from 'antd';
-import { userChats } from "../../api/ChatRequests";
+import { userChats } from "../../../api/ChatRequests";
 import Profile from "./profile/profile";
 import ChatBox from "./ChatBox/ChatBox";
 import { io } from "socket.io-client";

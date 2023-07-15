@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { message, Button, Col, Row, Modal, Form, Input, Checkbox, Upload } from 'antd';
 import { UploadOutlined } from '@ant-design/icons';
-import { createProduct } from "../../../api/service/ProductService";
+import { createProduct } from "../../../../api/service/ProductService";
 
 
 export default function AddProduct({ isModalOpen, handleOk, handleCancel, getAllProduct1 }) {
