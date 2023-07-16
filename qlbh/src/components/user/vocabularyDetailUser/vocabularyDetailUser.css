@@ -1,0 +1,139 @@
+.vocabulary__item-icon {
+    padding: 12px 15px;
+    border-radius: 6px;
+    color: #ff0909ad;
+    box-shadow: 1px 4px 4px 0px #f8131350;
+
+}
+
+.vocabulary {
+    margin: 10px 10px;
+    padding: 0 10px;
+    border: 1px solid rgba(216, 216, 216, 0.61);
+    box-shadow: 1px 1px 4px 0px #25252550;
+    border-radius: 6px;
+    min-height: 55vh;
+}
+
+.vocabulary__heading {
+    text-align: left;
+}
+
+.vocabulary__deading {
+    display: flex;
+    align-items: center;
+
+}
+
+.vocabulary__deading-text {
+    padding-left: 10px;
+}
+
+.vocabulary__detail-right {
+    box-shadow: 1px 1px 4px 0px #f8131350;
+    min-height: 45.5vh;
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+
+.vocabulary__item {
+    box-shadow: 1px 4px 4px 0px #f8131350;
+}
+
+.vocabulary__item-body {
+    border-radius: 10px;
+    box-shadow: 1px 1px 4px 0px #8f8c8c50;
+    cursor: pointer;
+    margin-bottom: 10px;
+    position: relative;
+
+}
+
+.vocabulary__item-body:hover {
+    box-shadow: 1px 4px 4px 0px #f8131350;
+    border-radius: 10px;
+}
+
+.vocabulary__item-body h2 {
+    margin: 0;
+    color: #1CA9F9;
+}
+
+.vocabulary__item-body h4 {
+    margin: 0;
+    color: #b4b9b9;
+    font-weight: 400;
+
+}
+
+.vocabulary__item-body h3 {
+    margin: 0;
+    padding-bottom: 5px;
+}
+
+.vocabulary__item-body-icon {
+    position: absolute;
+    right: 15px;
+    top: 10px;
+    font-size: 16px;
+    color: #817f7f;
+}
+
+.vocabulary__item-body-icon:hover {
+    color: #000000;
+}
+
+
+.vocabulary__button {
+    border-radius: 10px;
+    color: #ffffff;
+    background-color: #1CA9F9;
+    border: none;
+    padding: 10px 20px;
+    font-size: 20px;
+    margin-bottom: 20px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.vocabulary__detail-left {
+    box-shadow: 1px 1px 4px 0px #f8131350;
+    border-radius: 10px;
+    position: relative;
+}
+
+.vocabulary__detail-icon{
+    cursor: pointer;
+    left: 5px;
+    top: 0px;
+    padding: 10px;
+    font-size: 20px;
+    position: absolute;
+    font-weight: 700;
+}
+
+.vocabulary__detail-icon:hover{
+   color: #fc0c0c;
+}
+
+.vocabulary__detail-left h1 {
+    margin: 0;
+    margin-top: 2vh;
+    font-size: 5rem;
+    color: #1bda3bf6;
+
+}
+
+.vocabulary__detail-left h3 {
+    margin: 0;
+    padding: 20px;
+    font-size: 20px;
+
+}
+
+.vocabulary__detail-left h2 {
+    color: #1bda3bf6;
+    margin-bottom: 20px;
+    font-size: 25px;
+    padding-bottom: 20px;
+}

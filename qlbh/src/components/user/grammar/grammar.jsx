@@ -1,11 +1,26 @@
-import React from 'react'
-import "./grammar.css"
+import { faRightLong, faSpellCheck } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSpellCheck, faRightLong } from '@fortawesome/free-solid-svg-icons';
 import { Col, Row } from 'antd';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { getAllVocabularyCategory } from '../../../api/service/VocabularyCategory';
+import "./grammar.css";
 
 export default function Grammar() {
+  const [data, setData] = useState([])
+  const getVocabylaryCategory = () => {
+    getAllVocabularyCategory(`vocabularyCategories`)
+      .then((res) => {
+        setData(res.data.data);
+
+      });
+  }
+  useEffect(() => {
+    getVocabylaryCategory()
+  }, []);
+
+
+
   return (
     <div className='grammar'>
       <div className='grammar__heading'>
@@ -20,87 +35,17 @@ export default function Grammar() {
         <Row gutter={1}>
           <Col span={16} offset={4} className=''>
             <Row gutter={24}>
-              <Col span={6} offset={2} className=''>
-                <Link to="/bocabularydetails" className='grammar__body-item'>
-                  <h3>
-                    <FontAwesomeIcon className='grammar__body-icon1' icon={faSpellCheck} />
-                    Constant
-                  </h3>
-                  <FontAwesomeIcon className='grammar__body-icon' icon={faRightLong} />
-                </Link>
-              </Col>
-              <Col span={6} offset={2} className=''>
-                <Link to="/bocabularydetails" className='grammar__body-item'>
-                  <h3>
-                    <FontAwesomeIcon className='grammar__body-icon1' icon={faSpellCheck} />
-                    Constant
-                  </h3>
-                  <FontAwesomeIcon className='grammar__body-icon' icon={faRightLong} />
-                </Link>
-              </Col>
-              <Col span={6} offset={2} className=''>
-                <Link to="/bocabularydetails" className='grammar__body-item'>
-                  <h3>
-                    <FontAwesomeIcon className='grammar__body-icon1' icon={faSpellCheck} />
-                    Constant
-                  </h3>
-                  <FontAwesomeIcon className='grammar__body-icon' icon={faRightLong} />
-                </Link>
-              </Col>
-              <Col span={6} offset={2} className=''>
-                <Link to="/bocabularydetails" className='grammar__body-item'>
-                  <h3>
-                    <FontAwesomeIcon className='grammar__body-icon1' icon={faSpellCheck} />
-                    Constant
-                  </h3>
-                  <FontAwesomeIcon className='grammar__body-icon' icon={faRightLong} />
-                </Link>
-              </Col>
-              <Col span={6} offset={2} className=''>
-                <Link to="/bocabularydetails" className='grammar__body-item'>
-                  <h3>
-                    <FontAwesomeIcon className='grammar__body-icon1' icon={faSpellCheck} />
-                    Constant
-                  </h3>
-                  <FontAwesomeIcon className='grammar__body-icon' icon={faRightLong} />
-                </Link>
-              </Col>
-              <Col span={6} offset={2} className=''>
-                <Link to="/bocabularydetails" className='grammar__body-item'>
-                  <h3>
-                    <FontAwesomeIcon className='grammar__body-icon1' icon={faSpellCheck} />
-                    Constant
-                  </h3>
-                  <FontAwesomeIcon className='grammar__body-icon' icon={faRightLong} />
-                </Link>
-              </Col>
-              <Col span={6} offset={2} className=''>
-                <Link to="/bocabularydetails" className='grammar__body-item'>
-                  <h3>
-                    <FontAwesomeIcon className='grammar__body-icon1' icon={faSpellCheck} />
-                    Constant
-                  </h3>
-                  <FontAwesomeIcon className='grammar__body-icon' icon={faRightLong} />
-                </Link>
-              </Col>
-              <Col span={6} offset={2} className=''>
-                <Link to="/bocabularydetails" className='grammar__body-item'>
-                  <h3>
-                    <FontAwesomeIcon className='grammar__body-icon1' icon={faSpellCheck} />
-                    Constant
-                  </h3>
-                  <FontAwesomeIcon className='grammar__body-icon' icon={faRightLong} />
-                </Link>
-              </Col>
-              <Col span={6} offset={2} className=''>
-                <Link to="/bocabularydetails" className='grammar__body-item'>
-                  <h3>
-                    <FontAwesomeIcon className='grammar__body-icon1' icon={faSpellCheck} />
-                    Constant
-                  </h3>
-                  <FontAwesomeIcon className='grammar__body-icon' icon={faRightLong} />
-                </Link>
-              </Col>
+              {data?.map((item) => (
+                <Col span={8}  className=''>
+                  <Link to="/bocabularydetails" className='grammar__body-item'>
+                    <h3>
+                      <FontAwesomeIcon className='grammar__body-icon1' icon={faSpellCheck} />
+                      {item.name}
+                    </h3>
+                    <FontAwesomeIcon className='grammar__body-icon' icon={faRightLong} />
+                  </Link>
+                </Col>
+              ))}
             </Row>
           </Col>
         </Row>

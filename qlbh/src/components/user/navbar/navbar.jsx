@@ -84,8 +84,8 @@ export default function Navbar(props) {
                     <div className='navbar__rigth-user-icon'>
                         <BellOutlined  />
                     </div>
-                    <div className='navbar__rigth-user-icon'>
-                        <PoweroffOutlined className='power' onClick={logOut} />
+                    <div className='navbar__rigth-user-icon'  onClick={logOut}>
+                        <PoweroffOutlined className='power' />
                     </div>
                     <div className='navbar__rigth-user-icon'>
                         <MenuOutlined />

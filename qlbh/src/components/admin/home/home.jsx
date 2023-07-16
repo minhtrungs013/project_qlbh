@@ -47,6 +47,7 @@ export default function Home() {
     }, [voices]);
 
     const handleSpeak = () => {
+        console.log(selectedVoice)
         if (selectedVoice) {
             const utterance = new SpeechSynthesisUtterance('hello');
             utterance.voice = selectedVoice;
