@@ -2,8 +2,9 @@ import { faLeftLong, faCaretLeft, faCaretRight } from '@fortawesome/free-solid-s
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Col, Row, Radio, Space } from 'antd';
 import React, { useEffect, useState } from 'react';
-import { getQuestionsByVocabularyIds } from '../../../api/service/Question';
+import { getQuestionsByVocabularyIds , sendVocabularyAnswers } from '../../../api/service/Question';
 import "./question.css";
+import { async } from 'react-input-emoji';
 
 export default function Question({ listIdVocabularyId }) {
     const [data, setData] = useState([])
@@ -11,48 +12,74 @@ export default function Question({ listIdVocabularyId }) {
 
     const [value, setValue] = useState();
     const [questionItem, setQuestionItem] = useState(0)
-
     const [listAnswers, setListAnswers] = useState([])
-
 
     const getVocabylaryCategory = () => {
         getQuestionsByVocabularyIds(`vocabularyQuestions`, listIdVocabularyId)
             .then((res) => {
                 setData(res.data.data);
-                // setQuestionItem(res.data.data[0])
             });
+    }
+
+    const sendVocabularyAnswers = () => {
+        const data = {
+            "userId": userId,
+            "requestVocabularyAnswers": listAnswers
+        }
+        sendVocabularyAnswers(`vocabularyQuestions/sendVocabularyAnswers`, data)
+            .then((res) => {
+               console.log(res);
+            })
+            
     }
 
     const onChangeQuestionAnswer = (e, question) => {
         let answersQuestion = {
             questionId: "",
             userAnswer: ""
-          }
-        console.log('radio checked', e.target.value, question);
+        }
         answersQuestion.questionId = question.id
-        answersQuestion.userAnswer =  e.target.value
+        answersQuestion.userAnswer = e.target.value
         setListAnswers([...listAnswers, answersQuestion])
-
+        setValue(e.target.value)
     };
 
+    const checkAnswer = (idQuestion) => {
+        if (listAnswers.length > 0) {
+            for (let i = 0; i < listAnswers.length; i++) {
+                if (idQuestion === listAnswers[i].questionId) {
+                 return  setValue(listAnswers[i].userAnswer)
+
+                }
+            }
+            return setValue()
+
+        } else {
+            console.log(idQuestion);
+            setValue()
+        }
+    }
+
+    const onClickQuestion = (idQuestion, value) => {
+        setQuestionItem(value)
+        checkAnswer(idQuestion)
+    }
+
+    const prvOrNext = (value, idQuestion) => {
+        if (value === 0 && questionItem !== 0) {
+            checkAnswer(idQuestion)
+            setQuestionItem(questionItem - 1)
+        } else if (value === 1 && (questionItem + 1) < data.length) {
+            checkAnswer(idQuestion)
+            setQuestionItem(questionItem + 1)
+
+        }
+    }
 
     useEffect(() => {
         getVocabylaryCategory()
     }, [listIdVocabularyId]);
 
-    const onClickQuestion = (value) => {
-        setQuestionItem(value)
-        
-    }
-
-    const prvOrNext = (value) => {
-        if (value === 0 && questionItem !== 0) {
-            setQuestionItem(questionItem - 1)
-        } else if (value === 1 && (questionItem + 1) < data.length) {
-            setValue('')
-            setQuestionItem(questionItem + 1)
-        }
-    }
 
     return (
         <Row gutter={1}>
@@ -65,7 +92,7 @@ export default function Question({ listIdVocabularyId }) {
                             <Row gutter={10} className='bbbb'>
                                 {data?.map((item, index) => (
                                     <Col span={4} className=''>
-                                        <div className={questionItem === index ? "question__item action" : "question__item"} onClick={() => onClickQuestion(index)}>
+                                        <div className={questionItem === index ? "question__item action" : "question__item"} onClick={() => onClickQuestion(item.id, index)}>
                                             {index + 1}
                                         </div>
                                     </Col>
@@ -76,7 +103,7 @@ export default function Question({ listIdVocabularyId }) {
                     <Col span={18} className=''>
                         <div className='question'>
                             <h2>Question {questionItem + 1}:  <p>   {data[questionItem]?.question} He ________ newspapers for ten years.</p></h2>
-                            <Radio.Group onChange={(e) => onChangeQuestionAnswer(e, data[questionItem])} >
+                            <Radio.Group onChange={(e) => onChangeQuestionAnswer(e, data[questionItem])} value={value}>
                                 <Space direction="vertical">
                                     <Radio value={data[questionItem]?.answers[0]}>A. {data[questionItem]?.answers[0]}</Radio>
                                     <Radio value={data[questionItem]?.answers[1]}>B. {data[questionItem]?.answers[1]}</Radio>
@@ -85,14 +112,14 @@ export default function Question({ listIdVocabularyId }) {
                                 </Space>
                             </Radio.Group>
                             <div className='question__action'>
-                                <button type="primary" size="large" disabled={questionItem === 0} className='question__button' onClick={() => prvOrNext(0)}>
+                                <button type="primary" size="large" disabled={questionItem === 0} className='question__button' onClick={() => prvOrNext(0, data[questionItem - 1]?.id)}>
                                     <FontAwesomeIcon className='faCaretLeft' icon={faCaretLeft} />
                                     Previous
                                 </button>
                                 {(questionItem + 1) === data.length ? (
-                                    <button type="primary" size="large" className='question__button btn-submit' onClick={() => prvOrNext(1)}>Submit</button>
+                                    <button type="primary" size="large" className='question__button btn-submit' onClick={() => sendVocabularyAnswers()}>Submit</button>
                                 ) : (
-                                    <button type="primary" size="large" className='question__button' onClick={() => prvOrNext(1)}>
+                                    <button type="primary" size="large" className='question__button' onClick={() => prvOrNext(1, data[questionItem + 1]?.id)}>
                                         Next
                                         <FontAwesomeIcon className='faCaretRight' icon={faCaretRight} />
                                     </button>
