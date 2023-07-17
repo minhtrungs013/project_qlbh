@@ -1,11 +1,10 @@
-import React, { useState, useEffect } from 'react';
-import "./product.css"
-import { Space, Table, Tag, Button, Col, Row, Modal, Form, Input, Checkbox, Upload } from 'antd';
-import { PicRightOutlined, DeleteOutlined, EditOutlined, UploadOutlined } from '@ant-design/icons';
+import { DeleteOutlined, EditOutlined, PicRightOutlined } from '@ant-design/icons';
+import { Button, Checkbox, Form, Space, Table } from 'antd';
+import React, { useEffect, useState } from 'react';
 import { getAllProduct } from "../../../api/service/ProductService";
 import AddProduct from './addProduct/addProduct';
+import "./product.css";
 import UpdateProduct from './updateProduct/updateProduct';
-import { getProductById } from "../../../api/service/ProductService";
 
 
 export default function Product() {

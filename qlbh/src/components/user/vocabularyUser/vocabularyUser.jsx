@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from 'react';
-import "./homeUser.css"
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBook, faRightLong } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Col, Row } from 'antd';
+import React, { useEffect, useState } from 'react';
 import { getAllVocabularyCategory } from '../../../api/service/VocabularyCategory';
 import VocabularyDetailUser from '../vocabularyDetailUser/vocabularyDetailUser';
+import "./homeUser.css";
 
 export default function VocabularyUser() {
   const [data, setData] = useState([])
@@ -12,20 +12,22 @@ export default function VocabularyUser() {
   const [vocabularyDetailId, setVocabularyDetailId] = useState(null)
 
 
-  const getVocabylaryCategory = () => {
-    getAllVocabularyCategory(`vocabularyCategories`)
-      .then((res) => {
-        setData(res.data.data);
-      });
-  }
-  useEffect(() => {
-    getVocabylaryCategory()
-  }, []);
-
   const showVocabulary = (idvocabulary) => {
     setShowVocabularyDetail(!showVocabularyDetail)
     setVocabularyDetailId(idvocabulary)
   }
+
+  useEffect(() => {
+    const getVocabylaryCategory = () => {
+      getAllVocabularyCategory(`vocabularyCategories`)
+        .then((res) => {
+          setData(res.data.data);
+        }).catch((Error) => {
+          console.log(Error)
+        })
+    }
+    getVocabylaryCategory()
+  }, []);
 
   return (
     <div className='vocabulary'>
@@ -43,7 +45,7 @@ export default function VocabularyUser() {
             <Col span={16} offset={4} className=''>
               <Row gutter={24}>
                 {data?.map((item) => (
-                  <Col span={8} className=''>
+                  <Col span={8} className='' key={item.id}>
                     <div onClick={() => showVocabulary(item.id)} className='vocabulary__body-item'>
                       <h3>
                         <FontAwesomeIcon className='vocabulary__body-icon1' icon={faBook} />

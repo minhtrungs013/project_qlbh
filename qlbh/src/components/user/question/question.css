@@ -43,7 +43,7 @@
 
 
 .question__action {
-    margin-top: 10vh;
+    margin-top: 8vh;
     display: flex;
     justify-content: space-between;
 }
@@ -70,4 +70,29 @@
 .action {
     box-shadow: 1px 1px 4px 0px #02c2e8;
     border: 2px solid #02c2e8;
+}
+
+.action_success {
+    background-color: #4CAF50;
+    border: 2px solid #4CAF50;
+    color: #e4e0e0;
+}
+
+.action_fail {
+    background-color: #FF5252;
+    border: 2px solid #FF5252;
+    color: #e4e0e0;
+
+}
+
+.correctAnswer {
+    display: flex;
+    align-items: center;
+}
+.correctAnswer p{
+    padding-left: 10px;
+    color: #4CAF50;
+    font-weight: 600;
+    font-size: 16px;
+    margin: 0;
 }

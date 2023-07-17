@@ -1,10 +1,10 @@
-import React from 'react'
-import Navbar from './navbar/navbar'
+import { Col, Row } from 'antd';
+import React from 'react';
+import { Route, Routes } from "react-router-dom";
+import Grammar from './grammar/grammar';
+import Navbar from './navbar/navbar';
 import Slider from './slider/slider';
 import VocabularyUser from './vocabularyUser/vocabularyUser';
-import Grammar from './grammar/grammar';
-import { Route, Routes } from "react-router-dom";
-import { Col, Row } from 'antd';
 
 export default function user() {
 

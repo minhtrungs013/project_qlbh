@@ -11,12 +11,6 @@ export default function VocabularyDetailUser({ vocabularyDetailId, showVocabular
   const [voice, setVoice] = useState([]);
   const [listIdVocabularyId, setListIdVocabularyId] = useState([])
   const [showQuestion, setShowQuestion] = useState(false)
-  const getVocabylaryCategory = () => {
-    getVocabylaryByCategoryId(`vocabularies/getByCategoryId?categoryId=${vocabularyDetailId}`)
-      .then((res) => {
-        setData(res.data.data);
-      });
-  }
 
   const speakerVocabulary = (value) => {
 
@@ -27,14 +21,6 @@ export default function VocabularyDetailUser({ vocabularyDetailId, showVocabular
     window.speechSynthesis.speak(utterance);
   }
 
-
-
-  useEffect(() => {
-    const Voice = window.speechSynthesis.getVoices().find(voice => voice.name === "Google US English");
-    setVoice(Voice)
-    getVocabylaryCategory()
-  }, [vocabularyDetailId]);
-
   const onPlayGame = () => {
     let array = []
     for (let i = 0; i < data.length; i++) {
@@ -44,6 +30,22 @@ export default function VocabularyDetailUser({ vocabularyDetailId, showVocabular
     setShowQuestion(!showQuestion)
   }
 
+  const checkShowQuestion = () => {
+    setShowQuestion(!showQuestion)
+  }
+
+  useEffect(() => {
+    const Voice = window.speechSynthesis.getVoices().find(voice => voice.name === "Google US English");
+    setVoice(Voice)
+
+    const getVocabylaryCategory = () => {
+      getVocabylaryByCategoryId(`vocabularies/getByCategoryId?categoryId=${vocabularyDetailId}`)
+        .then((res) => {
+          setData(res.data.data);
+        });
+    }
+    getVocabylaryCategory()
+  }, [vocabularyDetailId]);
 
   return (
     <>
@@ -63,7 +65,7 @@ export default function VocabularyDetailUser({ vocabularyDetailId, showVocabular
                 <div className='vocabulary__detail-right'>
                   <Row gutter={24} justify={"space-between"} style={{ padding: "6vh 6ch" }}>
                     {data?.map((item) => (
-                      <Col span={5}  >
+                      <Col span={5}  key={item.id} >
                         <div className='vocabulary__item-body'>
                           <FontAwesomeIcon className='vocabulary__item-body-icon' icon={faVolumeHigh} onClick={() => speakerVocabulary(item.word)} />
                           <h2>{item.word}</h2>
@@ -80,7 +82,7 @@ export default function VocabularyDetailUser({ vocabularyDetailId, showVocabular
           </Col>
         </Row>
       ) : (
-        <Question listIdVocabularyId={listIdVocabularyId}></Question>
+        <Question listIdVocabularyId={listIdVocabularyId} checkShowQuestion={checkShowQuestion}></Question>
       )}
     </>
   )
