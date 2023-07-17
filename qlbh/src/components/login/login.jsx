@@ -13,7 +13,7 @@ export default function Login() {
 
     useEffect(() => {
         if (isLoggedIn === 'true') {
-          navigate("/");
+            navigate("/");
         }
     }, [isLoggedIn]);
 
@@ -27,9 +27,17 @@ export default function Login() {
         } else {
             await loginAPI('accounts/login', { username, password })
                 .then((response) => {
-                    localStorage.setItem("userID", response.data._id);
+                    localStorage.setItem("role", response.data.data.role);
+                    localStorage.setItem("username", response.data.data.username);
+                    localStorage.setItem("userId", response.data.data.id);
                     localStorage.setItem("LoggedIn", true);
-                    navigate("/")
+                        navigate("/")
+
+                    // if (response.data.data.role === "admin") {
+                    //     navigate("/admin")
+                    // } else {
+                    //     navigate("/user")
+                    // }
                 })
                 .catch((error) => {
                     messageApi.open({
@@ -82,7 +90,7 @@ export default function Login() {
                                     </div>
                                     <div className='login_item'>
                                         <span className="login_register-text ">Do not have an account?. </span>
-                                        <Link  className="login_item-link " to="/register">Create an account</Link>
+                                        <Link className="login_item-link " to="/register">Create an account</Link>
                                     </div>
                                 </form>
                             </div>

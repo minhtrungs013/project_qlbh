@@ -10,3 +10,8 @@ export function registerAPI(endpoint, body) {
     return API.post(`${API_BASE}/${endpoint}`, body);
 }
 
+
+export function getAccountByUsernameAPI(endpoint) {
+    return API.get(`${API_BASE}/${endpoint}`);
+}
+

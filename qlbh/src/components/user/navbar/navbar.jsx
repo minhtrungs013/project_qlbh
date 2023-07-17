@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import "./navbar.css"
 import { useNavigate, Link } from "react-router-dom";
-import { getUserById } from "../../../api/service/UserService";
+import { getAccountByUsernameAPI } from "../../../api/service/AuthService";
 import { HomeOutlined, MenuOutlined, SearchOutlined, BellOutlined, PoweroffOutlined, DownOutlined } from '@ant-design/icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBook, faSpellCheck, faBlog, faBars } from '@fortawesome/free-solid-svg-icons';
@@ -10,7 +10,7 @@ import { faBook, faSpellCheck, faBlog, faBars } from '@fortawesome/free-solid-sv
 export default function Navbar(props) {
     const [check, setCheck] = useState(false)
     const navigate = useNavigate();
-    const userId = localStorage.getItem("userID");
+    const username = localStorage.getItem("username");
     const [userData, setUserData] = useState(null)
 
     function check1() {
@@ -23,8 +23,8 @@ export default function Navbar(props) {
     }
 
     useEffect(() => {
-        getUserById(`user/${userId}`).then((res) => {
-            setUserData(res.data);
+        getAccountByUsernameAPI(`accounts?username=${username}`).then((res) => {
+            setUserData(res.data.data);
         });
     }, []);
 
@@ -78,8 +78,7 @@ export default function Navbar(props) {
                     <div className='user'>
                         {/* <img src={userData?.image} alt="" className='user_img' /> */}
                         <img src="https://nv.edu.vn/wp-content/uploads/2020/08/english-course.jpg" alt="" className='user_img' />
-                        {/* <span className='user__name'>{userData?.lastname + ' ' + userData?.firstname}</span> */}
-                        <span className='user__name'>trung đỗ</span>
+                        <span className='user__name'>{userData?.username}</span>
                     </div>
                     <div className='navbar__rigth-user-icon'>
                         <BellOutlined  />

@@ -55,12 +55,16 @@
 }
 
 .vocabulary__item-body h2 {
-    margin: 0;
+    margin:  0;
+    padding-top: 5px;
+    font-size: 20px;
+    font-weight: 600;
     color: #1CA9F9;
 }
 
 .vocabulary__item-body h4 {
-    margin: 0;
+    margin:  0;
+    font-size: 14px;
     color: #b4b9b9;
     font-weight: 400;
 
@@ -68,6 +72,9 @@
 
 .vocabulary__item-body h3 {
     margin: 0;
+    padding-top: 5px;
+    font-size: 14px;
+    font-weight: 600;
     padding-bottom: 5px;
 }
 
@@ -85,12 +92,12 @@
 
 
 .vocabulary__button {
-    border-radius: 10px;
+    border-radius: 20px;
     color: #ffffff;
     background-color: #1CA9F9;
     border: none;
     padding: 10px 20px;
-    font-size: 20px;
+    font-size: 16px;
     margin-bottom: 20px;
     font-weight: 600;
     cursor: pointer;
@@ -119,7 +126,7 @@
 .vocabulary__detail-left h1 {
     margin: 0;
     margin-top: 2vh;
-    font-size: 5rem;
+    font-size: 3rem;
     color: #1bda3bf6;
 
 }
@@ -136,4 +143,12 @@
     margin-bottom: 20px;
     font-size: 25px;
     padding-bottom: 20px;
+}
+
+.faCaretLeft {
+    padding-right: 10px;
+}
+
+.faCaretRight {
+    padding-left: 10px;
 }

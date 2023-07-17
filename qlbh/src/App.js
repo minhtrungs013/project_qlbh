@@ -10,14 +10,13 @@ import User from './components/user/user';
 function App() {
   const navigate = useNavigate();
   const isLoggedIn = localStorage.getItem("LoggedIn");
-
+  const role = localStorage.getItem("role");
 
   useEffect(() => {
     if (isLoggedIn === 'false' || isLoggedIn === 'null') {
       navigate("/login");
     }
   }, [isLoggedIn]);
-
   return (
     <div className={isLoggedIn === 'false' ? 'App_login' : 'App'}>
       <Routes>
@@ -27,8 +26,9 @@ function App() {
         <Route path="/register" exact element={<Register />} />
       </Routes>
       {isLoggedIn === "true" ? (
-        // <Admin></Admin>
-        <User></User>
+        <>
+       {role === "admin" ? <Admin></Admin> : <User></User>} 
+        </>
       ) : null}
     </div>
   );
