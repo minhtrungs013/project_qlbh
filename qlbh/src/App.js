@@ -13,7 +13,7 @@ function App() {
   const role = localStorage.getItem("role");
 
   useEffect(() => {
-    if (isLoggedIn === 'false' || isLoggedIn === 'null') {
+    if (isLoggedIn === 'false' || isLoggedIn === null) {
       navigate("/login");
     }
   }, [isLoggedIn]);

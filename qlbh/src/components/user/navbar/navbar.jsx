@@ -13,8 +13,11 @@ export default function Navbar(props) {
     const [userData, setUserData] = useState(null)
 
     const logOut = () => {
-        localStorage.setItem("LoggedIn", false);
-        localStorage.setItem("userID", '');
+        localStorage.removeItem("LoggedIn");
+        localStorage.removeItem("userID");
+        localStorage.removeItem("role");
+        localStorage.removeItem("username");
+        localStorage.removeItem("userId");
         navigate("/login");
     }
 
@@ -24,7 +27,7 @@ export default function Navbar(props) {
         }).catch((Error) => {
             console.log(Error);
         })
-    }, []);
+    }, [username]);
 
     return (
         <div className='navbar'>
@@ -33,7 +36,7 @@ export default function Navbar(props) {
                     <div className='Navigate__heading1'>
                         <img src="https://vapa.vn/wp-content/uploads/2022/12/anh-dep-lam-hinh-nen-002.jpg" alt="" className='user_img1' />
                     </div>
-                    <input type="text" className='user__search_item' placeholder='Sreach...' />
+                    <input type="text" className='user__search_item' placeholder='Search...' />
                     <div className='user__search_item-icon'>
                         <SearchOutlined />
                     </div>
@@ -50,6 +53,12 @@ export default function Navbar(props) {
                             <Link className="navbar__center-item-link " to="/grammar">
                                 <FontAwesomeIcon className='navbar__item-icon' icon={faSpellCheck} />
                                 Grammar
+                            </Link>
+                        </li>
+                        <li className='navbar__center-item'>
+                            <Link className="navbar__center-item-link " to="/practice">
+                                <FontAwesomeIcon className='navbar__item-icon' icon={faSpellCheck} />
+                                Practice
                             </Link>
                         </li>
                         <li className='navbar__center-item'>

@@ -1,8 +1,8 @@
-import React, { useRef, useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import "./login.css"
 import { Checkbox, Col, Row, message } from 'antd';
+import React, { useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { loginAPI } from "../../api/service/AuthService";
+import "./login.css";
 
 export default function Login() {
     const [messageApi, contextHolder] = message.useMessage();
@@ -31,13 +31,7 @@ export default function Login() {
                     localStorage.setItem("username", response.data.data.username);
                     localStorage.setItem("userId", response.data.data.id);
                     localStorage.setItem("LoggedIn", true);
-                        navigate("/")
-
-                    // if (response.data.data.role === "admin") {
-                    //     navigate("/admin")
-                    // } else {
-                    //     navigate("/user")
-                    // }
+                    navigate("/")
                 })
                 .catch((error) => {
                     messageApi.open({

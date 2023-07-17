@@ -37,7 +37,7 @@ export default function Navbar(props) {
                     <div className='search_icon'>
                         <MenuOutlined onClick={props.onClick}/>
                     </div>
-                    <input type="text" className='search_item' placeholder='Sreach...' />
+                    <input type="text" className='search_item' placeholder='Search...' />
                     <div className='search_item-icon'>
                         <SearchOutlined />
                     </div>

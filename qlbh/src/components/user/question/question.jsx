@@ -1,4 +1,4 @@
-import { faCaretLeft, faCaretRight, faLeftLong } from '@fortawesome/free-solid-svg-icons';
+import { faCaretLeft, faCaretRight, faLeftLong, faCircleCheck, faCircleXmark } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Col, Radio, Row, Space, message } from 'antd';
 import React, { useEffect, useState } from 'react';
@@ -105,6 +105,8 @@ export default function Question({ listIdVocabularyId, checkShowQuestion }) {
         const getQuestionsByVocabularyId = () => {
             getQuestionsByVocabularyIds(`vocabularyQuestions`, listIdVocabularyId)
                 .then((res) => {
+                    const array = res.data.data;
+                    array.sort(() => Math.random() - 0.5);
                     setData(res.data.data);
                 });
         }
@@ -132,6 +134,10 @@ export default function Question({ listIdVocabularyId, checkShowQuestion }) {
                                         </Col>
                                     ))}
                                 </Row>
+                                <div className='checkQuantityCorrect'>
+                                    <div> <FontAwesomeIcon className='faCircleCheck' icon={faCircleCheck} /> 5 Correct</div>
+                                    <div> <FontAwesomeIcon className='faCircleXmark' icon={faCircleXmark} /> 5 Incorrect</div>
+                                </div>
                             </div>
                         </Col>
                         <Col span={18} className=''>

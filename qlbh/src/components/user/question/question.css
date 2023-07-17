@@ -96,3 +96,25 @@
     font-size: 16px;
     margin: 0;
 }
+
+.checkQuantityCorrect {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    justify-content: space-between;
+    padding: 0 30px;
+    padding-bottom: 30px;
+}
+
+.faCircleCheck {
+    color: #4CAF50;
+}
+
+.faCircleXmark {
+    color: #FF5252; 
+}
+
+.checkQuantityCorrect div {
+    font-size: 16px;
+    font-weight: 600;
+}

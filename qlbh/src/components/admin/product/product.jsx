@@ -103,7 +103,7 @@ export default function Product() {
     };
 
     const showModalUpdate = (productId) => {
-        setIdProductId({...productId})
+        setIdProductId({ ...productId })
         setIsModalUpdate(true)
 
     };
