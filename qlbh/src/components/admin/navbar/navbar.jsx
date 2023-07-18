@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react'
 import "./navbar.css"
 import {  useNavigate } from "react-router-dom";
-import { getUserById } from "../../../api/service/UserService";
+import { getAccountByUsernameAPI } from "../../../api/service/AuthService";
 
 import { MenuOutlined, SearchOutlined, BellOutlined, PoweroffOutlined, MenuUnfoldOutlined, DownOutlined } from '@ant-design/icons';
 export default function Navbar(props) {
     const [check, setCheck] = useState(false)
     const navigate = useNavigate();
-    const userId = localStorage.getItem("userID");
     const [userData, setUserData] = useState(null)
+    const username = localStorage.getItem("username");
 
     function check1() {
         if (check === false) {
@@ -19,11 +19,16 @@ export default function Navbar(props) {
         }
     }
 
+
     useEffect(() => {
-        getUserById(`user/${userId}`).then((res) => {
-            setUserData(res.data);
-        });
-      }, []);
+        getAccountByUsernameAPI(`accounts?username=${username}`).then((res) => {
+            setUserData(res.data.data);
+        }).catch((Error) => {
+            console.log(Error);
+        })
+    }, [username]);
+
+
 
     const logOut = () => {
         localStorage.setItem("LoggedIn",false);
@@ -44,14 +49,14 @@ export default function Navbar(props) {
                 </div>
                 <div className='navbar__rigth'>
                     <div className='user'>
-                        <img src={userData?.image} alt="" className='user_img' />
-                        <span className='user__name'>{userData?.lastname + ' ' + userData?.firstname  }</span>
-                        <DownOutlined className='user__icon' />
-                        <div className='user__list'>aaa</div>
+                        <img src='https://kenh14cdn.com/thumb_w/660/2020/7/17/brvn-15950048783381206275371.jpg' alt="" className='user_img' />
+                        <span className='user__name'>{userData?.username}</span>
+                        {/* <DownOutlined className='user__icon' /> */}
+                        {/* <div className='user__list'>aaa</div> */}
                     </div>
-                    <div className='navbar__rigth-icon'>
+                    {/* <div className='navbar__rigth-icon'>
                         <MenuOutlined />
-                    </div>
+                    </div> */}
                     <div className='navbar__rigth-icon'>
                         <BellOutlined />
                     </div>

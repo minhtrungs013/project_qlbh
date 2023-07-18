@@ -20,41 +20,41 @@ export default function Navigation(props) {
                 </li>
                 <li className='Navigate__item '>
                     <Link className="navbar__center-link " to="/product">
-                        {props.check ? null : (<p className={props.check ? "" : 'fade-in'}> Product</p>)}
+                        {props.check ? null : (<p className={props.check ? "" : 'fade-in'}> Vocabulary</p>)}
                         <CoffeeOutlined className='Navigate__item-icon' />
                     </Link>
                 </li>
                 <li className='Navigate__item '>
                     <Link className="navbar__center-link " to="/product">
-                        {props.check ? null : (<p className={props.check ? "" : 'fade-in'}> Tables</p>)}
+                        {props.check ? null : (<p className={props.check ? "" : 'fade-in'}> Grammar</p>)}
                         <EnvironmentOutlined className='Navigate__item-icon' />
                     </Link>
                 </li>
                 <li className='Navigate__item '>
                     <Link className="navbar__center-link " to="/product">
-                        {props.check ? null : (<p className={props.check ? "" : 'fade-in'}> Form Elements</p>)}
+                        {props.check ? null : (<p className={props.check ? "" : 'fade-in'}> Practice</p>)}
                         <WechatOutlined className='Navigate__item-icon' />
                     </Link>
                 </li>
                 <li className='Navigate__item '>
                     <Link className="navbar__center-link " to="/chat">
-                        {props.check ? null : (<p className={props.check ? "" : 'fade-in'}> chat</p>)}
+                        {props.check ? null : (<p className={props.check ? "" : 'fade-in'}> Blog</p>)}
                         <CommentOutlined className='Navigate__item-icon' />
                     </Link>
                 </li>
                 <li className='Navigate__item '>
                     <Link className="navbar__center-link " to="/product">
-                        {props.check ? null : (<p className={props.check ? "" : 'fade-in'}> Charts</p>)}
+                        {props.check ? null : (<p className={props.check ? "" : 'fade-in'}> Accounts</p>)}
                         <Html5Outlined className='Navigate__item-icon' />
                     </Link>
                 </li>
                 <li className='Navigate__item '>
                     <Link className="navbar__center-link " to="/product">
-                        {props.check ? null : (<p className={props.check ? "" : 'fade-in'}> User Pages</p>)}
+                        {props.check ? null : (<p className={props.check ? "" : 'fade-in'}> TOEIC</p>)}
                         <InstagramOutlined className='Navigate__item-icon' />
                     </Link>
                 </li>
-                <li className='Navigate__item '>
+                {/* <li className='Navigate__item '>
                     <Link className="navbar__center-link " to="/product">
                         {props.check ? null : (<p className={props.check ? "" : 'fade-in'}> Error Pages</p>)}
                         <CodepenOutlined className='Navigate__item-icon' />
@@ -71,7 +71,7 @@ export default function Navigation(props) {
                         {props.check ? null : (<p className={props.check ? "" : 'fade-in'}> Documentation</p>)}
                         <CameraOutlined className='Navigate__item-icon' />
                     </Link>
-                </li>
+                </li> */}
 
             </ul>
         </div>

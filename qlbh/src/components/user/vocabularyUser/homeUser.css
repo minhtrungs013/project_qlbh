@@ -9,8 +9,6 @@
 .vocabulary {
     margin: 10px 10px;
     padding: 0 10px;
-    border: 1px solid rgba(216, 216, 216, 0.61);
-    box-shadow: 1px 1px 4px 0px #25252550;
     border-radius: 6px;
     min-height: 55vh;
 }

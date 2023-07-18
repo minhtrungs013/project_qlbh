@@ -73,15 +73,16 @@
 }
 
 .action_success {
-    background-color: #4CAF50;
-    border: 2px solid #4CAF50;
-    color: #e4e0e0;
+    background-color: #85de77;
+    border: 2px solid #85de77;
+    /* background: linear-gradient(90deg, #b5ff60, #0acf1ab4); */
+    color: #ffffff;
 }
 
 .action_fail {
-    background-color: #FF5252;
-    border: 2px solid #FF5252;
-    color: #e4e0e0;
+    background-color: #FF756d;
+    border: 2px solid #FF756d;
+    color: #ffffff;
 
 }
 

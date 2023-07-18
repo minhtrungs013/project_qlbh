@@ -1,4 +1,4 @@
-import { faLeftLong, faVolumeHigh } from '@fortawesome/free-solid-svg-icons';
+import { faLeftLong, faVolumeHigh, faPlay } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Col, Row } from 'antd';
 import React, { useEffect, useState } from 'react';
@@ -75,7 +75,11 @@ export default function VocabularyDetailUser({ vocabularyDetailId, showVocabular
                       </Col>
                     ))}
                   </Row>
-                  <button type="primary" size="large" className='vocabulary__button' onClick={() => onPlayGame()}>Play Game</button>
+                  <div className='vocabulary__play'>
+                  <div className='vocabulary__button' onClick={() => onPlayGame()}>Play Game
+                  <FontAwesomeIcon className='vocabulary__play'  icon={faPlay}/>
+                   </div>
+                  </div>
                 </div>
               </Col>
             </Row>

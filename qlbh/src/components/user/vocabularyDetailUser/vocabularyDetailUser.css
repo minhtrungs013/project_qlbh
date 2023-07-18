@@ -9,8 +9,6 @@
 .vocabulary {
     margin: 10px 10px;
     padding: 0 10px;
-    border: 1px solid rgba(216, 216, 216, 0.61);
-    box-shadow: 1px 1px 4px 0px #25252550;
     border-radius: 6px;
     min-height: 55vh;
 }
@@ -34,6 +32,14 @@
     min-height: 45.5vh;
     border-radius: 10px;
     margin-bottom: 20px;
+   
+}
+
+.vocabulary__play {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    justify-content: center;
 }
 
 .vocabulary__item {
@@ -92,15 +98,20 @@
 
 
 .vocabulary__button {
-    border-radius: 20px;
-    color: #ffffff;
-    background-color: #1CA9F9;
+    display: flex;
+    text-align: center;
+    justify-content: center;
     border: none;
-    padding: 10px 20px;
-    font-size: 16px;
+    padding: 16px 0px;
     margin-bottom: 20px;
-    font-weight: 600;
     cursor: pointer;
+    width: 170px;
+    border-radius: 50px;
+    box-shadow: rgb(211, 217, 229) 0px 2px 6px 0px;
+    font-size: 16px;
+    font-weight: 700;
+    color: rgb(255, 255, 255) !important;
+    background: linear-gradient(rgb(44, 225, 193) 0%, rgb(35, 202, 239) 100%) !important;
 }
 
 .vocabulary__detail-left {
@@ -151,4 +162,8 @@
 
 .faCaretRight {
     padding-left: 10px;
+}
+
+.vocabulary__play {
+    padding-left: 20px;
 }

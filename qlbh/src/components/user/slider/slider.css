@@ -8,8 +8,9 @@
 .slider {
     height: 250px;
     width: 100%;
+    background: linear-gradient(90deg,#84d9d2,#07cdae);
     /* background: linear-gradient(90deg,#ffbe96cb,#fe7096d2); */
-    background: linear-gradient(90deg, #b5ff60, #0acf1ab4);
+    /* background: linear-gradient(90deg, #b5ff60, #0acf1ab4); */
     display: flex;
     justify-content: space-between;
 }
@@ -21,13 +22,13 @@
 }
 
 .slider__left h1 {
-   color: rgb(92, 89, 89);
+   color: rgb(255, 255, 255);
    font-size: 70px;
    opacity: 0.8;
    margin-bottom: 0;
 }
 
 .slider__left h3 {
-    color: rgb(112, 112, 112);
+    color: rgb(255, 255, 255);
     padding-left: 5px;
 }
