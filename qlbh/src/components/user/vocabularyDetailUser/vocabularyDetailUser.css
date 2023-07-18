@@ -28,12 +28,13 @@
 }
 
 .vocabulary__detail-right {
-    box-shadow: 1px 1px 4px 0px #f8131350;
+    box-shadow: 1px 1px 4px 0px #23caef;
     min-height: 45.5vh;
     border-radius: 10px;
     margin-bottom: 20px;
    
 }
+
 
 .vocabulary__play {
     display: flex;
@@ -43,7 +44,7 @@
 }
 
 .vocabulary__item {
-    box-shadow: 1px 4px 4px 0px #f8131350;
+    box-shadow: 1px 4px 4px 0px #23caef;
 }
 
 .vocabulary__item-body {
@@ -56,7 +57,7 @@
 }
 
 .vocabulary__item-body:hover {
-    box-shadow: 1px 4px 4px 0px #f8131350;
+    box-shadow: 1px 4px 4px 0px #23caef;
     border-radius: 10px;
 }
 
@@ -65,7 +66,7 @@
     padding-top: 5px;
     font-size: 20px;
     font-weight: 600;
-    color: #1CA9F9;
+    color: #23caef;
 }
 
 .vocabulary__item-body h4 {
@@ -101,6 +102,7 @@
     display: flex;
     text-align: center;
     justify-content: center;
+    align-items: center;
     border: none;
     padding: 16px 0px;
     margin-bottom: 20px;
@@ -115,7 +117,7 @@
 }
 
 .vocabulary__detail-left {
-    box-shadow: 1px 1px 4px 0px #f8131350;
+    box-shadow: 1px 1px 4px 0px #23caef;
     border-radius: 10px;
     position: relative;
 }
