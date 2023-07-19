@@ -72,6 +72,18 @@ export default function Navigation(props) {
                         <CameraOutlined className='Navigate__item-icon' />
                     </Link>
                 </li> */}
+                <li className='Navigate__item '>
+                    <Link className="navbar__center-link " to="/category">
+                        {props.check ? null : (<p className={props.check ? "" : 'fade-in'}> Category</p>)}
+                        <CameraOutlined className='Navigate__item-icon' />
+                    </Link>
+                </li>
+                <li className='Navigate__item '>
+                    <Link className="navbar__center-link " to="/vocabulary">
+                        {props.check ? null : (<p className={props.check ? "" : 'fade-in'}> Vocabulary</p>)}
+                        <CameraOutlined className='Navigate__item-icon' />
+                    </Link>
+                </li>
 
             </ul>
         </div>

@@ -1,0 +1,50 @@
+.header-page {
+    background: #ffffff;
+    color: #ffffff;
+    font-size: 18px;
+    height: 56px;
+    border-bottom: 2px solid #dedede;
+    position: relative;
+    z-index: 10;
+    max-width: 100%;
+    -webkit-box-shadow: 0 2px 8px #f0f1f2;
+    box-shadow: 0 2px 8px 2px rgb(210 210 210 / 80%);
+    padding: 0px 16px;
+  }
+  .header-page__search{
+    width: 100%;
+      max-width: 250px;
+  }
+  .header-page__title{
+    flex-shrink: 0;
+  }
+  .header-page__title h3.ant-typography {
+    font-weight: bold;
+    font-size: 20px;
+    margin-bottom: 0;
+  }
+  
+  .menu-item {
+    width: 100%;
+    height: 100%;
+    padding: 2px 8px;
+  }
+
+  .menu-item .menu-item__btn {
+    width: 100%;
+    height: 100%;
+  }
+
+  .header-page .wrapper {
+    flex-flow: nowrap;
+    align-items: center;
+    height: 100%;
+    justify-content: space-between;
+  }
+  .header-page .wrapper .ant-menu-horizontal {
+    background: transparent;
+    border: 0;
+    color: #ffffff;
+    padding: 0px 10px;
+  }
+  

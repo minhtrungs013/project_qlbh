@@ -6,6 +6,8 @@ import Product from './product/product';
 import Home from './home/home';
 import Chat from './chat/chat';
 import Navigation from './navigation/navigation';
+import Category from './category/category';
+import Vocabulary from './vocabulary/vocabulary';
 
 
 
@@ -38,6 +40,12 @@ export default function Admin() {
         </Routes>
         <Routes>
           <Route path="/chat" element={<Chat />} />
+        </Routes>
+        <Routes>
+          <Route path="/category" element={<Category />} />
+        </Routes>
+        <Routes>
+          <Route path="/vocabulary" element={<Vocabulary/>}/>
         </Routes>
       </Col>
     </Row>
