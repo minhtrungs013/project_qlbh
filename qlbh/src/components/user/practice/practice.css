@@ -1,0 +1,8 @@
+.practice {
+    background-color: aquamarine;
+}
+.practice_img {
+    height: 130px;
+    width: 230px;
+    background-image: url("https://images.unsplash.com/photo-1524678606370-a47ad25cb82a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8bGlzdGVufGVufDB8fDB8fHww&w=1000&q=80");
+}
