@@ -1,8 +1,33 @@
 .practice {
-    background-color: aquamarine;
+    border-radius: 20px;
+    box-shadow: 1px 1px 4px 0px #23caef;
+    overflow: hidden;
+    transition: linear 0.15s;
+
 }
+
 .practice_img {
-    height: 130px;
-    width: 230px;
+    height: 100%;
+    min-height: 206.049px;
+    width: 100%;
     background-image: url("https://images.unsplash.com/photo-1524678606370-a47ad25cb82a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8bGlzdGVufGVufDB8fDB8fHww&w=1000&q=80");
+}
+
+.practice__link {
+    color: #000;
+    display: block;
+}
+
+.practice:hover {
+    margin-top: -5px;
+    box-shadow: 1px 4px 4px 0px #23caef;
+    color: #23caef;
+}
+
+.practice h2 {
+    
+}
+
+.practice__heading {
+    color: #239aef;
 }
