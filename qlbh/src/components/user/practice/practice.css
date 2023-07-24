@@ -31,3 +31,9 @@
 .practice__heading {
     color: #239aef;
 }
+
+.example {
+    display: block;
+    text-align: center;
+    align-items: center;
+}

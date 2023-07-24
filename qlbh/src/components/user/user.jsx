@@ -1,5 +1,5 @@
 import { Col, Row } from 'antd';
-import React from 'react';
+import React, { useState } from 'react';
 import { Route, Routes } from "react-router-dom";
 import Grammar from './grammar/grammar';
 import Navbar from './navbar/navbar';
@@ -9,7 +9,12 @@ import PracticeListening from './practice/practiceListening/practiceListening';
 import PracticeReading from './practice/practiceReading/practiceReading';
 import VocabularyUser from './vocabularyUser/vocabularyUser';
 
-export default function user() {
+export default function User() {
+    const [practiceId, setPracticeId] = useState('');
+    
+    const onClickPracticeId = (data) => {
+        setPracticeId(data);
+      };
 
     return (
         <>
@@ -19,21 +24,11 @@ export default function user() {
                     <Slider></Slider>
                     <Routes>
                         <Route path="/vocabulary" element={<VocabularyUser />} />
-                    </Routes>
-                    <Routes>
                         <Route path="/grammar" element={<Grammar />} />
-                    </Routes>
-                    <Routes>
-                        <Route path="/practice" element={<Practice />} />
-                    </Routes>
-                    <Routes>
-                        <Route path="/practice/listen" element={<PracticeListening />} />
-                    </Routes>
-                    <Routes>
-                        <Route path="/practice/read" element={<PracticeReading />} />
-                    </Routes>
-                    <Routes>
-                        <Route path="/practice/speak" element={<PracticeListening />} />
+                        <Route path="/practice/*" element={<Practice onClickPracticeId={onClickPracticeId} />} />
+                        <Route path="/practice/listen" element={<PracticeListening practiceId={practiceId} />} />
+                        <Route path="/practice/read" element={<PracticeReading practiceId={practiceId} />} />
+                        <Route path="/practice/speak" element={<PracticeListening practiceId={practiceId} />} />
                     </Routes>
                 </Col>
             </Row>
