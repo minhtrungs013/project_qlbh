@@ -108,7 +108,7 @@ const Category = props => {
     
     
       const handleDelete = (value) => {
-        deleteCategoryById(`vocabularyCategories/delete?id=${value.id}`).then((res) => {
+        deleteCategoryById(`vocabularyCategories?id=${value.id}`).then((res) => {
           message.success("SUCCESS");
           reload()
         })

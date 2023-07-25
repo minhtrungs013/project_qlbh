@@ -21,7 +21,7 @@ const ModalCategory = props => {
             isActive: status
         }        
         setIsLoading(true);
-        updateCategory(`vocabularyCategories/update?id=${IdItem}`, formControl).then((res) => {
+        updateCategory(`vocabularyCategories?id=${IdItem}`, formControl).then((res) => {
             if(res.data){
                 handleCancel();
                 message.success("UPDATE SUCCESS");

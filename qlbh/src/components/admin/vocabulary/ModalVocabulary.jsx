@@ -14,7 +14,7 @@ import { getAllVocabularyCategory } from "../../../api/service/VocabularyCategor
 import { createProduct, updateProduct } from "../../../api/service/VocabularyService";
 
 const ModalVocabulary = (props) => {
-  const { isOpen, title, form, Id, reloadData, onClose } = props;
+  const { isOpen, title, form, reloadData, onClose } = props;
   const [isLoading, setIsLoading] = useState(false);
   const [status, setStatus] = useState(false);
   const [options, setOptions] = useState([]);
@@ -39,11 +39,11 @@ const ModalVocabulary = (props) => {
         word: values.word,
         mean: values.mean,
         pronounce: values.pronounce,
-        vocabularyCategoryIDs: values.vocabularyCategoryIDs,
+        categoryIds: values.categoryIds,
         isActive: values.isActive,
       };
       setIsLoading(true);
-      updateProduct(`vocabularies/update`, formControl)
+      updateProduct(`vocabularies?id=${IdItem}`, formControl)
         .then((res) => {
           if (res.data) {
             handleCancel();
@@ -65,7 +65,7 @@ const ModalVocabulary = (props) => {
       word: values.word,
       mean: values.mean,
       pronounce: values.pronounce,
-      vocabularyCategoryIDs: values.vocabularyCategoryIDs,
+      categoryIds: values.categoryIds,
       isActive: values.isActive,
     };
     setIsLoading(true);
@@ -116,7 +116,6 @@ const ModalVocabulary = (props) => {
         title={title}
         open={isOpen}
         className="form-create"
-        form={form}
         width={800}
         onCancel={handleCancel}
         footer={[
@@ -158,11 +157,11 @@ const ModalVocabulary = (props) => {
                 <Input />
               </Form.Item>
 
-              <Form.Item label="Category" name="vocabularyCategoryIDs">
+              <Form.Item label="Category" name="categoryIds">
                 <Select
                   mode="multiple"
                   allowClear
-                  defaultValue={[IdItem && form.getFieldValue('parentName') ? form.getFieldValue('parentName') : []]}
+                  value={[IdItem && form.getFieldValue('parentName') ? form.getFieldValue('parentName') : []]}
                   options={options}
                 ></Select>
               </Form.Item>

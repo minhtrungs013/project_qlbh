@@ -14,7 +14,6 @@ const Vocabulary = (props) => {
   const [data, setData] = useState([]);
   const [isOpen, setIsopen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [category, setCategory] = useState([]);
   const [id, setId] = useState("");
   const [form] = Form.useForm();
 
@@ -52,8 +51,35 @@ const Vocabulary = (props) => {
       title: "Category",
       dataIndex: "parentName",
       key: "parentName",
-      render: (text) => <a>{text}</a>,
+      render: (name) => (
+        <>
+          {name !== null && name?.map((item, index) => {
+            return (
+              <Tag color={'green'} key={index}>
+                {item.name}
+              </Tag>
+            );
+          })}
+        </>
+      ),
     },
+
+    // {
+    //     title: "Category",
+    //     dataIndex: "categoryIds",
+    //     key: "categoryIds",
+    //     render: (name) => (
+    //       <>
+    //         {name !== null && name?.map((item, index) => {
+    //           return (
+    //             <Tag color={'green'} key={index}>
+    //               {item}
+    //             </Tag>
+    //           );
+    //         })}
+    //       </>
+    //     ),
+    //   },
     {
       title: "Status",
       dataIndex: "isActive",
@@ -86,7 +112,7 @@ const Vocabulary = (props) => {
         word: record.word,
         mean: record.mean,
         pronounce: record.pronounce,
-        vocabularyCategoryIDs: record.vocabularyCategoryIDs ? record.vocabularyCategoryIDs : [],
+        categoryIds: record.categoryIds ? record.categoryIds : [],
         isActive: record.isActive,
       };
       form.setFieldsValue(formControl);
@@ -106,6 +132,7 @@ const Vocabulary = (props) => {
   const reload = useCallback(() => {
     setIsLoading(true);
     getAllVocabulary("vocabularies").then((res) => {
+      getAllDataVocabulary()
       setData(res.data.data);
       setIsLoading(false);
     });
@@ -117,12 +144,35 @@ const Vocabulary = (props) => {
       if (res) {
         getAllVocabularyCategory(`vocabularyCategories`).then((resCate) => {
           res.data.data.forEach((e, i, arr) => {
-            arr[i]["parentName"] = e.vocabularyCategoryIDs !== null ? 
-            resCate.data.data.filter( (f) => f.id === e.vocabularyCategoryIDs[0] )[0].name : "";
+            let idCategory = ""
+            e.categoryIds !== null && e.categoryIds.forEach(item => {return idCategory = item})
+            arr[i]["parentName"] = e.categoryIds !== null ? 
+            resCate.data.data.filter((f) => f.id === idCategory) : [];
           });
           setData(res.data.data);
           setIsLoading(false)
         });
+
+        // getAllVocabularyCategory(`vocabularyCategories`).then((category) => {
+        //   let newArr = [];
+        //   let _category = category.data.data
+        //   res.data.data.forEach((e, i, arr) => {
+        //       if(e.categoryIds !== null) {
+        //         for (let i = 0; i < e.categoryIds.length; i++) {
+        //           const element = e.categoryIds[i];
+        //           for (let j = 0; j < _category.length; j++) {
+        //             const item = _category[j];
+        //             if(element === item.id){
+        //               newArr.push(item)
+        //             }
+        //           }
+        //         }
+        //       }
+        //     arr[i]["parentName"] = e.categoryIds !== null ? newArr : []
+        //   })
+        //   setData(res.data.data);
+        //   setIsLoading(false)
+        // })          
       }
     });
   };
@@ -140,7 +190,7 @@ const Vocabulary = (props) => {
   };
 
   const handleDelete = (value) => {
-    deleteProductById(`vocabularies/delete?vocabularyId=${value.id}`).then((res) => {
+    deleteProductById(`vocabularies?id=${value.id}`).then((res) => {
       message.success("SUCCESS");
       reload();
     });
@@ -155,7 +205,7 @@ const Vocabulary = (props) => {
       <div className="main__application">
         <HeaderPage title="VOCABULARY" onCreate={() => onOpenModel()} />
         <div className="section-wrapper">
-          <Table columns={columns} dataSource={data} loading={isLoading} />
+          <Table columns={columns} dataSource={data} rowKey={"id"} loading={isLoading} />
         </div>
         <ModalCategory
           isOpen={isOpen}
@@ -166,7 +216,6 @@ const Vocabulary = (props) => {
           title={id ? "Edit form" : "Add new item"}
           reloadData={() => reload()}
           form={form}
-          Id={id}
         />
       </div>
     </div>
