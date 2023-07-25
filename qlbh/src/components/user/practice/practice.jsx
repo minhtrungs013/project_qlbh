@@ -1,18 +1,20 @@
 import React, { useState, useEffect } from 'react'
+import { useDispatch } from 'react-redux';
+import { setPracticeId } from '../../redux/_actions';
 import "./practice.css"
 import { Col, Row, Spin } from 'antd';
 import { Link } from 'react-router-dom';
 import { getAllPracticesWithoutParts } from '../../../api/service/paractice/paractice';
 
-export default function Practice({ onClickPracticeId }) {
+export default function Practice() {
 
     const [data, setData] = useState([])
     const [loading, setLoading] = useState(false)
+    const dispatch = useDispatch();
 
-    const setPracticeId = (practice) => {
-        if (practice && practice.type) {
-            onClickPracticeId(practice.id);
-        }
+
+    const handleSetId  = (practiceId) => {
+        dispatch(setPracticeId(practiceId.id));
     }
 
     useEffect(() => {
@@ -42,7 +44,7 @@ export default function Practice({ onClickPracticeId }) {
                             <Row gutter={100} mt={10}>
                                 {data?.map((item) => (
                                     <Col span={6} key={item.id}>
-                                        <Link to={`/practice/${item.type}`} onClick={() => setPracticeId(item)} className='practice__link'>
+                                        <Link to={`/practice/${item.type}`} onClick={() => handleSetId(item)} className='practice__link'>
                                             <div className='practice'>
                                                 <img className='practice_img' src={item.image} alt="" />
                                                 <h2>{item.name}</h2>
