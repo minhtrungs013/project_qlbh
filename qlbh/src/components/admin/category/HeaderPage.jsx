@@ -18,7 +18,7 @@ const HeaderPage = ({ title = '', actions = 'default', onCreate, payment = false
           <Typography.Title level={3}>{title}</Typography.Title>
         </Col>
         <Col flex={1} style={{ textAlign: 'right' }}>
-          {actions === 'default' ? (
+          {actions === 'default' && (
             <Row
               style={{
                 display: 'flex',
@@ -29,24 +29,10 @@ const HeaderPage = ({ title = '', actions = 'default', onCreate, payment = false
             >
               <Search className="header-page__search" placeholder="Search..." onSearch={onSearch} enterButton />
               <Button type="primary" onClick={() => onCreate()} icon={<PlusCircleOutlined />}>
-                {payment ? 'Payment' : 'Create'}
+                {'Create'}
               </Button>
             </Row>
-          ) : typeof actions === 'function' ? (
-            <Row
-              style={{
-                display: 'flex',
-                flexWrap: 'nowrap',
-                gap: '16px',
-                justifyContent: 'end',
-              }}
-            >
-              <Search className="header-page__search" placeholder="Search..." onSearch={onSearch} enterButton />
-              <Button type="primary" onClick={() => onCreate()} icon={<CheckSquareFilled />}>
-                Payment
-              </Button>
-            </Row>
-          ) : null}
+          ) }
         </Col>
       </Row>
     </div>
