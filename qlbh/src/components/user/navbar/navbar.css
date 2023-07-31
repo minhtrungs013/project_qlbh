@@ -1,0 +1,88 @@
+.Navigate__heading1 {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    margin-right: 50px;
+}
+
+.user_img1 {
+    height: 40px;
+    width: 40px;
+    border-radius: 50px;
+}
+
+.user__search_item {
+    position: relative;
+    padding: 10px 100px 10px 35px;
+    font-size: 16px;
+    border-radius: 50px;
+    border-style: none;
+    border: none;
+    outline: none;
+    color: #656a6e;
+    width: 100%;
+    box-shadow: 1px 2px 2px 0px rgba(17, 18, 19, 0.35);
+    transition: .25s ease;
+}
+
+
+.user__search_item-icon {
+    color: #656a6e;
+    position: absolute;
+    font-size: 15px;
+    left: 135px;
+}
+
+.navbar__center {}
+
+.navbar__center-list {
+    display: flex;
+    padding-left: 0;
+}
+
+.navbar__center-item {
+    padding: 5px 10px;
+    list-style: none;
+    text-decoration: none;
+    display: block;
+    cursor: pointer;
+    align-items: center;
+    text-align: left;
+    margin: 0 10px;
+    border-radius: 6px;
+    width: 120px;
+}
+
+.navbar__center-item:hover {
+    box-shadow: 0px 4px 4px 0px #f8131350;
+}
+
+.navbar__center-item-link:hover {
+    color: #000000;
+}
+
+.navbar__center-item-link {
+    display: block;
+    color: #000000;
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.navbar__item-icon {
+    padding-right: 10px;
+    color: #ff0909ad;
+}
+
+.navbar__rigth-user-icon {
+    font-size: 14px;
+    color: #495057;
+    padding: 7px 10px;
+    margin: 10px;
+    border-radius: 6px;
+    cursor: pointer;
+    display: block;
+}
+
+.navbar__rigth-user-icon:hover {
+    box-shadow: 0px 4px 4px 0px #f8131350;
+}

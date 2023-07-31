@@ -1,6 +1,21 @@
 .App {
   text-align: center;
-  background-color: #f2edf3;
+}
+
+.App_login {
+  /* background-color: aqua; */
+   background-image: url("https://nv.edu.vn/wp-content/uploads/2020/08/english-course.jpg");
+   background-position: center;
+   background-repeat: no-repeat;
+   background-size: cover;
+}
+
+.name{
+  transition: .5s ease;
+  border-right: 1px solid #e7e5e5;
+}
+.name1{
+  transition: .5s ease;
 }
 
 .App-logo {
@@ -23,6 +38,7 @@
   justify-content: center;
   font-size: calc(10px + 2vmin);
   color: white;
+  font-family: inherit;
 }
 
 .App-link {

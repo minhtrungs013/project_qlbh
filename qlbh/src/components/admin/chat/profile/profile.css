@@ -1,0 +1,52 @@
+.conversation:hover {
+  background-color: rgb(250, 249, 249);
+  box-shadow: 0 3px 3px 1px rgba(66, 236, 89, 0.35);
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.conversation {
+  padding: 10px;
+  border-bottom: 1px solid #e8eaf0;
+  position: relative;
+}
+
+.conversation__body {
+  display: flex;
+}
+
+.online-dot {
+  background-color: rgb(51, 248, 33);
+  border-radius: 50%;
+  position: absolute;
+  left: 40px;
+  width: 12px;
+  height: 12px;
+  top: 40px;
+  border: 2px solid #ffffff;
+}
+
+.followerImage {
+  width: 50px;
+  height: 45px;
+  border-radius: 50%;
+}
+
+.followeruser {
+  padding-left: 10px;
+  display: block;
+}
+
+.followeruser h4 {
+  padding-top: 3px;
+  font-size: 15px;
+  color: #858484;
+  font-weight: 400;
+  margin: 0;
+}
+
+.followeruser h5 {
+  padding-top: 5px;
+  margin: 0;
+
+}

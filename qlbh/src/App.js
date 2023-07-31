@@ -1,21 +1,36 @@
 import './App.css';
-import { Col, Row } from 'antd';
-import Header from './components/header/header';
-import Navigation from './components/navigation/navigation';
+import React, { useEffect, useState } from 'react'
+import { Route, Routes, useNavigate } from "react-router-dom";
+import Login from './components/login/login';
+import Register from './components/register/register';
+import Admin from './components/admin/admin';
+import User from './components/user/user';
+
 
 function App() {
+  const navigate = useNavigate();
+  const isLoggedIn = localStorage.getItem("LoggedIn");
+  const role = localStorage.getItem("role");
+
+  useEffect(() => {
+    if (isLoggedIn === 'false' || isLoggedIn === null) {
+      navigate("/login");
+    }
+  }, [isLoggedIn]);
   return (
-    <div className='App'>
-        <Row gutter={16}>
-        <Col span={4}>
-        <Navigation></Navigation>
-        </Col>
-        <Col span={20}>
-        <Header></Header>
-        </Col>
-      </Row>
+    <div className={isLoggedIn === 'false' ? 'App_login' : 'App'}>
+      <Routes>
+        <Route path="/login" exact element={<Login />} />
+      </Routes>
+      <Routes>
+        <Route path="/register" exact element={<Register />} />
+      </Routes>
+      {isLoggedIn === "true" ? (
+        <>
+       {role === "admin" ? <Admin></Admin> : <User></User>} 
+        </>
+      ) : null}
     </div>
-    
   );
 }
 
