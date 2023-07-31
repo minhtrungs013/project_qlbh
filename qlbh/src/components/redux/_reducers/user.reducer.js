@@ -1,17 +1,37 @@
+import { Constants } from "../_constants/constants";
+
 const initialState = {
-    practiceId: null, // Gi� tr? ban d?u c?a practiceId l� null ho?c gi� tr? b?n mu?n s? d?ng
-  };
-  
-  const practiceReducer = (state = initialState, action) => {
-    switch (action.type) {
-      case 'SET_PRACTICE_ID':
+  practiceId: null,
+  practiceType: null,
+  practicePartId: null,
+  objectTypeId: null,
+};
+
+const practiceReducer = (state = initialState, action) => {
+  switch (action.type) {
+    case Constants.SET_PRACTICE_ID:
+      return {
+        ...state,
+        practiceId: action.payload,
+      };
+    case Constants.SET_PRACTICE_PART_ID:
+      return {
+        ...state,
+        practicePartId: action.payload,
+      };
+      case Constants.SET_OBJECT_ID:
         return {
           ...state,
-          practiceId: action.payload,
+          objectTypeId: action.payload,
         };
-      default:
-        return state;
-    }
-  };
-  
-  export default practiceReducer;
+        case Constants.SET_PRACTICE_TYPE:
+          return {
+            ...state,
+            practiceType: action.payload,
+          };
+    default:
+      return state;
+  }
+};
+
+export default practiceReducer;

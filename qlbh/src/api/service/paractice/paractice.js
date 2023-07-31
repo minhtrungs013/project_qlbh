@@ -9,3 +9,12 @@ export function getAllPracticesWithoutParts(endpoint) {
 export function getPracticePartsWithoutLessonsAndTestsByPracticeId(endpoint) {
     return API.get(`${API_BASE}/${endpoint}`);
 }
+
+export function getListenTopicByPracticePartId(endpoint) {
+    return API.get(`${API_BASE}/${endpoint}`);
+}
+
+
+export function getPracticePartsLessonsByPracticeId(endpoint) {
+    return API.get(`${API_BASE}/${endpoint}`);
+}
