@@ -39,7 +39,7 @@ export default function VocabularyDetailUser({ vocabularyDetailId, showVocabular
     setVoice(Voice)
 
     const getVocabylaryCategory = () => {
-      getVocabylaryByCategoryId(`vocabularies/getByCategoryId?categoryId=${vocabularyDetailId}`)
+      getVocabylaryByCategoryId(`vocabularies?id=${vocabularyDetailId}`)
         .then((res) => {
           setData(res.data.data);
         });

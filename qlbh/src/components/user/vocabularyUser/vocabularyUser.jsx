@@ -4,17 +4,22 @@ import { Col, Row } from 'antd';
 import React, { useEffect, useState } from 'react';
 import { getAllVocabularyCategory } from '../../../api/service/VocabularyCategory';
 import VocabularyDetailUser from '../vocabularyDetailUser/vocabularyDetailUser';
+import { useDispatch } from 'react-redux';
+import { setPracticeType } from '../../redux/_actions';
 import "./homeUser.css";
 
 export default function VocabularyUser() {
   const [data, setData] = useState([])
   const [showVocabularyDetail, setShowVocabularyDetail] = useState(false)
   const [vocabularyDetailId, setVocabularyDetailId] = useState(null)
+  const dispatch = useDispatch();
 
 
   const showVocabulary = (idvocabulary) => {
     setShowVocabularyDetail(!showVocabularyDetail)
     setVocabularyDetailId(idvocabulary)
+    dispatch(setPracticeType('vocabulary'));
+
   }
 
   useEffect(() => {

@@ -119,3 +119,218 @@
     font-size: 16px;
     font-weight: 600;
 }
+
+.lStart {
+    min-height: 250px;
+    position: relative;
+    padding-top: 97px;
+    padding-bottom: 43px;
+    background-color: #fff;
+    border-radius: 15px;
+}
+
+.lStart__bg {
+    position: absolute;
+    width: 100%;
+    height: 250px;
+    top: 0;
+    left: 0;
+    background: radial-gradient(74.21% 52.78% at 30.22% 82.87%, #56bcff 0, #65e2f5 100%);
+    border-radius: 15px 15px 100px 100px;
+    z-index: 0;
+}
+
+.lStart__data {
+    position: relative;
+    z-index: 2;
+    background-color: #fff;
+    border-radius: 20px;
+    max-width: 65%;
+    box-shadow: 0 4px 10px 0 rgba(0, 0, 0, .1);
+    padding-bottom: 48px;
+    margin: 0 auto;
+}
+
+.lStart__progress {
+    position: relative;
+}
+
+.lStart-progress-box {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 170px;
+    height: 170px;
+    background: rgba(139, 235, 253, .2);
+    border-radius: 100%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-85px);
+}
+
+.box-layer-2 {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 149px;
+    height: 149px;
+    background: rgba(149, 224, 250, .2);
+    border-radius: 100%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-74.5px);
+}
+
+.box-layer-3 {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 130px;
+    height: 130px;
+    background: #d5d5d5;
+    border-radius: 100%;
+    box-shadow: 0 2px 20px 0 rgba(11, 153, 234, .4);
+    left: 50%;
+    transform: translateX(-50%) translateY(-65px);
+}
+
+.box-layer-4 {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 110px;
+    height: 110px;
+    background: #ffffff;
+    border-radius: 100%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-55px);
+}
+
+.box-layer-5 {
+    position: absolute;
+    display: flex;
+    font-size: 30px;
+    justify-content: center;
+    align-items: center;
+    color: #7185ff;
+    left: 50%;
+    transform: translateX(-50%) translateY(-49px);
+}
+
+.main-statistics {
+    padding-top: 112px;
+}
+
+.main-statistics-questions-start {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 50px;
+}
+
+.main-stats-data-questions-stat-item h3 {
+    margin: 0;
+}
+
+.main-stats-data-questions-stat-item h2 {
+    margin: 0;
+}
+
+.item-total {
+    color: rgb(132, 155, 182);
+}
+
+.item-correct {
+    color: rgb(130, 188, 36);
+}
+
+.item-incorrect {
+    color: rgb(255, 84, 84);
+}
+
+.main-statistics-questions-button {
+    margin-top: 40px;
+    display: flex;
+    justify-content: space-between;
+    padding: 0 10%;
+}
+
+.main-statistics-questions-button-btn {
+    margin: 0px auto;
+    cursor: pointer;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    display: flex;
+    text-align: center;
+    width: 170px;
+    height: 45px;
+    border-radius: 50px;
+    box-shadow: rgb(211, 217, 229) 0px 2px 6px 0px;
+    font-size: 16px;
+    font-weight: 700;
+    color: rgb(255, 255, 255) !important;
+    background: linear-gradient(rgb(44, 225, 193) 0%, rgb(35, 202, 239) 100%) !important;
+    /* background: linear-gradient(0deg, rgb(248, 105, 182) 0%, rgb(255, 148, 140) 100%) !important; */
+}
+
+.question-item {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 14px;
+}
+
+.question-item-img {
+    height: 230px;
+    width: 100%;
+    border-radius: 10px;
+}
+
+
+.Lquestion__action {
+    margin-top: 10px;
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+}
+
+.Lquestion__action::before {
+    content: '';
+    background-color: #56bcff;
+    position: absolute;
+    width: 100%;
+    height: 1px;
+    top: -5px;
+}
+
+.Transcript p {
+    margin: 0;
+}
+
+.Transcript span {
+    margin: 0;
+    font-weight: 600;
+}
+
+.Lquestion__btn {
+    border-radius: 25px;
+    color: #02c2e8;
+    background-color: rgb(225, 250, 254);
+    border: none;
+    min-width: 100px;
+    padding: 10px 15px;
+    font-size: 14px;
+    margin-bottom: 20px;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 1px 1px 4px 0px #02c2e8;
+
+}
+
+.Lquestion__Transcript-active {
+    align-items: flex-end;
+    display: inline-flex;
+    justify-content: flex-end;
+}
