@@ -1,0 +1,22 @@
+.wrapperText {
+    position: absolute;
+    top: -12px;
+    left: 12px;
+    /* background-color: #fff; */
+    color: #374dc5;
+    font-weight: bold;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 1; /* number of lines to show */
+    -webkit-box-orient: vertical;
+  }
+  
+  .cardGroup {
+    margin: 1rem;
+    /* border: none; */
+    
+  }
+  .ant-card-head {
+    margin-bottom: -30px !important;
+  }

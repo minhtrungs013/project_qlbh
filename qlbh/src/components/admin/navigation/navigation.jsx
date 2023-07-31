@@ -18,25 +18,25 @@ export default function Navigation(props) {
                         <HomeOutlined className='Navigate__item-icon' />
                     </Link>
                 </li>
-                <li className='Navigate__item '>
+                {/* <li className='Navigate__item '>
                     <Link className="navbar__center-link " to="/product">
                         {props.check ? null : (<p className={props.check ? "" : 'fade-in'}> Vocabulary</p>)}
                         <CoffeeOutlined className='Navigate__item-icon' />
                     </Link>
-                </li>
-                <li className='Navigate__item '>
+                </li> */}
+                {/* <li className='Navigate__item '>
                     <Link className="navbar__center-link " to="/product">
                         {props.check ? null : (<p className={props.check ? "" : 'fade-in'}> Grammar</p>)}
                         <EnvironmentOutlined className='Navigate__item-icon' />
                     </Link>
-                </li>
+                </li> */}
                 <li className='Navigate__item '>
-                    <Link className="navbar__center-link " to="/product">
+                    <Link className="navbar__center-link " to="/practice">
                         {props.check ? null : (<p className={props.check ? "" : 'fade-in'}> Practice</p>)}
                         <WechatOutlined className='Navigate__item-icon' />
                     </Link>
                 </li>
-                <li className='Navigate__item '>
+                {/* <li className='Navigate__item '>
                     <Link className="navbar__center-link " to="/chat">
                         {props.check ? null : (<p className={props.check ? "" : 'fade-in'}> Blog</p>)}
                         <CommentOutlined className='Navigate__item-icon' />
@@ -53,7 +53,7 @@ export default function Navigation(props) {
                         {props.check ? null : (<p className={props.check ? "" : 'fade-in'}> TOEIC</p>)}
                         <InstagramOutlined className='Navigate__item-icon' />
                     </Link>
-                </li>
+                </li> */}
                 {/* <li className='Navigate__item '>
                     <Link className="navbar__center-link " to="/product">
                         {props.check ? null : (<p className={props.check ? "" : 'fade-in'}> Error Pages</p>)}
@@ -81,6 +81,13 @@ export default function Navigation(props) {
                 <li className='Navigate__item '>
                     <Link className="navbar__center-link " to="/vocabulary">
                         {props.check ? null : (<p className={props.check ? "" : 'fade-in'}> Vocabulary</p>)}
+                        <CameraOutlined className='Navigate__item-icon' />
+                    </Link>
+                </li>
+
+                <li className='Navigate__item '>
+                    <Link className="navbar__center-link " to="/question">
+                        {props.check ? null : (<p className={props.check ? "" : 'fade-in'}> Question</p>)}
                         <CameraOutlined className='Navigate__item-icon' />
                     </Link>
                 </li>

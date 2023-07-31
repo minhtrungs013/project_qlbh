@@ -21,7 +21,7 @@
   .header-page__title h3.ant-typography {
     font-weight: bold;
     font-size: 20px;
-    margin-bottom: 0;
+    margin-bottom: 15px;
   }
   
   .menu-item {
@@ -48,3 +48,15 @@
     padding: 0px 10px;
   }
   
+  .btnBack{
+    border-radius: 25px;
+    color: #02c2e8;
+    background-color: rgb(225, 250, 254);
+    border: none;
+    min-width: 100px;
+    padding: 10px 15px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 1px 1px 4px 0px #02c2e8;
+  }

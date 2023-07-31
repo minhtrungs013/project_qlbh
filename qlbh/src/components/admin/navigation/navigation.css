@@ -1,5 +1,3 @@
-.Navigate {}
-
 .Navigate__heading {
     padding-top: 16px;
     display: flex;
@@ -24,7 +22,9 @@
 
 .Navigate__item {
     cursor: pointer;
-    padding-left: 20px;
+    font-size: 14px;
+    color: #858484;
+    padding: 26px !important;
 }
 
 .Navigate__item:hover {
@@ -32,6 +32,12 @@
     box-shadow: 0 3px 3px 1px rgba(66, 236, 89, 0.35);
     border-radius: 6px;
 
+}
+
+.ant-menu-item-selected{
+    background-color: rgb(250, 249, 249) !important;
+    box-shadow: 0 3px 3px 1px rgba(66, 236, 89, 0.35);
+    border-radius: 6px;
 }
 
 .navbar__center-link{
