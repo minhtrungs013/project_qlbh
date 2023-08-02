@@ -5,6 +5,7 @@ import { NavLink } from 'react-router-dom';
 import { ExclamationCircleOutlined } from '@ant-design/icons';
 import HeaderPage from '../../category/HeaderPage';
 import CreateAndEditModal from './ModalOfSkills/CreateAndEditModal';
+import ProgressBar from '../../../shared/ProgressBar/ProgressBar';
 
 const PartOfPractice = (props) => {
   const { id, type } = props;
@@ -59,7 +60,10 @@ const PartOfPractice = (props) => {
             Delete
           </Tag>
           <Tag color="geekblue">
-            <NavLink to={`/${type}/${record.id}/${record.name}`}>Test</NavLink>
+            <NavLink to={`/${type}/${record.id}/${record.name}/test`}>Test</NavLink>
+          </Tag>
+          <Tag color="green">
+            <NavLink to={`/${type}/${record.id}/${record.name}/lession`}>Lession</NavLink>
           </Tag>
         </Space>
       ),
@@ -132,6 +136,7 @@ const PartOfPractice = (props) => {
     <div>
       <div className="main__application">
         <HeaderPage title={`Part of ${type}`} onCreate={() => onOpenModel()} />
+        {/* <ProgressBar title={`Part ${type}`}/> */}
         <div className="section-wrapper">
           <Table columns={columns} dataSource={dataPart} rowKey={"id"} loading={isLoading} />
         </div>

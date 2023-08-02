@@ -1,19 +1,35 @@
-import { Button, Card, Checkbox, Col, Form, Input, Row, Upload } from "antd";
+import {
+  Button,
+  Card,
+  Checkbox,
+  Col,
+  Form,
+  Input,
+  Row,
+  Upload,
+  Space,
+} from "antd";
 import React, { useEffect, useMemo, useState } from "react";
 import { useParams } from "react-router-dom";
 import { getQuestionByTestId } from "../../../api/service/Question";
 import "./styleQuestion.css";
 import ButtonBack from "../../shared/ButtonBack";
 import Loading from "../../shared/Loading/Loading";
-import { UploadOutlined } from "@ant-design/icons";
+import {
+  UploadOutlined,
+  MinusCircleOutlined,
+  PlusOutlined,
+} from "@ant-design/icons";
 import AudioTemplate from "../../shared/Audio/Audio";
+import HeaderPage from "../category/HeaderPage";
+import { getAllData } from "../../../api/service/api";
 
 const DetailQuestion = (props) => {
   const [dataQuestion, setDataQuestion] = useState([]);
   const [loading, setLoading] = useState(false);
   let { id } = useParams();
   const [form] = Form.useForm();
-  const audioSrc = 'https://example.com/audio.mp3'; 
+  const audioSrc = "https://example.com/audio.mp3";
   const styleButton = {
     margin: "5px",
     display: "flex",
@@ -28,29 +44,24 @@ const DetailQuestion = (props) => {
     { value: "Write", label: "Write" },
   ];
 
-  const getQuestionById = async () => {
+  const getQuestionById = () => {
     setLoading(true);
-    // const result = await getQuestionByTestId(`getQuestionByTestId?id=${id}`);
-    const result = await getQuestionByTestId("questions");
-    if (result) {
-      setDataQuestion(result.data.data);
-      form.setFieldsValue(result.data.data);
-    }
-    setLoading(false);
+    getAllData(`questions?objectTypeId=${id}`).then((res) => {
+      // chua co
+      setDataQuestion(res.data.data);
+      form.setFieldsValue(res.data.data);
+      setLoading(false);
+    });
   };
 
   useEffect(() => {
     if (id) {
-      getQuestionById();
+      // getQuestionById();
     }
   }, [id]);
 
   const handleBack = useMemo(() => {
-    return (
-      <div className="groupbtn" style={styleButton}>
-        <ButtonBack url="/question" />
-      </div>
-    );
+    return <HeaderPage onBack={true} />;
   }, []);
 
   const renderForm = useMemo(() => {
@@ -67,90 +78,9 @@ const DetailQuestion = (props) => {
         <Row>
           <Col span={24}>
             <Card className="cardGroup">
-              <div className="wrapperText">Info</div>
-
-              <Row>
-                <Col span={8}>
-                  <Form.Item hidden={true} name="id">
-                    <Input />
-                  </Form.Item>
-
-                  <Form.Item label="Text" name="textQuestion">
-                    <Input />
-                  </Form.Item>
-                </Col>
-
-                <Col>
-                  <Form.Item name="checkbox-group" label="Option">
-                    <Checkbox.Group>
-                      <Row>
-                        <Col span={12}>
-                          <Checkbox
-                            value="A"
-                            style={{
-                              lineHeight: "32px",
-                            }}
-                          >
-                            A
-                          </Checkbox>
-                        </Col>
-                        <Col span={12}>
-                          <Checkbox
-                            value="B"
-                            style={{
-                              lineHeight: "32px",
-                            }}
-                            disabled
-                          >
-                            B
-                          </Checkbox>
-                        </Col>
-                        <Col span={12}>
-                          <Checkbox
-                            value="C"
-                            style={{
-                              lineHeight: "32px",
-                            }}
-                          >
-                            C
-                          </Checkbox>
-                        </Col>
-                        <Col span={12}>
-                          <Checkbox
-                            value="D"
-                            style={{
-                              lineHeight: "32px",
-                            }}
-                          >
-                            D
-                          </Checkbox>
-                        </Col>
-                      </Row>
-                    </Checkbox.Group>
-                  </Form.Item>
-                </Col>
-              </Row>
-            </Card>
-          </Col>
-        </Row>
-        {/* --------------- */}
-        <Row>
-          <Col span={24}>
-            <Card className="cardGroup">
-              <div className="wrapperText">Question</div>
+              <div className="wrapperText">Audio Question</div>
               <Row gutter={24}>
-                <Col span={8}>
-                  <Form.Item
-                    label="Text Question"
-                    // validateStatus="error"
-                    hasFeedback
-                    help="Should have something"
-                  >
-                    <Input.TextArea allowClear showCount />
-                  </Form.Item>
-                </Col>
-
-                <Col >
+                <Col span={10}>
                   <Form.Item
                     name="upload"
                     label="Audio Question"
@@ -162,19 +92,95 @@ const DetailQuestion = (props) => {
                     {/* <AudioTemplate audioSrc={audioSrc} /> */}
                   </Form.Item>
                 </Col>
-                
-                {/* <Col span={8}>
-                  <Form.Item
-                    name="upload"
-                    label="Image"
-                    valuePropName="fileList"
-                  >
-                    <Upload name="audio" action="/upload.do" listType="picture">
-                      <Button icon={<UploadOutlined />}>Click to upload</Button>
-                    </Upload>
-                  </Form.Item>
-                </Col> */}
               </Row>
+
+              {/* <Form.Item>
+                <Button type="primary" htmlType="submit">
+                  Submit
+                </Button>
+              </Form.Item> */}
+            </Card>
+          </Col>
+        </Row>
+
+        <Row>
+          <Col span={24}>
+            <Card className="cardGroup">
+              <div className="wrapperText">Question</div>
+              <Row gutter={24}>
+                <Col span={8}>
+                  <Form.List name="users">
+                    {(fields, { add, remove }) => (
+                      <Row gutter={24}>
+                        <Col span={8}>
+                          <Form.Item>
+                            <Button
+                              type="dashed"
+                              onClick={() => add()}
+                              icon={<PlusOutlined />}
+                            >
+                              Add question
+                            </Button>
+                          </Form.Item>
+                        </Col>
+                        <Col span={16}>
+                          {fields.map(({ key, name, ...restField }) => (
+                            <Space
+                              key={key}
+                              style={{
+                                display: "flex",
+                                marginBottom: 8,
+                              }}
+                              align="baseline"
+                            >
+                              <Row>
+                                <Col>
+                                  <Form.Item
+                                    {...restField}
+                                    label={`Question ${key + 1}`}
+                                    name={[restField.name, "first"]}
+                                    rules={[
+                                      {
+                                        required: true,
+                                        message: "Missing question for audio",
+                                      },
+                                    ]}
+                                  >
+                                    <Input placeholder="Question for audio" />
+                                  </Form.Item>
+                                </Col>
+                                <Col>
+                                  <Form.Item label="Answer A">
+                                    <Input />
+                                  </Form.Item>
+                                  <Form.Item label="Answer B">
+                                    <Input />
+                                  </Form.Item>
+                                </Col>
+                                <Col>
+                                  <Form.Item label="Answer C">
+                                    <Input />
+                                  </Form.Item>
+                                  <Form.Item label="Answer D">
+                                    <Input />
+                                  </Form.Item>
+                                  <Form.Item label="Correct Answer">
+                                    <Input />
+                                  </Form.Item>
+                                </Col>
+                              </Row>
+                              <MinusCircleOutlined
+                                onClick={() => remove(name)}
+                              />
+                            </Space>
+                          ))}
+                        </Col>
+                      </Row>
+                    )}
+                  </Form.List>
+                </Col>
+              </Row>
+
             </Card>
           </Col>
         </Row>
