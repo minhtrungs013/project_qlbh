@@ -89,7 +89,7 @@ export default function Admin() {
             <Route path={`/listening/:id/:name/test`} element={<Tests/>}/>
           </Routes>
           <Routes>
-            <Route path={`/listening/:id/:name/lession`} element={<Lession/>}/>
+            <Route path={`/listening/:partId/:id/:name/lession`} element={<Lession/>}/>
           </Routes>
           <Routes>
             <Route path={`/reading/:id/:name`} element={<Tests/>}/>

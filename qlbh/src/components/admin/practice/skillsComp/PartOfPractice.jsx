@@ -63,7 +63,7 @@ const PartOfPractice = (props) => {
             <NavLink to={`/${type}/${record.id}/${record.name}/test`}>Test</NavLink>
           </Tag>
           <Tag color="green">
-            <NavLink to={`/${type}/${record.id}/${record.name}/lession`}>Lession</NavLink>
+            <NavLink to={`/${type}/${id}/${record.id}/${record.name}/lession`}>Lession</NavLink>
           </Tag>
         </Space>
       ),
