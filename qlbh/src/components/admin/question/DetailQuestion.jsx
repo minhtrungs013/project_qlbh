@@ -1,62 +1,48 @@
 import {
   Button,
   Card,
-  Checkbox,
   Col,
   Form,
   Input,
   Row,
   Upload,
   Space,
+  Typography,
 } from "antd";
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { useParams } from "react-router-dom";
-import { getQuestionByTestId } from "../../../api/service/Question";
 import "./styleQuestion.css";
-import ButtonBack from "../../shared/ButtonBack";
 import Loading from "../../shared/Loading/Loading";
 import {
   UploadOutlined,
   MinusCircleOutlined,
   PlusOutlined,
+  SaveOutlined,
 } from "@ant-design/icons";
-import AudioTemplate from "../../shared/Audio/Audio";
+// import AudioTemplate from "../../shared/Audio/Audio";
 import HeaderPage from "../category/HeaderPage";
 import { getAllData } from "../../../api/service/api";
 
 const DetailQuestion = (props) => {
   const [dataQuestion, setDataQuestion] = useState([]);
   const [loading, setLoading] = useState(false);
-  let { id } = useParams();
+  const [isUpdate, setIsUpdate] = useState(false);
+  let { id, objectTypeId } = useParams();
   const [form] = Form.useForm();
-  const audioSrc = "https://example.com/audio.mp3";
-  const styleButton = {
-    margin: "5px",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "start",
-  };
+  const { Text } = Typography;
 
-  const arrType = [
-    { value: "Listen", label: "Listen" },
-    { value: "Read", label: "Read" },
-    { value: "Speak", label: "Speak" },
-    { value: "Write", label: "Write" },
-  ];
-
-  const getQuestionById = () => {
-    setLoading(true);
-    getAllData(`questions?objectTypeId=${id}`).then((res) => {
-      // chua co
-      setDataQuestion(res.data.data);
-      form.setFieldsValue(res.data.data);
-      setLoading(false);
+  const getDataQuestion = () => {
+    setLoading(true)
+    getAllData(`questions?objectTypeId=${objectTypeId}`).then((res) => {
+      const arrQuestionById = res.data.data.filter(f => f.id === id)
+        setDataQuestion(arrQuestionById);
+        setLoading(false)      
     });
   };
 
   useEffect(() => {
     if (id) {
-      // getQuestionById();
+      getDataQuestion()
     }
   }, [id]);
 
@@ -64,21 +50,70 @@ const DetailQuestion = (props) => {
     return <HeaderPage onBack={true} />;
   }, []);
 
+
+  const btnEdit = useMemo(
+    () => (
+      <div style={{ position: 'absolute', right: '0', top: '-12px' }}>
+        <Button
+          style={{ marginRight: '5px' }}
+          size="small"
+          type={isUpdate ? 'default' : 'primary'}
+          onClick={() => setIsUpdate(!isUpdate)}
+        >
+          {isUpdate ? 'Cancel' : 'Edit'}
+        </Button>
+        {isUpdate && (
+          <Button
+            size="small"
+            type="primary"
+            key="submit"
+            htmlType="submit"
+            form="myForm"
+            icon={<SaveOutlined />}
+            // onClick={(values) => handleUpdate(values)}
+          >
+            Save
+          </Button>
+        )}
+      </div>
+    ),
+    [isUpdate],
+  );
+
+  const addQuestion = useCallback(() => {
+    
+  },[])
+
+  const btnAddQuestion = useMemo(
+    () => (
+      <div style={{ position: 'absolute', right: '0', top: '-12px' }}>
+        <Button
+          type="dashed"
+          icon={<PlusOutlined />}
+          style={{ marginRight: '5px' }}
+          size="small"
+          onClick={() => setIsUpdate(!isUpdate)}
+        >
+          Add question
+        </Button>
+      </div>
+    ),
+    [isUpdate],
+  );
+
   const renderForm = useMemo(() => {
     return (
       <Form
         id="myForm"
         form={form}
-        // labelCol={{ span: 15 }}
         labelAlign={"left"}
-        // layout="vertical"
-        // labelWrap={true}
         wrapperCol={{ span: 18 }}
       >
         <Row>
           <Col span={24}>
             <Card className="cardGroup">
               <div className="wrapperText">Audio Question</div>
+              {btnEdit}
               <Row gutter={24}>
                 <Col span={10}>
                   <Form.Item
@@ -93,12 +128,6 @@ const DetailQuestion = (props) => {
                   </Form.Item>
                 </Col>
               </Row>
-
-              {/* <Form.Item>
-                <Button type="primary" htmlType="submit">
-                  Submit
-                </Button>
-              </Form.Item> */}
             </Card>
           </Col>
         </Row>
@@ -107,7 +136,11 @@ const DetailQuestion = (props) => {
           <Col span={24}>
             <Card className="cardGroup">
               <div className="wrapperText">Question</div>
-              <Row gutter={24}>
+                {btnAddQuestion}
+
+
+
+              {/* <Row gutter={24}>
                 <Col span={8}>
                   <Form.List name="users">
                     {(fields, { add, remove }) => (
@@ -124,21 +157,22 @@ const DetailQuestion = (props) => {
                           </Form.Item>
                         </Col>
                         <Col span={16}>
+                          <div style={{display: 'flex'}}>
                           {fields.map(({ key, name, ...restField }) => (
                             <Space
                               key={key}
                               style={{
                                 display: "flex",
-                                marginBottom: 8,
+                                margin: 8,
                               }}
                               align="baseline"
                             >
                               <Row>
-                                <Col>
+                                <Col style={{width:"500px"}}>
                                   <Form.Item
                                     {...restField}
                                     label={`Question ${key + 1}`}
-                                    name={[restField.name, "first"]}
+                                    name={[restField.name, "textQuestion"]}
                                     rules={[
                                       {
                                         required: true,
@@ -146,26 +180,28 @@ const DetailQuestion = (props) => {
                                       },
                                     ]}
                                   >
-                                    <Input placeholder="Question for audio" />
+                                    {
+                                      isUpdate ? <Input placeholder="Question for audio" /> : 
+                                      <Text strong>{dataQuestion[0]?.questions[0]?.textQuestion === [] ? '-' : dataQuestion[0]?.questions[0]?.textQuestion}</Text>
+                                    }
+                                    
                                   </Form.Item>
-                                </Col>
-                                <Col>
-                                  <Form.Item label="Answer A">
-                                    <Input />
+
+                                  <Form.Item label="Answer A" name={[restField.name, "answerA"]}>
+                                    {isUpdate ? <Input /> : <Text strong>{dataQuestion[0]?.questions[0]?.answerA === [] ? '-' : dataQuestion[0]?.questions[0]?.answerA}</Text>}
                                   </Form.Item>
-                                  <Form.Item label="Answer B">
-                                    <Input />
+                                  <Form.Item label="Answer B" name={[restField.name, "answerB"]}>
+                                    {isUpdate ? <Input /> : <Text strong>{dataQuestion[0]?.questions[0]?.answerB === [] ? '-' : dataQuestion[0]?.questions[0]?.answerB}</Text>}
                                   </Form.Item>
-                                </Col>
-                                <Col>
-                                  <Form.Item label="Answer C">
-                                    <Input />
+
+                                  <Form.Item label="Answer C" name={[restField.name, "answerC"]}>
+                                    {isUpdate ? <Input /> : <Text strong>{dataQuestion[0]?.questions[0]?.answerC === [] ? '-' : dataQuestion[0]?.questions[0]?.answerC}</Text>}
                                   </Form.Item>
-                                  <Form.Item label="Answer D">
-                                    <Input />
+                                  <Form.Item label="Answer D" name={[restField.name, "answerD"]}>
+                                    {isUpdate ? <Input /> : <Text strong>{dataQuestion[0]?.questions[0]?.answerD === [] ? '-' : dataQuestion[0]?.questions[0]?.answerD}</Text>}
                                   </Form.Item>
-                                  <Form.Item label="Correct Answer">
-                                    <Input />
+                                  <Form.Item label="Correct Answer" name={[restField.name, "correctAnswer"]}>
+                                    {isUpdate ? <Input /> : <Text strong>{dataQuestion[0]?.questions[0]?.correctAnswer === [] ? '-' : dataQuestion[0]?.questions[0]?.correctAnswer}</Text>}
                                   </Form.Item>
                                 </Col>
                               </Row>
@@ -174,19 +210,20 @@ const DetailQuestion = (props) => {
                               />
                             </Space>
                           ))}
+                          </div>
                         </Col>
                       </Row>
                     )}
                   </Form.List>
                 </Col>
-              </Row>
+              </Row> */}
 
             </Card>
           </Col>
         </Row>
       </Form>
     );
-  }, [form]);
+  }, [form, btnEdit, isUpdate, dataQuestion]);
 
   return (
     <div>

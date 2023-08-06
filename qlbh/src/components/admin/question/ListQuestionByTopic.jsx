@@ -19,7 +19,7 @@ const ListQuestionByTopic = props => {
           title: "STT",
           dataIndex: "id",
           key: "id",
-          width: "10%",
+          // width: "10%",
           sorter: (a, b) => a.id - b.id,
           render: (id, record, index) => {
             ++index;
@@ -31,51 +31,51 @@ const ListQuestionByTopic = props => {
           title: "Type",
           dataIndex: "type",
           key: "type",
-          width: "10%",
+          // width: "10%",
           render: (text) => <a>{text}</a>,
         },
         {
           title: "Level",
           dataIndex: "level",
           key: "level",
-          width: "10%",
+          // width: "10%",
           render: (text) => <a>{text}</a>,
         },
-        {
-          title: "Option Answers",
-          dataIndex: "questions",
-          key: "questions",
-          width: "30%",
-          render: (arrOption) => (
-            <>
-              {arrOption !== null && arrOption?.map((item, index) => {
-                return (
-                  <ul key={index}>
-                  <li>{item.answerA}</li>
-                  <li>{item.answerB}</li>
-                  <li>{item.answerC}</li>
-                  <li>{item.answerD}</li>
-              </ul>
-                )
-              })}
-            </>
-          )
-        },
-        {
-          title: "Correct Answers",
-          dataIndex: "questions",
-          key: "questions",
-          width: "10%",
-          render: (arrOption) => (
-            <span>
-              {arrOption !== null && arrOption?.map((item, index) => {
-                return (
-                  <a key={index}>{item.correctAnswer}</a>
-                )
-              })}
-            </span>
-          )
-        },
+        // {
+        //   title: "Option Answers",
+        //   dataIndex: "questions",
+        //   key: "questions",
+        //   width: "30%",
+        //   render: (arrOption) => (
+        //     <>
+        //       {arrOption !== null && arrOption?.map((item, index) => {
+        //         return (
+        //           <ul key={index}>
+        //           <li>{item.answerA}</li>
+        //           <li>{item.answerB}</li>
+        //           <li>{item.answerC}</li>
+        //           <li>{item.answerD}</li>
+        //       </ul>
+        //         )
+        //       })}
+        //     </>
+        //   )
+        // },
+        // {
+        //   title: "Correct Answers",
+        //   dataIndex: "questions",
+        //   key: "questions",
+        //   width: "10%",
+        //   render: (arrOption) => (
+        //     <span>
+        //       {arrOption !== null && arrOption?.map((item, index) => {
+        //         return (
+        //           <a key={index}>{item.correctAnswer}</a>
+        //         )
+        //       })}
+        //     </span>
+        //   )
+        // },
         {
           title: "Image",
           dataIndex: "images",
@@ -91,7 +91,7 @@ const ListQuestionByTopic = props => {
                 Delete
               </Tag>
               <Tag color="geekblue">
-                <NavLink to={`/detail-question/${record.id}`}>Detail</NavLink>
+                <NavLink to={`/detail-question/${record.id}/${id}`}>Detail</NavLink>
               </Tag>
             </Space>
           ),

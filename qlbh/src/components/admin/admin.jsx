@@ -124,7 +124,7 @@ export default function Admin() {
           <Route path="/lession" element={<Lession />} />
         </Routes>
         <Routes>
-          <Route path={`/detail-question/:id`} element={<DetailQuestion/>}/>
+          <Route path={`/detail-question/:id/:objectTypeId`} element={<DetailQuestion/>}/>
         </Routes>
       </Col>
     </Row>
