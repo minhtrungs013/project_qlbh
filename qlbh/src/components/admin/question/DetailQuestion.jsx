@@ -6,22 +6,32 @@ import {
   Input,
   Row,
   Upload,
-  Space,
   Typography,
 } from "antd";
-import React, { useCallback, useEffect, useMemo, useState } from "react";
+import React, {
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 import { useParams } from "react-router-dom";
 import "./styleQuestion.css";
 import Loading from "../../shared/Loading/Loading";
-import {
-  UploadOutlined,
-  MinusCircleOutlined,
-  PlusOutlined,
-  SaveOutlined,
-} from "@ant-design/icons";
+import { UploadOutlined, PlusOutlined, SaveOutlined, MinusCircleOutlined } from "@ant-design/icons";
 // import AudioTemplate from "../../shared/Audio/Audio";
 import HeaderPage from "../category/HeaderPage";
 import { getAllData } from "../../../api/service/api";
+import { dataTestQuestion } from "./dataTestQuestion";
+import './style.css'
+
+let arrQues = {
+  textQuestion: "",
+  answerA: "",
+  answerB: "",
+  answerC: "",
+  answerD: "",
+  correctAnswer: ""
+}
 
 const DetailQuestion = (props) => {
   const [dataQuestion, setDataQuestion] = useState([]);
@@ -32,35 +42,36 @@ const DetailQuestion = (props) => {
   const { Text } = Typography;
 
   const getDataQuestion = () => {
-    setLoading(true)
+    setLoading(true);
     getAllData(`questions?objectTypeId=${objectTypeId}`).then((res) => {
-      const arrQuestionById = res.data.data.filter(f => f.id === id)
-        setDataQuestion(arrQuestionById);
-        setLoading(false)      
+      // eslint-disable-next-line no-unused-vars
+      const arrQuestionById = res.data.data.filter((f) => f.id === id);
+      setDataQuestion(dataTestQuestion);
+      setLoading(false);
     });
   };
 
   useEffect(() => {
     if (id) {
-      getDataQuestion()
+      getDataQuestion();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [id]);
 
   const handleBack = useMemo(() => {
     return <HeaderPage onBack={true} />;
   }, []);
 
-
   const btnEdit = useMemo(
     () => (
-      <div style={{ position: 'absolute', right: '0', top: '-12px' }}>
+      <div style={{ position: "absolute", right: "0", top: "-12px" }}>
         <Button
-          style={{ marginRight: '5px' }}
+          style={{ marginRight: "5px" }}
           size="small"
-          type={isUpdate ? 'default' : 'primary'}
+          type={isUpdate ? "default" : "primary"}
           onClick={() => setIsUpdate(!isUpdate)}
         >
-          {isUpdate ? 'Cancel' : 'Edit'}
+          {isUpdate ? "Cancel" : "Edit"}
         </Button>
         {isUpdate && (
           <Button
@@ -77,30 +88,40 @@ const DetailQuestion = (props) => {
         )}
       </div>
     ),
-    [isUpdate],
+    [isUpdate]
   );
 
-  const addQuestion = useCallback(() => {
-    
-  },[])
+  const renderAddQuestions = useCallback(() => {
+    const _dataQuestion = [...dataQuestion]
+    _dataQuestion.map((item, index) => {
+      return item.questions.push(arrQues) 
+    })
+    setDataQuestion(_dataQuestion)
+  },[dataQuestion]);
 
-  const btnAddQuestion = useMemo(
-    () => (
-      <div style={{ position: 'absolute', right: '0', top: '-12px' }}>
+  const removeQuestionByIndex = (index) => {
+    const updatedQuestions = [...dataQuestion[0].questions];
+    updatedQuestions.splice(index, 1); // Remove the question at the specified index
+    setDataQuestion([ {...dataQuestion, questions: updatedQuestions} ]);
+  };
+
+  const btnAddQuestion = useMemo(() => (
+      <div style={{ position: "absolute", right: "0", top: "-12px" }}>
         <Button
           type="dashed"
           icon={<PlusOutlined />}
-          style={{ marginRight: '5px' }}
+          style={{ marginRight: "5px" }}
           size="small"
-          onClick={() => setIsUpdate(!isUpdate)}
-        >
-          Add question
-        </Button>
+          onClick={() => renderAddQuestions()}
+        > Add question </Button>
       </div>
-    ),
-    [isUpdate],
-  );
+    ),[renderAddQuestions]);
 
+    const BtnRemove = (index) => {
+      return <div style={{ position: "absolute", right: "0", top: "-12px" }}>
+         <MinusCircleOutlined onClick={() => removeQuestionByIndex(index.index)} />
+      </div>
+    }
   const renderForm = useMemo(() => {
     return (
       <Form
@@ -132,98 +153,52 @@ const DetailQuestion = (props) => {
           </Col>
         </Row>
 
-        <Row>
-          <Col span={24}>
-            <Card className="cardGroup">
-              <div className="wrapperText">Question</div>
-                {btnAddQuestion}
-
-
-
-              {/* <Row gutter={24}>
-                <Col span={8}>
-                  <Form.List name="users">
-                    {(fields, { add, remove }) => (
-                      <Row gutter={24}>
-                        <Col span={8}>
-                          <Form.Item>
-                            <Button
-                              type="dashed"
-                              onClick={() => add()}
-                              icon={<PlusOutlined />}
-                            >
-                              Add question
-                            </Button>
+        <Row gutter={24}>
+           {dataQuestion.length && dataQuestion[0].questions.length && dataQuestion[0].questions.map((itemQuestion, i) => {
+                  return (
+                    <Col span={8}>
+                    <React.Fragment>
+                        <Card className="cardGroup">
+                          <div className="wrapperText">{`Question ${i + 1}`}</div>
+                          {i + 1 === 1 && btnAddQuestion}
+                          { i + 1 !== 1 && <BtnRemove index={i} />}
+                          <Form.Item
+                            key={i}
+                            label={`Question`}
+                            name={"questions"}
+                          >
+                            <Text strong>{itemQuestion.textQuestion}</Text>
                           </Form.Item>
-                        </Col>
-                        <Col span={16}>
-                          <div style={{display: 'flex'}}>
-                          {fields.map(({ key, name, ...restField }) => (
-                            <Space
-                              key={key}
-                              style={{
-                                display: "flex",
-                                margin: 8,
-                              }}
-                              align="baseline"
-                            >
-                              <Row>
-                                <Col style={{width:"500px"}}>
-                                  <Form.Item
-                                    {...restField}
-                                    label={`Question ${key + 1}`}
-                                    name={[restField.name, "textQuestion"]}
-                                    rules={[
-                                      {
-                                        required: true,
-                                        message: "Missing question for audio",
-                                      },
-                                    ]}
-                                  >
-                                    {
-                                      isUpdate ? <Input placeholder="Question for audio" /> : 
-                                      <Text strong>{dataQuestion[0]?.questions[0]?.textQuestion === [] ? '-' : dataQuestion[0]?.questions[0]?.textQuestion}</Text>
-                                    }
-                                    
-                                  </Form.Item>
-
-                                  <Form.Item label="Answer A" name={[restField.name, "answerA"]}>
-                                    {isUpdate ? <Input /> : <Text strong>{dataQuestion[0]?.questions[0]?.answerA === [] ? '-' : dataQuestion[0]?.questions[0]?.answerA}</Text>}
-                                  </Form.Item>
-                                  <Form.Item label="Answer B" name={[restField.name, "answerB"]}>
-                                    {isUpdate ? <Input /> : <Text strong>{dataQuestion[0]?.questions[0]?.answerB === [] ? '-' : dataQuestion[0]?.questions[0]?.answerB}</Text>}
-                                  </Form.Item>
-
-                                  <Form.Item label="Answer C" name={[restField.name, "answerC"]}>
-                                    {isUpdate ? <Input /> : <Text strong>{dataQuestion[0]?.questions[0]?.answerC === [] ? '-' : dataQuestion[0]?.questions[0]?.answerC}</Text>}
-                                  </Form.Item>
-                                  <Form.Item label="Answer D" name={[restField.name, "answerD"]}>
-                                    {isUpdate ? <Input /> : <Text strong>{dataQuestion[0]?.questions[0]?.answerD === [] ? '-' : dataQuestion[0]?.questions[0]?.answerD}</Text>}
-                                  </Form.Item>
-                                  <Form.Item label="Correct Answer" name={[restField.name, "correctAnswer"]}>
-                                    {isUpdate ? <Input /> : <Text strong>{dataQuestion[0]?.questions[0]?.correctAnswer === [] ? '-' : dataQuestion[0]?.questions[0]?.correctAnswer}</Text>}
-                                  </Form.Item>
-                                </Col>
-                              </Row>
-                              <MinusCircleOutlined
-                                onClick={() => remove(name)}
-                              />
-                            </Space>
-                          ))}
-                          </div>
-                        </Col>
-                      </Row>
-                    )}
-                  </Form.List>
-                </Col>
-              </Row> */}
-
-            </Card>
-          </Col>
+                          <Row gutter={24}>
+                            <Col span={12}>
+                              <Form.Item label="Answer A" name="answerA">
+                                    {isUpdate ? <Input /> : <Text className="textField" strong>{itemQuestion?.answerA === "" ? '-' : itemQuestion?.answerA}</Text>}
+                              </Form.Item>
+                              <Form.Item label="Answer B" name="answerB">
+                                    {isUpdate ? <Input /> : <Text className="textField" strong>{itemQuestion?.answerB === "" ? '-' : itemQuestion?.answerB}</Text>}
+                              </Form.Item>
+                              <Form.Item label="Correct Answer" name="correctAnswer">
+                                    {isUpdate ? <Input /> : <Text className="textField" strong>{itemQuestion?.correctAnswer === "" ? '-' : itemQuestion?.correctAnswer}</Text>}
+                              </Form.Item>
+                            </Col>
+                            <Col span={12}>
+                              <Form.Item label="Answer C" name="answerC">
+                                      {isUpdate ? <Input /> : <Text className="textField" strong>{itemQuestion?.answerC === "" ? '-' : itemQuestion?.answerC}</Text>}
+                                </Form.Item>
+                                <Form.Item label="Answer D" name="answerD">
+                                      {isUpdate ? <Input /> : <Text className="textField" strong>{itemQuestion?.answerD === "" ? '-' : itemQuestion?.answerD}</Text>}
+                                </Form.Item>
+                            </Col>
+                          </Row>
+                        </Card>
+                    </React.Fragment>
+                    </Col>
+                  );
+                })}
         </Row>
       </Form>
     );
-  }, [form, btnEdit, isUpdate, dataQuestion]);
+  }, [form, btnEdit, dataQuestion, btnAddQuestion, isUpdate]);
 
   return (
     <div>
