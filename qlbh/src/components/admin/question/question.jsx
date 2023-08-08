@@ -2,12 +2,9 @@ import React, { useCallback, useEffect, useState } from "react";
 import { ExclamationCircleOutlined } from "@ant-design/icons";
 import { Form, Modal, Space, Table, Tag, message } from "antd";
 import HeaderPage from "../category/HeaderPage";
-import {
-  deleteProductById,
-  getAllVocabulary,
-} from "../../../api/service/VocabularyService";
 import ModalQuestion from "./ModalQuestion";
 import { NavLink } from 'react-router-dom';
+import { deleteDataById, getAllData } from "../../../api/service/api";
 
 const Question = (props) => {
   const [data, setData] = useState([]);
@@ -92,15 +89,15 @@ const Question = (props) => {
 
   const reload = useCallback(() => {
     setIsLoading(true);
-    getAllVocabulary("questions").then((res) => {
+    getAllData("questions").then((res) => {
       setData(res.data.data);
       setIsLoading(false);
     });
   }, []);
 
-  const getAllData = () => {
+  const getDataQuestion = () => {
     setIsLoading(true)
-    getAllVocabulary(`questions`).then((res) => {
+    getAllData(`questions`).then((res) => {
           setData(res.data.data);
           setIsLoading(false)      
     });
@@ -119,14 +116,14 @@ const Question = (props) => {
   };
 
   const handleDelete = (value) => {
-    deleteProductById(`practices?id=${value.id}`).then((res) => {
+    deleteDataById(`practices?id=${value.id}`).then((res) => {
       message.success("SUCCESS");
       reload();
     });
   };
 
   useEffect(() => {
-    getAllData();
+    getDataQuestion();
   }, []);
 
   return (

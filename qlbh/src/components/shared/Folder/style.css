@@ -1,0 +1,57 @@
+/* .folder{
+} */
+
+.folder-item{
+    width: 165px;
+    height: 155px;
+    text-align: center;
+    border: 1px solid #eee;
+    border-radius: 4px;
+    padding: 5px;
+    float: left;
+    margin-right: 15px;
+    margin-bottom: 15px;
+    font-size: 12px;
+}
+
+.folder-item .content{
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    height: 55px;
+    margin-bottom: 5px;
+}
+
+.folder-item .count{
+    font-weight: bold;
+    color: red;
+}
+
+.folder-item:hover{
+    border: 1px solid blue;
+    cursor: pointer;
+}
+
+.folder-item img{
+    max-width: 100%;
+    height: 60px;
+}
+
+.header .title, .header button{
+    float: left;
+}
+
+.header .title{
+    margin-left: 10px;
+    margin-bottom: 20px;
+}
+
+.folder-item .content2 {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 5;
+  -webkit-box-orient: vertical;
+  height: 90px;
+  margin-bottom: 5px;
+}

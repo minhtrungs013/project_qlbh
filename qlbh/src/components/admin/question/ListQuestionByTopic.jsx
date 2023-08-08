@@ -1,14 +1,17 @@
 import React, { useEffect, useState } from 'react'
-import PropTypes from 'prop-types'
 import HeaderPage from '../category/HeaderPage'
-import { useParams } from 'react-router-dom';
+import { NavLink, useParams } from 'react-router-dom';
 import { getAllData } from '../../../api/service/api';
-import { Table } from 'antd';
-
+import { Table, Space, Tag, Form } from 'antd';
+import ProgressBar from '../../shared/ProgressBar/ProgressBar';
+import NoImg from '../../../asset/no-image.png';
+import ModalQuestion from './ModalQuestion';
 const ListQuestionByTopic = props => {
     const [data, setData] = useState([])
     const [isLoading, setIsLoading] = useState(false);
     const [isOpen, setIsopen] = useState(false);
+    const [idItem, setIdItem] = useState("");
+    const [form] = Form.useForm();
     let { id, name } = useParams();
 
     const columns = [
@@ -16,6 +19,7 @@ const ListQuestionByTopic = props => {
           title: "STT",
           dataIndex: "id",
           key: "id",
+          // width: "10%",
           sorter: (a, b) => a.id - b.id,
           render: (id, record, index) => {
             ++index;
@@ -27,46 +31,86 @@ const ListQuestionByTopic = props => {
           title: "Type",
           dataIndex: "type",
           key: "type",
+          // width: "10%",
           render: (text) => <a>{text}</a>,
         },
         {
           title: "Level",
           dataIndex: "level",
           key: "level",
+          // width: "10%",
           render: (text) => <a>{text}</a>,
         },
+        // {
+        //   title: "Option Answers",
+        //   dataIndex: "questions",
+        //   key: "questions",
+        //   width: "30%",
+        //   render: (arrOption) => (
+        //     <>
+        //       {arrOption !== null && arrOption?.map((item, index) => {
+        //         return (
+        //           <ul key={index}>
+        //           <li>{item.answerA}</li>
+        //           <li>{item.answerB}</li>
+        //           <li>{item.answerC}</li>
+        //           <li>{item.answerD}</li>
+        //       </ul>
+        //         )
+        //       })}
+        //     </>
+        //   )
+        // },
+        // {
+        //   title: "Correct Answers",
+        //   dataIndex: "questions",
+        //   key: "questions",
+        //   width: "10%",
+        //   render: (arrOption) => (
+        //     <span>
+        //       {arrOption !== null && arrOption?.map((item, index) => {
+        //         return (
+        //           <a key={index}>{item.correctAnswer}</a>
+        //         )
+        //       })}
+        //     </span>
+        //   )
+        // },
         {
           title: "Image",
           dataIndex: "images",
           key: "images",
-          render: (imgUrl) => <img width={100} alt={imgUrl} src={imgUrl} />,
+          render: (imgUrl) => <img width={60} alt={"No Image"} src={imgUrl} onError={handleImageError} />,
         },
-        // {
-        //   title: "Action",
-        //   key: "action",
-        //   render: (_, record) => (
-        //     <Space size="middle" style={{ cursor: "pointer" }}>
-        //       <Tag color="green" onClick={() => onClickUpdate(record)}>
-        //         Edit
-        //       </Tag>
-        //       <Tag color="volcano" onClick={() => onClickDelete(record)}>
-        //         Delete
-        //       </Tag>
-        //       <Tag color="geekblue">
-        //         <NavLink to={`/detail-question/${record.id /** replace id = testId */}`}>Detail</NavLink>
-        //       </Tag>
-        //     </Space>
-        //   ),
-        // },
+        {
+          title: "Action",
+          key: "action",
+          render: (_, record) => (
+            <Space size="middle" style={{ cursor: "pointer" }}>
+              <Tag color="volcano" /**onClick={() => onClickDelete(record)} */>
+                Delete
+              </Tag>
+              <Tag color="geekblue">
+                <NavLink to={`/detail-question/${record.id}/${id}`}>Detail</NavLink>
+              </Tag>
+            </Space>
+          ),
+        },
       ];
+
+      const handleImageError = (err) => {
+        err.target.src = NoImg
+      };
 
       const onOpenModel = () => {
         setIsopen(true);
       };
 
     const getDataQuestionByTopic = () => {
+        setIsLoading(true)
         getAllData(`questions?objectTypeId=${id}`).then((res) => {
           setData(res.data.data)
+          setIsLoading(false)
         });
       };
 
@@ -78,18 +122,18 @@ const ListQuestionByTopic = props => {
     <div>
       <div className="main__application">
         <HeaderPage title={`Question of ${name}`} onBack={true} onCreate={() => onOpenModel()} />
+        {/* <ProgressBar title={name} onBack={true}/> */}
         <div className="section-wrapper">
           <Table columns={columns} dataSource={data} rowKey={"id"} loading={isLoading} />
         </div>
-        {/* <CreateAndEditModal
+        {/* <ModalQuestion
           isOpen={isOpen}
-          practiceId={id}
           onClose={() => {
             setIsopen(false);
             setIdItem("");
           }}
-          title={idItem ? "Edit form" : "Add new item"}
-          reloadData={() => getPartOfPractice()}
+          title={id ? "Edit form" : "Add new item"}
+          reloadData={() => getDataQuestionByTopic()}
           form={form}
         /> */}
       </div>

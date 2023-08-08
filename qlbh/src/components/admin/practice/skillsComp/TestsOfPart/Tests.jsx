@@ -5,6 +5,7 @@ import { Button, Form, Modal, Space, Table, Tag, message } from 'antd';
 import { ExclamationCircleOutlined } from '@ant-design/icons';
 import HeaderPage from '../../../category/HeaderPage';
 import ModalTestsExam from './ModalTestsExam';
+import ProgressBar from '../../../../shared/ProgressBar/ProgressBar';
 
 const Tests = props => {
     let { id, name } = useParams();
@@ -108,15 +109,14 @@ const Tests = props => {
     });
   };
 
-    const getTestById = async () => {
+    const getTestById = () => {
         if(id){
-            setLoading(true);
-        const result = await getDataById(`partTests?practicePartId=${id}`);
-        if (result) {
+          setLoading(true);
+        getDataById(`partTests?practicePartId=${id}`).then((result) => {
             setDataTest(result.data.data);
-            form.setFieldsValue(result.data.data);
-        }
-        setLoading(false);
+            setLoading(false);
+        });
+        
         }
       };
     
@@ -127,6 +127,7 @@ const Tests = props => {
     <div>
       <div className="main__application">
         <HeaderPage title={`Test of ${name}`} onCreate={() => onOpenModel()} onBack={true} />
+        {/* <ProgressBar title={`Test of ${name}`} onBack={true}/> */}
         <div className="section-wrapper">
           <Table columns={columns} dataSource={dataTest} rowKey={"id"} loading={isLoading} />
         </div>
