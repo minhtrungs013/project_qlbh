@@ -16,6 +16,7 @@ import PartOfPractice from './practice/skillsComp/PartOfPractice';
 import { getAllData } from '../../api/service/api';
 import Tests from './practice/skillsComp/TestsOfPart/Tests';
 import ListQuestionByTopic from './question/ListQuestionByTopic';
+import Lession from './lession/Lession';
 
 
 
@@ -85,7 +86,10 @@ export default function Admin() {
           {/* Route to Test of Part */}
 
           <Routes>
-            <Route path={`/listening/:id/:name`} element={<Tests/>}/>
+            <Route path={`/listening/:id/:name/test`} element={<Tests/>}/>
+          </Routes>
+          <Routes>
+            <Route path={`/listening/:partId/:id/:name/lession`} element={<Lession/>}/>
           </Routes>
           <Routes>
             <Route path={`/reading/:id/:name`} element={<Tests/>}/>
@@ -117,7 +121,10 @@ export default function Admin() {
           <Route path="/question" element={<Question/>}/>
         </Routes>
         <Routes>
-          <Route path={`/detail-question/:id`} element={<DetailQuestion/>}/>
+          <Route path="/lession" element={<Lession />} />
+        </Routes>
+        <Routes>
+          <Route path={`/detail-question/:id/:objectTypeId`} element={<DetailQuestion/>}/>
         </Routes>
       </Col>
     </Row>

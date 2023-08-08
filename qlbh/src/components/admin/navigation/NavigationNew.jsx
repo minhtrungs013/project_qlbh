@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Menu } from 'antd';
-import { DashboardOutlined, UserSwitchOutlined, UsergroupAddOutlined, ApartmentOutlined, WechatOutlined, CameraOutlined, BookOutlined, ReadOutlined, ManOutlined, PercentageOutlined, } from '@ant-design/icons';
+import { DashboardOutlined, UserSwitchOutlined, UsergroupAddOutlined, ApartmentOutlined, WechatOutlined, CameraOutlined, BookOutlined, ReadOutlined, ManOutlined, PercentageOutlined, ContainerOutlined, } from '@ant-design/icons';
 import "./navigation.css"
 const { SubMenu, Item } = Menu;
 
@@ -77,11 +77,16 @@ const NavigationNew = (props) => {
                 Vocabulary
             </Link>
         </Item>
-        <Item key="question" className="Navigate__item" icon={<UsergroupAddOutlined />}>
+        {/* <Item key="question" className="Navigate__item" icon={<UsergroupAddOutlined />}>
             <Link className="navbar__center-link" to="/question">
                 Question
             </Link>
-        </Item>
+        </Item> */}
+         {/* <Item key="lession" className="Navigate__item" icon={<ContainerOutlined />}>
+            <Link className="navbar__center-link" to="/lession">
+                Lession
+            </Link>
+        </Item>  */}
       </Menu>
       </div>
   );

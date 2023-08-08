@@ -7,7 +7,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCaretLeft } from '@fortawesome/free-solid-svg-icons';
 const { Search } = Input;
 
-const HeaderPage = ({ title = '', actions = 'default', onCreate, onBack = false, payment = false }) => {
+const HeaderPage = ({ title = '', actions = 'default', onCreate, onBack = false, search = false }) => {
   const onSearch = (text) => {
   };
 
@@ -24,13 +24,10 @@ const HeaderPage = ({ title = '', actions = 'default', onCreate, onBack = false,
 
   return (
     <div className="header-page">
-      <Row className="wrapper" justify="space-around" 
-// @ts-ignore
-      align="center">
+      <Row className="wrapper" justify="space-around" align="center">
         <Col>
         {
           onBack && 
-            // <Button type='primary' style={styleButton} onClick={backToPrevPage} icon={<BackwardOutlined />}>
             <Button style={styleButton} className='btnBack' onClick={backToPrevPage}>
               <FontAwesomeIcon className='faCaretLeft' icon={faCaretLeft} />
             {'Back'}
@@ -50,10 +47,14 @@ const HeaderPage = ({ title = '', actions = 'default', onCreate, onBack = false,
                 justifyContent: 'end',
               }}
             >
-              <Search className="header-page__search" placeholder="Search..." onSearch={onSearch} enterButton />
-              <Button className='btnBack' style={styleButton} onClick={() => onCreate()} icon={<PlusCircleOutlined />}>
+              {
+                search && <Search className="header-page__search" placeholder="Search..." onSearch={onSearch} enterButton />
+              }
+              {
+                onCreate && <Button className='btnBack' style={styleButton} onClick={() => onCreate()} icon={<PlusCircleOutlined />}>
                 {'Create'}
               </Button>
+              }
             </Row>
           ) }
         </Col>
