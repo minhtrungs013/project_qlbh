@@ -29,13 +29,13 @@ const Question = (props) => {
       title: "Type",
       dataIndex: "type",
       key: "type",
-      render: (text) => <a>{text}</a>,
+      render: (text) => <a href="no data">{text}</a>,
     },
     {
       title: "Level",
       dataIndex: "level",
       key: "level",
-      render: (text) => <a>{text}</a>,
+      render: (text) => <a href="no data">{text}</a>,
     },
     {
       title: "Image",
