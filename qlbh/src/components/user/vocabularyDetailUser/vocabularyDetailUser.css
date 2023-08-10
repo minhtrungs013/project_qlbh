@@ -120,6 +120,7 @@
     box-shadow: 1px 1px 4px 0px #23caef;
     border-radius: 10px;
     position: relative;
+    margin-bottom: 20px;
 }
 
 .vocabulary__detail-icon{

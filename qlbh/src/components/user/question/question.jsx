@@ -1,37 +1,51 @@
 import { faCaretLeft, faCaretRight, faCircleCheck, faCircleXmark } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Col, Radio, Row, Space, message, Spin } from 'antd';
+import { Col, Radio, Row, Space, message, Spin, Progress, Image } from 'antd';
 import React, { useRef, useState, useEffect } from 'react';
-import { sendVocabularyAnswers, GetQuestionsByObjectTypeId } from '../../../api/service/Question';
+import { sendAnswers, GetHistory, GetQuestionsByObjectTypeId } from '../../../api/service/Question';
 import { useSelector } from 'react-redux';
 import ListenStart from '../practice/practiceQuestion/listenStart';
 import "./question.css";
 
 export default function Question() {
     const [data, setData] = useState([])
+    const [chillData, setChillData] = useState([])
     const audioPlayerRef = useRef(null);
-    const userId = localStorage.getItem("userId");
+    const userId = '7d3bba49-91b7-4645-b143-dc14a0f49e6b';
     const [messageApi, contextHolder] = message.useMessage();
-    const [value, setValue] = useState(null);
+    const [value, setValue] = useState([]);
     const [questionItem, setQuestionItem] = useState(0)
     const [listAnswers, setListAnswers] = useState([])
     const [showTranscipt, setShowTranscript] = useState(false)
     const [startQuestion, setStartQuestion] = useState(false)
     const [countCorrect, setCountCorrect] = useState(0)
     const [countInCorrect, setCountInCorrect] = useState(0)
+    const [countQuestion, setCountQuestion] = useState(0)
+    const [dataHistory, setDataHistory] = useState([])
+    const [status, setStatus] = useState('')
     const [loading, setLoading] = useState(false)
+
     const practiceType = useSelector(state => state.practiceReducer.practiceType);
     const objectTypeId = useSelector(state => state.practiceReducer.objectTypeId);
 
     const onClickStart = () => {
+        setValue([])
         setStartQuestion(!startQuestion)
+    }
+    const onsubmit = () => {
+        if (countQuestion === listAnswers.length) {
+            getHistoryByTestId()
+            setTimeout(() => {
+                setStartQuestion(!startQuestion)
+            }, 200);
+        }
     }
 
     const changeSource = (value) => {
+
         if (!audioPlayerRef.current) {
             return;
         }
-
         if (!data || !data[value]) {
             return;
         }
@@ -40,32 +54,26 @@ export default function Question() {
         if (!audioQuestion) {
             return;
         }
+
         audioPlayerRef.current.src = `/static/media/${audioQuestion}`;
         audioPlayerRef.current.load();
-        audioPlayerRef.current.play();
     };
 
-
-
-    const sendVocabularyAnswer = () => {
+    const sendAnswerQuestion = (userAnswer, question, id) => {
         const dataQuestionAnswers = {
             "userId": userId,
-            "requestVocabularyAnswers": listAnswers
+            "questionId": question.id,
+            "childQuestionId": id,
+            "userAnswer": userAnswer
         }
-        if (listAnswers.length !== data.length) {
-            messageApi.open({
-                type: 'warning',
-                content: "You need to complete all the questions before submit!",
-            });
-            return
-        }
-        sendVocabularyAnswers(`vocabularyQuestions/sendVocabularyAnswers`, dataQuestionAnswers)
+        sendAnswers(`testHistories/sendAnswer`, dataQuestionAnswers)
             .then((res) => {
-                setListAnswers(res.data.data.vocabularyAnswers);
-                messageApi.open({
-                    type: 'success',
-                    content: "Submit Successfully",
-                });
+                if (practiceType === 'listen') {
+                    setShowTranscript(true)
+                }
+                setListAnswers((prevListAnswers) => [...prevListAnswers, res.data.data]);
+                setShowTranscript(true)
+
             })
             .catch((error) => {
                 messageApi.open({
@@ -75,64 +83,72 @@ export default function Question() {
             });
     }
 
-    const onChangeQuestionAnswer = (e, question) => {
-        const answerIndex = listAnswers.findIndex((answer) => answer.questionId === question.id);
-
-        if (answerIndex !== -1) {
-            const updatedListAnswers = [...listAnswers];
-            updatedListAnswers[answerIndex].userAnswer = e.target.value;
-            setListAnswers(updatedListAnswers);
-        } else {
-            const answer = {
-                questionId: question.id,
-                userAnswer: e.target.value,
-                isCorrect: true
-            };
-            setListAnswers((prevListAnswers) => [...prevListAnswers, answer]);
+    const onChangeQuestionAnswer = (e, question, id) => {
+        const data = {
+            id: id,
+            value: e.target.value
         }
-        if (practiceType === 'listen') {
-            setShowTranscript(true)
+        const tesst = value.find((item) => item.id === id)
+        if (tesst) {
+            return
         }
-        setValue(e.target.value);
+        setValue([...value, data]);
+        sendAnswerQuestion(e.target.value, question, id)
     };
 
     const checkAnswer = (idQuestion) => {
-        const answer = listAnswers.find((answer) => answer.questionId === idQuestion);
+        const answer = data.find(item => item.id === idQuestion);
 
-        if (answer) {
-            if (practiceType === 'listen') {
-                setShowTranscript(true)
+        if (answer && value !== undefined) {
+            const allQuestionsAnswered = answer?.questions?.every(question =>
+                value.some(item => item.id === question.id)
+            );
+
+            if (allQuestionsAnswered || status === "DONE") {
+                setShowTranscript(true);
+            } else {
+                setShowTranscript(false);
             }
-            return setValue(answer.userAnswer);
         } else {
-            if (practiceType === 'listen') {
-                setShowTranscript(false)
-            }
-            setValue(null);
+            setShowTranscript(false);
         }
     };
 
     const answerIscorrect = (value, index) => {
         const isAnswered = listAnswers.length > 0;
-        const answer = listAnswers.find((answer) => answer.questionId === value);
-        let resultClass = "question__item";
+        const chillQuestion = data[questionItem].questions.find(item => item.id === value.id);
+        const indexChill = chillData.findIndex(e => e.id === chillQuestion?.id);
+        const isCurrentQuestion = indexChill === index;
 
-        if (questionItem === index) {
-            resultClass += " action";
-        } else if (isAnswered) {
-            if (answer?.isCorrect === true) {
-                resultClass += " action_success";
-            } else if (answer?.isCorrect === false) {
-                resultClass += " action_fail";
+        if (isCurrentQuestion) {
+            return "question__item action";
+        }
+
+        if (isAnswered) {
+            const findAnswer = (predicate) => {
+                const answer = listAnswers.find(answer => predicate(answer));
+                if (answer) {
+                    return answer.correct ? "question__item action_success" : "question__item action_fail";
+                }
+                return null;
+            };
+
+            const result = findAnswer(answer =>
+                answer.childQuestions?.some(a => a.id === value.id)
+            ) || findAnswer(answer => answer.childQuestionId === value.id);
+
+            if (result) {
+                return result;
             }
         }
 
-        return resultClass;
+        return "question__item";
     };
 
-    const onClickQuestion = (idQuestion, value) => {
-        setQuestionItem(value)
-        checkAnswer(idQuestion)
+    const onClickQuestion = (chillQuestion, value) => {
+        const index = data.findIndex(e => e.id === chillQuestion.idQuestion)
+        setQuestionItem(index)
+        checkAnswer(chillQuestion.idQuestion)
         changeSource(value)
     }
 
@@ -143,31 +159,201 @@ export default function Question() {
             setQuestionItem((prevQuestionItem) => prevQuestionItem - 1);
         } else if (value === 1 && questionItem + 1 < data.length) {
             checkAnswer(idQuestion);
-            changeSource(value)
+            changeSource(questionItem + 1)
             setQuestionItem((prevQuestionItem) => prevQuestionItem + 1);
         }
     };
 
     useEffect(() => {
         setLoading(true)
-        const GetQuestionsById = () => {
-            GetQuestionsByObjectTypeId(`questions?objectTypeId=${objectTypeId}`)
-                .then((res) => {
-                    setLoading(false)
-                    const array = res.data.data;
-                    array.sort(() => Math.random() - 0.5);
-                    setData(array);
-                    changeSource(0)
-                });
-        }
-        GetQuestionsById()
+        GetQuestionsById();
+        getHistoryByTestId();
     }, []);
 
+    const checkColorPercent = (item) => {
+        const countCorrect = item?.userAnswers.reduce((count, item) => count + (item.correct ? 1 : 0), 0)
+        const percent = parseInt((countCorrect / countQuestion) * 100)
+        if (percent === 0 && percent < 50) {
+            return 'red'
+        } else if (percent > 49 && percent < 75) {
+            return '#f29f05'
+        } else if (percent > 74) {
+            return '#52c41a'
+        } else {
+            return 'red'
+        }
+    }
+
+    const checkColorResults = (id, value) => {
+        const answer = listAnswers.find((answer) => answer.questionId === id);
+        let isValueCorrect;
+        let isAnswerCorrect;
+        let userAnswer;
+        if (answer && answer.childQuestions && answer.childQuestions[0]) {
+            isAnswerCorrect = answer?.answerContent === answer?.childQuestions[0]?.correctAnswer;
+            isValueCorrect = answer?.childQuestions[0]?.correctAnswer === value;
+            userAnswer = answer?.answerContent === value
+        }
+        else {
+            isAnswerCorrect = answer?.userAnswer === answer?.correctAnswer;
+            isValueCorrect = answer?.correctAnswer === value;
+            userAnswer = answer?.userAnswer === value
+
+        }
+
+        if (isAnswerCorrect && isValueCorrect) {
+            return "#52c41a";
+        } else if (!isAnswerCorrect && userAnswer) {
+            return "red";
+        } else if (!isAnswerCorrect && isValueCorrect) {
+            return "#52c41a";
+        } else {
+            return "";
+        }
+    }
+
+    const checkPercent = (item) => {
+        const countCorrect = item?.userAnswers.reduce((count, item) => count + (item.correct ? 1 : 0), 0)
+        return parseInt((countCorrect / countQuestion) * 100)
+
+    }
+
+    const showHistory = (item) => {
+        if (status === "TESTING") {
+            return
+        }
+        if (listAnswers.length < 1) {
+            setStatus("DONE")
+        }
+        const dataAnswer = item.userAnswers.map(item => ({
+            id: item?.childQuestions[0]?.id,
+            value: item?.answerContent
+        }));
+        setValue(dataAnswer);
+        setListAnswers(item.userAnswers)
+        setCountCorrect(item.userAnswers.reduce((count, item) => count + (item.correct ? 1 : 0), 0))
+        setCountInCorrect(item.userAnswers.reduce((count, item) => count + (!item.correct ? 1 : 0), 0))
+        if (startQuestion) {
+            setStartQuestion(false)
+        }
+    }
+
+    const OnClickContinue = () => {
+        getHistoryByTestId()
+        setStartQuestion(!startQuestion)
+        setShowTranscript(false)
+
+    }
+
+    const OnClickReview = () => {
+        changeSource(0)
+        setQuestionItem(0)
+        checkAnswer(data[0].id)
+        setStartQuestion(!startQuestion)
+
+    }
+
+
+    const onClickTryAgain = () => {
+        setStatus("TESTING")
+        setStartQuestion(!startQuestion)
+        setListAnswers([])
+        setValue([])
+        changeSource(0)
+        setQuestionItem(0)
+        setShowTranscript(false)
+        setCountCorrect(0)
+        setCountInCorrect(0)
+    }
+
+    const GetQuestionsById = () => {
+        GetQuestionsByObjectTypeId(`questions?objectTypeId=${objectTypeId}`)
+            .then((res) => {
+                setLoading(false)
+                setData(res.data.data);
+                const chillData = res.data.data.flatMap(test =>
+                    test.questions.map(question => ({
+                        id: question?.id,
+                        idQuestion: question.questionId
+
+                    }))
+                );
+                setChillData(chillData);
+                const totalQuestions = res.data.data.reduce((total, test) => total + test.questions.length, 0);
+                setCountQuestion(totalQuestions)
+                changeSource(0)
+            }).catch((error) => {
+                console.log(error);
+            })
+    }
+
+    const getHistoryByTestId = () => {
+        GetHistory(`testHistories?testId=${objectTypeId}&userId=${userId}`)
+            .then((res) => {
+                const historyTesting = res.data.data.find((item) => item.status === "TESTING");
+                const historyDone = res.data.data.filter((item) => item.status === "DONE");
+                if (historyTesting) {
+                    setStatus(historyTesting?.status)
+                    setListAnswers(historyTesting?.userAnswers || [])
+                    const missingElement = data.find(test =>
+                        test.questions.some(question =>
+                            !historyTesting?.userAnswers.some(answer =>
+                                answer.childQuestions[0]?.id === question.id
+                            )
+                        )
+                    );
+
+                    if (missingElement) {
+                        const missingIndex = data.findIndex(test => test.id === missingElement.id);
+                        changeSource(missingIndex);
+                        setQuestionItem(missingIndex);
+                    }
+
+                    const dataAnswer = historyTesting?.userAnswers.map(item => ({
+                        id: item?.childQuestions[0]?.id,
+                        value: item?.answerContent
+                    }));
+                    setValue(dataAnswer);
+
+                } else {
+                    const lastIndex = historyDone.length - 1;
+                    setStatus(historyDone[lastIndex]?.status)
+                    setListAnswers(historyDone[lastIndex]?.userAnswers || [])
+                    const dataAnswer = historyDone[lastIndex]?.userAnswers.map(item => ({
+                        id: item?.childQuestions[0]?.id,
+                        value: item?.answerContent
+                    }));
+                    setValue(dataAnswer);
+                    setQuestionItem(0)
+                    changeSource(0)
+                }
+
+                if (historyDone) {
+                    const reversedArray = historyDone.reverse();
+                    setDataHistory(reversedArray || [])
+                }
+
+            }).catch((error) => {
+                console.log(error);
+            })
+    }
 
     useEffect(() => {
-        setCountCorrect(listAnswers.reduce((count, item) => count + (item.isCorrect ? 1 : 0), 0))
-        setCountInCorrect(listAnswers.reduce((count, item) => count + (!item.isCorrect ? 1 : 0), 0))
+        if (listAnswers.length > 0) {
+            setCountCorrect(listAnswers.reduce((count, item) => count + (item.correct ? 1 : 0), 0))
+            setCountInCorrect(listAnswers.reduce((count, item) => count + (!item.correct ? 1 : 0), 0))
+        }
     }, [listAnswers]);
+
+
+    const getValue = (item) => {
+        const data = value?.find((a) => a?.id === item?.id)
+        if (data) {
+            return data?.value
+        } else {
+            return null
+        }
+    }
 
     return (
         <>
@@ -181,13 +367,13 @@ export default function Question() {
                     <Col span={16} offset={4} className=''>
                         <Row gutter={24}>
                             <Col span={6} className=''>
-                                <div className='vocabulary__detail-left'>
+                                <div className='vocabulary__detail-left' >
                                     <h3>Question</h3>
                                     <Row gutter={10} className='bbbb'>
-                                        {data?.map((item, index) => (
+                                        {chillData?.map((item, index) => (
                                             <Col span={4} className='' key={item.id}>
-                                                <div className={answerIscorrect(item.id, index)}
-                                                    onClick={() => onClickQuestion(item.id, index)}>
+                                                <div className={answerIscorrect(item, index)}
+                                                    onClick={() => onClickQuestion(item, index)}>
                                                     {index + 1}
                                                 </div>
                                             </Col>
@@ -198,58 +384,116 @@ export default function Question() {
                                         <div> <FontAwesomeIcon className='faCircleXmark' icon={faCircleXmark} /> {countInCorrect} InCorrect</div>
                                     </div>
                                 </div>
+                                <div className=''>
+                                    <h3 className='history__heading'>History</h3>
+                                    {dataHistory.length > 0 ?
+                                        <ul className='history__list' id='history'>
+                                            {dataHistory?.map((item, index) => (
+                                                <li className='history__item' onClick={() => showHistory(item)}>
+                                                    {index === 0 ? "Latest" : 'test ' + (dataHistory.length - (index))}
+                                                    <Progress percent={checkPercent(item)} size="small" strokeColor={checkColorPercent(item)} />
+                                                </li>
+                                            ))}
+                                        </ul>
+                                        :
+                                        <h4>...</h4>
+                                    }
+
+                                </div>
                             </Col>
                             <Col span={18} className=''>
                                 {!startQuestion ?
-                                    <ListenStart onClickStart={onClickStart}></ListenStart>
+                                    <ListenStart onClickStart={onClickStart}
+                                        status={status}
+                                        countQuestion={countQuestion}
+                                        countCorrect={countCorrect}
+                                        countInCorrect={countInCorrect}
+                                        OnClickContinue={OnClickContinue}
+                                        OnClickReview={OnClickReview}
+                                        onClickTryAgain={onClickTryAgain}></ListenStart>
                                     :
                                     <>
                                         <div className='question'>
-                                            <div className='question-item' >
-                                                <div>
-                                                    <h2>Question {questionItem + 1}:
-                                                        <p>{data[questionItem]?.textQuestion}
-                                                        </p>
-                                                    </h2>
-                                                    <Radio.Group onChange={(e) => onChangeQuestionAnswer(e, data[questionItem])} value={value}>
-                                                        <Space direction="vertical">
-                                                            <Radio disabled={practiceType === 'listen' && value !== null} value={data[questionItem]?.optionAnswers?.answerA} className=''> {data[questionItem]?.optionAnswers?.answerA}</Radio>
-                                                            <Radio disabled={practiceType === 'listen' && value !== null} value={data[questionItem]?.optionAnswers?.answerB} className=''> {data[questionItem]?.optionAnswers?.answerB}</Radio>
-                                                            <Radio disabled={practiceType === 'listen' && value !== null} value={data[questionItem]?.optionAnswers?.answerC} className=''> {data[questionItem]?.optionAnswers?.answerC}</Radio>
-                                                            <Radio disabled={practiceType === 'listen' && value !== null} value={data[questionItem]?.optionAnswers?.answerD} className=''> {data[questionItem]?.optionAnswers?.answerD}</Radio>
-                                                        </Space>
-                                                    </Radio.Group>
-                                                    {listAnswers[questionItem]?.correctAnswer !== undefined && practiceType === 'vocabulary' ? (
-                                                        <p className='correctAnswer'>The correct answer is:
-                                                            <p>{listAnswers[questionItem]?.correctAnswer}
-                                                            </p>
-                                                        </p>
-                                                    ) : (<p></p>)}
-                                                </div>
-                                                <div style={{ marginRight: "30px" }}>
-                                                    <img className='question-item-img' src={data[questionItem]?.images[0]} alt="" />
-                                                </div>
-                                            </div>
-                                            <div style={{ display: "flex", justifyContent: "end", marginBottom: "15px" }}>
+                                            <div style={{ display: "flex", justifyContent: "center", marginBottom: "15px" }}>
                                                 <audio controls ref={audioPlayerRef}>
                                                     <source src={`/static/media/${data[questionItem]?.audioQuestion}`} type="audio/mpeg"></source>
                                                 </audio>
                                             </div>
-                                            {showTranscipt && practiceType === 'listen' ?
+                                            <div className='question-item' >
+                                                <div className='Chill__question' id='chill'>
+                                                    {data[questionItem]?.questions?.map((item, index) => (
+                                                        <div >
+                                                            <h2>Question:
+                                                                <p>{item.textQuestion}
+                                                                </p>
+                                                            </h2>
+                                                            <Radio.Group onChange={(e) => onChangeQuestionAnswer(e, data[questionItem], item.id)} value={getValue(item)}>
+                                                                <Space direction="vertical">
+                                                                    <Radio value={item.answerA} className=''>A. {item.answerA} </Radio>
+                                                                    <Radio value={item.answerB} className=''>B. {item.answerB}</Radio>
+                                                                    <Radio value={item.answerC} className=''>C. {item.answerC}</Radio>
+                                                                    {
+                                                                        item.answerD ? <Radio value={item.answerD} className=''>D. {item.answerD}</Radio> : <></>
+                                                                    }
+                                                                </Space>
+                                                            </Radio.Group>
+                                                            {listAnswers[questionItem]?.correctAnswer !== undefined && practiceType === 'vocabulary' ? (
+                                                                <p className='correctAnswer'>The correct answer is:
+                                                                    <p>{listAnswers[questionItem]?.correctAnswer}
+                                                                    </p>
+                                                                </p>
+                                                            ) : (<p></p>)}
+                                                        </div>))}
+                                                </div>
+                                                {data[questionItem]?.images[0] !== undefined ?
+                                                    <div style={{ marginRight: "0" }}>
+                                                        <img className='question-item-img' src={`/static/media/${data[questionItem]?.images[0]}`} alt="" />
+                                                    </div>
+                                                    :
+                                                    <></>
+                                                }
+                                            </div>
+
+                                            {showTranscipt && practiceType === 'listen' && data[questionItem]?.transcript === null ?
                                                 <>
                                                     <div className='Lquestion__action'>
                                                         <div className='Transcript'>
                                                             <span>Transcript :</span>
-                                                            <p>A. There are some tables and chairs outdoors.</p>
-                                                            <p>B. There are some tables and chairs outdoors.</p>
-                                                            <p>C. There are some tables and chairs outdoors.</p>
-                                                            <p>D. There are some tables and chairs outdoors.</p>
+                                                            <p style={{ color: checkColorResults(data[questionItem]?.id, data[questionItem]?.questions[0]?.answerA) }}>
+                                                                A. {data[questionItem]?.questions[0]?.answerA}
+                                                            </p>
+                                                            <p style={{ color: checkColorResults(data[questionItem]?.id, data[questionItem]?.questions[0]?.answerB) }}>
+                                                                B. {data[questionItem]?.questions[0]?.answerB}
+                                                            </p>
+                                                            <p style={{ color: checkColorResults(data[questionItem]?.id, data[questionItem]?.questions[0]?.answerC) }}>
+                                                                C. {data[questionItem]?.questions[0]?.answerC}
+                                                            </p>
+                                                            {data[questionItem]?.questions[0]?.answerD ?
+                                                                <p style={{ color: checkColorResults(data[questionItem]?.id, data[questionItem]?.questions[0]?.answerD) }}>
+                                                                    D. {data[questionItem]?.questions[0]?.answerD}
+                                                                </p>
+                                                                :
+                                                                <></>
+                                                            }
+
 
                                                         </div>
                                                     </div>
                                                 </>
                                                 :
-                                                <></>
+                                                <>
+                                                    {showTranscipt && practiceType === 'listen' && data[questionItem]?.transcript !== null ?
+                                                        <>
+                                                            <div className='Transcript'>
+                                                                <span>Transcript :</span>
+                                                                <p>{data[questionItem]?.transcript}</p>
+                                                            </div>
+                                                        </>
+                                                        :
+                                                        <>
+                                                        </>
+                                                    }
+                                                </>
                                             }
                                             <div className='question__action'>
                                                 <button type="primary"
@@ -261,11 +505,26 @@ export default function Question() {
                                                     Previous
                                                 </button>
                                                 {(questionItem + 1) === data.length ? (
-                                                    <button type="primary"
-                                                        size="large"
-                                                        disabled={listAnswers[questionItem]?.isCorrect !== undefined}
-                                                        className='question__button btn-submit'
-                                                        onClick={() => sendVocabularyAnswer()}>Submit</button>
+                                                    <>
+                                                        {status === "DONE" ?
+                                                            <button type="primary"
+                                                                size="large"
+                                                                disabled={countQuestion !== listAnswers.length}
+                                                                className='question__button btn-submit'
+                                                                onClick={() => onClickStart()}
+                                                            >Results</button>
+
+                                                            :
+                                                            <button type="primary"
+                                                                size="large"
+                                                                disabled={countQuestion !== listAnswers.length}
+                                                                className='question__button btn-submit'
+                                                                style={{backgroundColor: countQuestion !== listAnswers.length ?  "#f4f4f4" : "#fdf0f0", boxShadow: 'none', color: "black"}}
+                                                                onClick={() => onsubmit()}
+                                                            >Finish</button>
+                                                        }
+                                                    </>
+
                                                 ) : (
                                                     <button type="primary"
                                                         size="large"
@@ -282,10 +541,9 @@ export default function Question() {
 
                             </Col>
                         </Row>
-                    </Col>
-                </Row>
+                    </Col >
+                </Row >
             }
-
         </>
     )
 }

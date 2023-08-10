@@ -1,0 +1,26 @@
+.lesson { 
+    border-radius: 10px;
+    box-shadow: 1px 1px 4px 0px #23caef;
+    margin-bottom: 20px;
+}
+.lesson__heading {
+ 
+}
+.lesson__title {
+    text-align: left;
+}
+.lesson__content{
+    text-align: justify;
+}
+.lesson__example-title {
+    text-align: justify;
+
+}
+.lesson__example-content {
+    text-align: justify;
+
+}
+
+.lesson__example-content span{
+    font-weight: 600;
+}
