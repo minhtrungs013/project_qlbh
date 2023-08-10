@@ -1,6 +1,6 @@
-import { Button, Col, Form, Input, message, Modal, Row, Select, Upload } from "antd";
-import React, { useCallback, useEffect, useMemo, useState } from "react";
-import { createData, getAllData, getDataById, updateData } from "../../../api/service/api";
+import { Button, Col, Form, Input, message, Modal, Row, Select } from "antd";
+import React, { useCallback, useEffect, useState } from "react";
+import { createData, getDataById, updateData } from "../../../api/service/api";
 
 const ModalLession = (props) => {
   const { isOpen, title, form, reloadData, onClose, partId } = props;
@@ -8,10 +8,10 @@ const ModalLession = (props) => {
   const [options, setOptions] = useState([]);
   const IdItem = form.getFieldValue("id");
 
-  const handleCancel = () => {
+  const handleCancel = useCallback(() => {
     onClose();
     form.resetFields();
-  };
+  },[form, onClose]);
 
   const getPartById = () => {
     getDataById(`practiceParts?practiceId=${partId}`).then((res) => {
@@ -30,6 +30,7 @@ const ModalLession = (props) => {
     if (isOpen) {
         getPartById()
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isOpen]);
 
   const handleUpdate = useCallback(
@@ -52,7 +53,7 @@ const ModalLession = (props) => {
         });
       setIsLoading(false);
     },
-    [handleCancel, reloadData]
+    [IdItem, handleCancel, reloadData]
   );
 
   const handleCreate = (values) => {

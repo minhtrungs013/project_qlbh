@@ -1,13 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Row, Col, Input, Button, Typography } from 'antd';
-import { BackwardOutlined, CheckSquareFilled, PlusCircleOutlined } from '@ant-design/icons';
+import { PlusCircleOutlined } from '@ant-design/icons';
 import './header.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCaretLeft } from '@fortawesome/free-solid-svg-icons';
 const { Search } = Input;
 
-const HeaderPage = ({ title = '', actions = 'default', onCreate, onBack = false, search = false }) => {
+const HeaderPage = ({ title = '', actions = 'default', onAdd = true, onCreate, onBack = false, search = false }) => {
   const onSearch = (text) => {
   };
 
@@ -28,7 +28,7 @@ const HeaderPage = ({ title = '', actions = 'default', onCreate, onBack = false,
         <Col>
         {
           onBack && 
-            <Button style={styleButton} className='btnBack' onClick={backToPrevPage}>
+            <Button style={styleButton} onClick={backToPrevPage}>
               <FontAwesomeIcon className='faCaretLeft' icon={faCaretLeft} />
             {'Back'}
             </Button>
@@ -51,7 +51,7 @@ const HeaderPage = ({ title = '', actions = 'default', onCreate, onBack = false,
                 search && <Search className="header-page__search" placeholder="Search..." onSearch={onSearch} enterButton />
               }
               {
-                onCreate && <Button className='btnBack' style={styleButton} onClick={() => onCreate()} icon={<PlusCircleOutlined />}>
+                onCreate && onAdd && <Button /** className='btnBack' */ type='primary' style={styleButton} onClick={() => onCreate()} icon={<PlusCircleOutlined />}>
                 {'Create'}
               </Button>
               }

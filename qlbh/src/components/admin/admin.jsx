@@ -5,7 +5,7 @@ import Navbar from './navbar/navbar';
 import Product from './product/product';
 import Home from './home/home';
 import Chat from './chat/chat';
-import Navigation from './navigation/navigation';
+// import Navigation from './navigation/navigation';
 import Category from './category/category';
 import Vocabulary from './vocabulary/vocabulary';
 import Practice from './practice/practice';
@@ -26,7 +26,6 @@ export default function Admin() {
   const [dataPractice, setDataPractice] = useState([])
   let { pathname } = useLocation();
 
-  let lstRouter = "listening" || "reading" || "speaking" || "writing"
   function handleClick() {
     if (checkNavigate === false) {
       setCheckNavigate(true)
@@ -92,13 +91,22 @@ export default function Admin() {
             <Route path={`/listening/:partId/:id/:name/lession`} element={<Lession/>}/>
           </Routes>
           <Routes>
-            <Route path={`/reading/:id/:name`} element={<Tests/>}/>
+            <Route path={`/reading/:id/:name/test`} element={<Tests/>}/>
           </Routes>
           <Routes>
-            <Route path={`/speaking/:id/:name`} element={<Tests/>}/>
+            <Route path={`/reading/:partId/:id/:name/lession`} element={<Tests/>}/>
           </Routes>
           <Routes>
-            <Route path={`/writing/:id/:name`} element={<Tests/>}/>
+            <Route path={`/speaking/:id/:name/test`} element={<Tests/>}/>
+          </Routes>
+          <Routes>
+            <Route path={`/speaking/:partId/:id/:name/lession`} element={<Tests/>}/>
+          </Routes>
+          <Routes>
+            <Route path={`/writing/:id/:name/test`} element={<Tests/>}/>
+          </Routes>
+          <Routes>
+            <Route path={`/writing/:partId/:id/:name/lession`} element={<Tests/>}/>
           </Routes>
 
           {/* Route to Test of Part */}
