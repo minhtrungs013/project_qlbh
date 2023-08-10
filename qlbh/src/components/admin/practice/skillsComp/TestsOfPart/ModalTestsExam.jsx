@@ -105,12 +105,26 @@ const ModalTestsExam = (props) => {
                   <Input />
                 </Form.Item>
   
-                <Form.Item label="Name" name="name">
+                <Form.Item label="Name" name="name" 
+                  rules={[
+                    {
+                      required: true,
+                      message: 'Please input this field!',
+                    },
+                  ]}
+                  >
                   <Input />
                 </Form.Item>
               </Col>
               <Col span={12}>
-                 <Form.Item label="Type" name="type"> 
+                 <Form.Item label="Type" name="type"
+                    rules={[
+                      {
+                        required: true,
+                        message: 'Please input this field!',
+                      },
+                    ]}
+                  > 
                     <Select 
                         allowClear
                         value={[IdItem && form.getFieldValue('type') ? form.getFieldValue('type') : []]} 

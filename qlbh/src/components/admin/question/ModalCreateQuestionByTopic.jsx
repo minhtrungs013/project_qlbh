@@ -102,6 +102,12 @@ const ModalCreateQuestionByTopic = (props) => {
                     name="audioQuestion"
                     label="Audio Question"
                     valuePropName="audioQuestion"
+                    rules={[
+                      {
+                        required: true,
+                        message: 'Please input this field!',
+                      },
+                    ]}
                   >
                     <Upload name="audioQuestion" action="/audioQuestion.do" listType="picture">
                       <Button icon={<UploadOutlined />}>Click to upload</Button>
@@ -113,16 +119,29 @@ const ModalCreateQuestionByTopic = (props) => {
           </Col>
 
           <Col span={12}>
-             <Form.Item
+          <Card className="cardGroup">
+              <div className="wrapperText">Level Test</div>
+              <Row gutter={24}>
+                <Col span={18}>
+                <Form.Item
                 name="level"
                 label="Level of Question"
                 valuePropName="level"
+                rules={[
+                  {
+                    required: true,
+                    message: 'Please input this field!',
+                  },
+                ]}
               >
                 <Select
                   allowClear
                   options={arrLevel}
                 ></Select>
               </Form.Item>
+                </Col>
+              </Row>
+              </Card>
           </Col>
         </Row>
 

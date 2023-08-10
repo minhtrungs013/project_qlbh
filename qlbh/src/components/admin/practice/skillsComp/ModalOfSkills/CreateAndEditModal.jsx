@@ -12,10 +12,10 @@ const CreateAndEditModal = (props) => {
   const IdItem = form.getFieldValue("id");
   const [dataPractice, setDataPractice] = useState([]);
 
-  const handleCancel = () => {
+  const handleCancel = useCallback(() => {
     onClose();
     form.resetFields();
-  };
+  },[form, onClose]);
 
   const getDataPractice = () => {
     getAllData(`practices`).then((res) => {
@@ -58,7 +58,7 @@ const CreateAndEditModal = (props) => {
         });
       setIsLoading(false);
     },
-    [handleCancel, reloadData]
+    [IdItem, handleCancel, reloadData]
   );
 
   const handleCreate = (values) => {
@@ -117,7 +117,14 @@ const CreateAndEditModal = (props) => {
                 <Input />
               </Form.Item>
 
-              <Form.Item label="Name" name="name">
+              <Form.Item label="Name" name="name" 
+                rules={[
+                  {
+                    required: true,
+                    message: 'Please input this field!',
+                  },
+                ]}
+                >
                 <Input />
               </Form.Item>
 

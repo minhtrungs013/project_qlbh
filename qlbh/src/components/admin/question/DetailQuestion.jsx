@@ -45,7 +45,7 @@ const DetailQuestion = (props) => {
         level: arrQuestionById[0].level,
         objectTypeId: arrQuestionById[0].objectTypeId,
         type: arrQuestionById[0].type,
-        questions: arrQuestionById[0].questions
+        questions: arrQuestionById[0].questions,
       };
       form.setFieldsValue(formControl)
       setLoading(false);
@@ -71,13 +71,17 @@ const DetailQuestion = (props) => {
         const { textQuestion, answerA, answerB, answerC, answerD, correctAnswer } = question;
         return {textQuestion, answerA, answerB, answerC, answerD, correctAnswer};
       });
+
+      const imageArray =  formValues.images !== null && formValues?.images?.fileList.map((image) => {
+       return image.name
+      });
   
       const formControl = {
         type: 'practice',
         objectTypeId: objectTypeId,
         level: formValues.level,
-        audioQuestion: formValues.audioQuestion[0].name ? formValues.audioQuestion[0].name : null,
-        images: formValues.images[0].name ? formValues.images[0].name : null,
+        audioQuestion:  formValues.audioQuestion !== null && formValues.audioQuestion[0]?.name ? formValues.audioQuestion[0]?.name : null,
+        images: imageArray ? imageArray : null,
         questions: questionsArray,
       };
       setLoading(true)
@@ -172,6 +176,20 @@ const DetailQuestion = (props) => {
     }
     return e?.fileList;
   };
+  
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const uploadButton = (
+    <div>
+      <PlusOutlined />
+      <div
+        style={{
+          marginTop: 8,
+        }}
+      >
+        Upload
+      </div>
+    </div>
+  )
 
 
   const renderForm = useMemo(() => {
@@ -236,8 +254,9 @@ const DetailQuestion = (props) => {
                     label="Image"
                     valuePropName="images"
                   >
-                    <Upload name="images" action="/images.do" listType="picture">
-                      <Button icon={<UploadOutlined />}>Click to upload</Button>
+                    {/* <UploadImg lstFile={lstFile} name={"images"}  /> */}
+                    <Upload name="images" action="/images.do" listType="picture-card">
+                      {uploadButton}
                     </Upload>
                   </Form.Item>
                 </Col>
@@ -344,7 +363,7 @@ const DetailQuestion = (props) => {
         </Row>
       </Form>
     );
-  }, [form, btnEdit]);
+  }, [form, btnEdit, uploadButton]);
 
   return (
     <div>
