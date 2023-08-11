@@ -1,3 +1,4 @@
+import { Route, Routes } from "react-router-dom";
 import { Col, Row, Spin } from 'antd';
 import { faEarListen, faCheck } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -7,7 +8,7 @@ import { getListenTopicByPracticePartId, getPracticePartsLessonsByPracticeId } f
 import { useSelector, useDispatch } from 'react-redux';
 import { setObjectId } from '../../../redux/_actions';
 import { Link } from 'react-router-dom';
-
+import PracticeLesson from '../practiceLesson/practiceLesson';
 
 export default function PracticeTopic() {
 
@@ -16,34 +17,55 @@ export default function PracticeTopic() {
     const [data, setData] = useState([])
     const [dataLesson, setDataLesson] = useState([])
     const dispatch = useDispatch();
+    const [lessonId, setLessonId] = useState('')
 
     useEffect(() => {
         setLoading(true)
-        const getListenTopic = () => {
-            getListenTopicByPracticePartId(`partTests?practicePartId=${practicePartId}`)
-                .then((res) => {
-                    setLoading(false)
-                    setData(res.data.data);
-                }).catch((Error) => {
-                    console.log(Error)
-                })
-        }
-        const getLessonsByPracticeId = () => {
-            getPracticePartsLessonsByPracticeId(`partLessons?practicePartId=${practicePartId}`)
-                .then((res) => {
-                    setDataLesson(res.data.data);
-                }).catch((Error) => {
-                    console.log(Error)
-                })
-        }
         getListenTopic()
         getLessonsByPracticeId()
 
     }, []);
 
+    const getListenTopic = () => {
+        getListenTopicByPracticePartId(`partTests?userId=7d3bba49-91b7-4645-b143-dc14a0f49e6b&practicePartId=${practicePartId}`)
+            .then((res) => {
+                setData(res.data.data);
+                setLoading(false)
+            }).catch((Error) => {
+                console.log(Error)
+            })
+    }
+
+    const getLessonsByPracticeId = () => {
+        getPracticePartsLessonsByPracticeId(`partLessons?practicePartId=${practicePartId}`)
+            .then((res) => {
+                setDataLesson(res.data.data);
+            }).catch((Error) => {
+                console.log(Error)
+            })
+    }
 
     const onclickShowListenStart = (data) => {
         dispatch(setObjectId(data.id))
+    }
+
+    const getLessonsId = (idLesson) => {
+        setLessonId(idLesson)
+        localStorage.setItem("partLessonId", idLesson);
+    }
+
+
+    const checkColorPercent = (item) => {
+        const percent = parseInt((item.correctAnswer / item.totalQuestions) * 100)
+        if (percent > 0 && percent < 50) {
+            return 'red'
+        } else if (percent > 49 && percent < 75) {
+            return '#f29f05'
+        } else if (percent > 74) {
+            return '#52c41a'
+        } else {
+            return 'black'
+        }
     }
 
     return (
@@ -61,35 +83,62 @@ export default function PracticeTopic() {
                         <>
                             <Row gutter={24} >
                                 <Col span={6}  >
-                                    <ul className='lesson__list'>
-                                        {dataLesson?.map((item, index) => (
-                                            <li className='lesson__item' key={item.id}>
-                                                <div>
-                                                    Lesson {index + 1}: <span>{item.name}</span>
-                                                </div>
-                                                <FontAwesomeIcon className='lesson__item-icon' icon={faCheck} />
-                                            </li>
-                                        ))}
-                                    </ul>
-                                </Col>
-                                <Col span={18} >
-                                    <Row gutter={45} className='topic__test' >
-                                        {data?.map((item) => (
-                                            <Col span={4} key={item.id} >
-                                                <Link to={'/practice/skill/question'} className='topic__item' onClick={() => onclickShowListenStart(item)} >
-                                                    <h1>0%</h1>
-                                                    <h6>------</h6>
-                                                    <h3>{item.name}</h3>
+                                    <div className='lesson__ls'>
+                                        <h3>Lesson</h3>
+                                        <ul className='lesson__list'>
+                                            {dataLesson?.map((item, index) => (
+                                                <Link to={'/practice/skill/topic/lesson'} className='lesson__item' key={item.id} onClick={() => getLessonsId(item.id)}>
+                                                    <div>
+                                                        Lesson {index + 1}: <span>{item.name}</span>
+                                                    </div>
+                                                    <FontAwesomeIcon className='lesson__item-icon' icon={faCheck} />
                                                 </Link>
-                                            </Col>
-                                        ))}
-                                    </Row>
+                                            ))}
+                                        </ul>
+                                    </div>
+                                </Col>
+                                <Col span={18}>
+                                    
+                                    <Routes>
+                                        <Route path={`/lesson`} element={<PracticeLesson  lessonId={lessonId}/>} />
+                                    </Routes>
+                                  
+                                    <div className='lesson__ls'>
+                                        <h3>Test</h3>
+                                        <Row gutter={45}  >
+                                            {data?.map((item, index) => (
+                                                <Col span={4} key={item.id} >
+                                                    <Link to={'/practice/skill/question'} className='topic__item' onClick={() => onclickShowListenStart(item)} >
+                                                        <h1 style={{ color: checkColorPercent(item) }}>
+                                                            {item.correctAnswer !== null ?
+                                                                parseInt((item.correctAnswer / item.totalQuestions) * 100)
+                                                                :
+                                                                0
+                                                            }
+                                                            %</h1>
+                                                        {item.correctAnswer !== null ?
+                                                            <p style={{ margin: 0, fontSize: '10px', color: "#18bd18", fontWeight: 600 }}>
+                                                                {item.correctAnswer}/{item.totalQuestions} correct</p>
+                                                            :
+                                                            <p ></p>
+
+                                                        }
+                                                        <h6>------</h6>
+                                                        <h3>{item.name}</h3>
+                                                    </Link>
+                                                </Col>
+                                            ))}
+                                        </Row>
+                                    </div>
+
                                 </Col>
                             </Row>
                         </>
+
                     }
                 </Col>
             </Row>
         </>
     )
 }
+

@@ -2,7 +2,7 @@ import { BellOutlined, MenuOutlined, PoweroffOutlined, SearchOutlined } from '@a
 import { faBars, faBlog, faBook, faSpellCheck } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useEffect, useState } from 'react';
-import { Link, useNavigate } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import { getAccountByUsernameAPI } from "../../../api/service/AuthService";
 import "./navbar.css";
 
@@ -44,35 +44,45 @@ export default function Navbar(props) {
                 <div className='navbar__center'>
                     <ul className='navbar__center-list'>
                         <li className='navbar__center-item'>
-                            <Link className="navbar__center-item-link " to="/vocabulary">
+                            <NavLink style={({ isActive }) => {
+                                return isActive ? { color: 'red' } : {}
+                            }} className="navbar__center-item-link " to="/vocabulary">
                                 <FontAwesomeIcon className='navbar__item-icon' icon={faBook} />
                                 Vocabulary
-                            </Link>
+                            </NavLink>
                         </li>
                         <li className='navbar__center-item'>
-                            <Link className="navbar__center-item-link " to="/grammar">
+                            <NavLink style={({ isActive }) => {
+                                return isActive ? { color: 'red' } : {}
+                            }} className="navbar__center-item-link " to="/grammar">
                                 <FontAwesomeIcon className='navbar__item-icon' icon={faSpellCheck} />
                                 Grammar
-                            </Link>
+                            </NavLink>
                         </li>
                         <li className='navbar__center-item'>
-                            <Link className="navbar__center-item-link " to="/practice">
+                            <NavLink style={({ isActive }) => {
+                                return isActive ? { color: 'red' } : {}
+                            }} className="navbar__center-item-link " to="/practice">
                                 <FontAwesomeIcon className='navbar__item-icon' icon={faSpellCheck} />
                                 Practice
-                            </Link>
+                            </NavLink>
                         </li>
                         <li className='navbar__center-item'>
-                            <Link className="navbar__center-item-link " to="/blog">
+                            <NavLink style={({ isActive }) => {
+                                return isActive ? { color: 'red' } : {}
+                            }} className="navbar__center-item-link " to="/blog">
                                 <FontAwesomeIcon className='navbar__item-icon' icon={faBlog} />
                                 Blog
-                            </Link>
+                            </NavLink>
 
                         </li>
                         <li className='navbar__center-item'>
-                            <Link className="navbar__center-item-link " to="/test">
+                            <NavLink style={({ isActive }) => {
+                                return isActive ? { color: 'red' } : {}
+                            }} className="navbar__center-item-link " to="/test">
                                 <FontAwesomeIcon className='navbar__item-icon' icon={faBars} />
                                 Test
-                            </Link>
+                            </NavLink>
                         </li>
                     </ul>
                 </div>

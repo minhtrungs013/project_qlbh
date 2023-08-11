@@ -18,3 +18,10 @@ export function getListenTopicByPracticePartId(endpoint) {
 export function getPracticePartsLessonsByPracticeId(endpoint) {
     return API.get(`${API_BASE}/${endpoint}`);
 }
+
+export function getAllHistoryByTestIds(endpoint, body) {
+    return API.post(`${API_BASE}/${endpoint}`, body);
+}
+export function getPartLessonId(endpoint) {
+    return API.get(`${API_BASE}/${endpoint}`);
+}

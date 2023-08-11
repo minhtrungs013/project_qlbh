@@ -9,6 +9,7 @@
     "@fortawesome/free-regular-svg-icons": "^6.4.0",
     "@fortawesome/free-solid-svg-icons": "^6.4.0",
     "@fortawesome/react-fontawesome": "^0.2.0",
+    "@react-oauth/google": "^0.11.1",
     "@reduxjs/toolkit": "^1.9.5",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
@@ -23,6 +24,7 @@
     "react-scripts": "5.0.1",
     "react-speech-hooks": "^3.0.2",
     "redux-logger": "^3.0.6",
+    "redux-persist": "^6.0.0",
     "socket.io-client": "^4.6.1",
     "web-vitals": "^2.1.4"
   },
