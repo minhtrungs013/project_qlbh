@@ -1,3 +1,4 @@
+import { Route, Routes } from "react-router-dom";
 import { Col, Row, Spin } from 'antd';
 import { faEarListen, faCheck } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -7,7 +8,7 @@ import { getListenTopicByPracticePartId, getPracticePartsLessonsByPracticeId } f
 import { useSelector, useDispatch } from 'react-redux';
 import { setObjectId } from '../../../redux/_actions';
 import { Link } from 'react-router-dom';
-
+import PracticeLesson from '../practiceLesson/practiceLesson';
 
 export default function PracticeTopic() {
 
@@ -16,6 +17,7 @@ export default function PracticeTopic() {
     const [data, setData] = useState([])
     const [dataLesson, setDataLesson] = useState([])
     const dispatch = useDispatch();
+    const [lessonId, setLessonId] = useState('')
 
     useEffect(() => {
         setLoading(true)
@@ -48,12 +50,13 @@ export default function PracticeTopic() {
     }
 
     const getLessonsId = (idLesson) => {
+        setLessonId(idLesson)
         localStorage.setItem("partLessonId", idLesson);
     }
 
 
     const checkColorPercent = (item) => {
-        const percent = parseInt((item.correctAnswer / item.totalQuestion) * 100)
+        const percent = parseInt((item.correctAnswer / item.totalQuestions) * 100)
         if (percent > 0 && percent < 50) {
             return 'red'
         } else if (percent > 49 && percent < 75) {
@@ -84,7 +87,7 @@ export default function PracticeTopic() {
                                         <h3>Lesson</h3>
                                         <ul className='lesson__list'>
                                             {dataLesson?.map((item, index) => (
-                                                <Link to={'/practice/skill/lesson'} className='lesson__item' key={item.id} onClick={() => getLessonsId(item.id)}>
+                                                <Link to={'/practice/skill/topic/lesson'} className='lesson__item' key={item.id} onClick={() => getLessonsId(item.id)}>
                                                     <div>
                                                         Lesson {index + 1}: <span>{item.name}</span>
                                                     </div>
@@ -95,6 +98,11 @@ export default function PracticeTopic() {
                                     </div>
                                 </Col>
                                 <Col span={18}>
+                                    
+                                    <Routes>
+                                        <Route path={`/lesson`} element={<PracticeLesson  lessonId={lessonId}/>} />
+                                    </Routes>
+                                  
                                     <div className='lesson__ls'>
                                         <h3>Test</h3>
                                         <Row gutter={45}  >
@@ -103,14 +111,14 @@ export default function PracticeTopic() {
                                                     <Link to={'/practice/skill/question'} className='topic__item' onClick={() => onclickShowListenStart(item)} >
                                                         <h1 style={{ color: checkColorPercent(item) }}>
                                                             {item.correctAnswer !== null ?
-                                                                parseInt((item.correctAnswer / item.totalQuestion) * 100)
+                                                                parseInt((item.correctAnswer / item.totalQuestions) * 100)
                                                                 :
                                                                 0
                                                             }
                                                             %</h1>
                                                         {item.correctAnswer !== null ?
                                                             <p style={{ margin: 0, fontSize: '10px', color: "#18bd18", fontWeight: 600 }}>
-                                                                {item.correctAnswer}/{item.totalQuestion} correct</p>
+                                                                {item.correctAnswer}/{item.totalQuestions} correct</p>
                                                             :
                                                             <p ></p>
 
@@ -126,6 +134,7 @@ export default function PracticeTopic() {
                                 </Col>
                             </Row>
                         </>
+
                     }
                 </Col>
             </Row>

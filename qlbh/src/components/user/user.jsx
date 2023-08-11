@@ -26,8 +26,7 @@ export default function User() {
                         <Route path="/grammar" element={<Grammar />} />
                         <Route path="/practice/*" element={<Practice />} />
                         <Route path={`/practice/skill`} element={<PracticeSkill />} />
-                        <Route path={`/practice/skill/topic`} element={<PracticeTopic />} />
-                        <Route path={`/practice/skill/lesson`} element={<PracticeLesson />} />
+                        <Route path={`/practice/skill/topic/*`} element={<PracticeTopic />} />
                         <Route path={`/practice/skill/question`} element={<Question />} />
                         <Route path="*" element={<Notfound />} />
                     </Routes>

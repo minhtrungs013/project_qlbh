@@ -6,8 +6,10 @@ import { sendAnswers, GetHistory, GetQuestionsByObjectTypeId } from '../../../ap
 import { useSelector } from 'react-redux';
 import ListenStart from '../practice/practiceQuestion/listenStart';
 import "./question.css";
+import * as img from "../../../asset/img/index"
 
 export default function Question() {
+    console.log(img);
     const [data, setData] = useState([])
     const [chillData, setChillData] = useState([])
     const audioPlayerRef = useRef(null);
@@ -423,7 +425,7 @@ export default function Question() {
                                                 <div className='Chill__question' id='chill'>
                                                     {data[questionItem]?.questions?.map((item, index) => (
                                                         <div >
-                                                            <h2>Question:
+                                                            <h2>Question: {chillData.findIndex((a) => a.id === item.id) +1}
                                                                 <p>{item.textQuestion}
                                                                 </p>
                                                             </h2>
@@ -519,7 +521,7 @@ export default function Question() {
                                                                 size="large"
                                                                 disabled={countQuestion !== listAnswers.length}
                                                                 className='question__button btn-submit'
-                                                                style={{backgroundColor: countQuestion !== listAnswers.length ?  "#f4f4f4" : "#fdf0f0", boxShadow: 'none', color: "black"}}
+                                                                style={{backgroundColor: countQuestion !== listAnswers.length ?  "#f4f4f4" : '' , boxShadow: 'none', color: "black"}}
                                                                 onClick={() => onsubmit()}
                                                             >Finish</button>
                                                         }
