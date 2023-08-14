@@ -19,19 +19,19 @@ import { useParams } from "react-router-dom";
 import "./styleQuestion.css";
 import Loading from "../../shared/Loading/Loading";
 import { UploadOutlined, PlusOutlined, SaveOutlined, MinusCircleOutlined } from "@ant-design/icons";
-// import AudioTemplate from "../../shared/Audio/Audio";
 import HeaderPage from "../category/HeaderPage";
 import { getAllData, updateData } from "../../../api/service/api";
 import './style.css'
 import { useCallback } from "react";
 import { arrLevel } from "./ModalCreateQuestionByTopic";
 
+
 const DetailQuestion = (props) => {
   const [dataQuestion, setDataQuestion] = useState([]);
   const [loading, setLoading] = useState(false);
-  // const [isUpdate, setIsUpdate] = useState(false);
   let { id, objectTypeId } = useParams();
   const [form] = Form.useForm();
+  const [imageUrl, setImageUrl] = useState();
 
   const getDataQuestion = () => {
     setLoading(true);
@@ -47,6 +47,7 @@ const DetailQuestion = (props) => {
         type: arrQuestionById[0].type,
         questions: arrQuestionById[0].questions,
       };
+      setImageUrl(arrQuestionById[0].images)
       form.setFieldsValue(formControl)
       setLoading(false);
     });
@@ -72,15 +73,16 @@ const DetailQuestion = (props) => {
         return {textQuestion, answerA, answerB, answerC, answerD, correctAnswer};
       });
 
-      const imageArray =  formValues.images !== null && formValues?.images?.fileList.map((image) => {
-       return image.name
+      const imageArray =  formValues.images !== null && formValues?.images?.fileList?.map((image) => {
+        return image.name;
+        // return image.name.replace('.png', '.webp');
       });
   
       const formControl = {
         type: 'practice',
         objectTypeId: objectTypeId,
         level: formValues.level,
-        audioQuestion:  formValues.audioQuestion !== null && formValues.audioQuestion[0]?.name ? formValues.audioQuestion[0]?.name : null,
+        audioQuestion:  formValues.audioQuestion !== null && formValues.audioQuestion[0]?.name ? formValues.audioQuestion[0]?.name : form.getFieldValue('audioQuestion'),
         images: imageArray ? imageArray : null,
         questions: questionsArray,
       };
@@ -102,27 +104,6 @@ const DetailQuestion = (props) => {
   const btnEdit = useMemo(
     () => (
       <div style={{ position: "absolute", left: "190%", top: "-75px", zIndex: "99" }}>
-        {/* <Button
-          style={{ marginRight: "5px" }}
-          size="small"
-          type={isUpdate ? "default" : "primary"}
-          onClick={() => setIsUpdate(!isUpdate)}
-        >
-          {isUpdate ? "Cancel" : "Edit"}
-        </Button>
-        {isUpdate && (
-          <Button
-            size="small"
-            type="primary"
-            key="submit"
-            htmlType="submit"
-            form="myForm"
-            icon={<SaveOutlined />}
-            onClick={(values) => handleUpdate(values)}
-          >
-            Save
-          </Button>
-        )} */}
         <Button
             type="primary"
             key="submit"
@@ -179,15 +160,13 @@ const DetailQuestion = (props) => {
   
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const uploadButton = (
-    <div>
-      <PlusOutlined />
-      <div
-        style={{
-          marginTop: 8,
-        }}
-      >
-        Upload
-      </div>
+    <div style={{ position: "absolute", left: "240%", top: "-35px" }}>
+      <Button
+          type="dashed"
+          icon={<PlusOutlined />}
+          style={{ marginRight: "5px" }}
+          size="small"
+        > Upload </Button>
     </div>
   )
 
@@ -248,15 +227,25 @@ const DetailQuestion = (props) => {
             <Card className="cardGroup">
               <div className="wrapperText">Image</div>
               <Row gutter={24}>
-                <Col span={6}>
+                <Col span={12}>
                 <Form.Item
                     name="images"
                     label="Image"
                     valuePropName="images"
-                  >
-                    {/* <UploadImg lstFile={lstFile} name={"images"}  /> */}
-                    <Upload name="images" action="/images.do" listType="picture-card">
-                      {uploadButton}
+                  >                    
+                    <Upload name="images" action="/images.do" listType="picture-card" >
+                    {imageUrl && (
+                      <>
+                      <img
+                        src={`/static/media/${imageUrl}`}
+                        alt={imageUrl}
+                        style={{
+                          width: '100%',
+                        }}
+                      />
+                      </>
+                    )}
+                    {uploadButton}
                     </Upload>
                   </Form.Item>
                 </Col>
@@ -363,7 +352,7 @@ const DetailQuestion = (props) => {
         </Row>
       </Form>
     );
-  }, [form, btnEdit, uploadButton]);
+  }, [form, btnEdit, imageUrl, uploadButton]);
 
   return (
     <div>

@@ -48,7 +48,7 @@ const ListQuestionByTopic = props => {
           title: "Image",
           dataIndex: "images",
           key: "images",
-          render: (imgUrl) => <img width={60} alt={imgUrl} src={imgUrl} onError={handleImageError} />,
+          render: (imgUrl) => <img width={60} alt={imgUrl} src={`/static/media/${imgUrl}`} onError={handleImageError} />,
         },
         {
           title: "Action",

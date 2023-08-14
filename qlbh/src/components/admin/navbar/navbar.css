@@ -1,16 +1,10 @@
 .navbar {
     padding: 0 20px;
+    box-shadow: 10px 1px 15px 1px rgba(17, 18, 19, 0.35);
     border-bottom-left-radius: 6px;
-    border-bottom: 1px solid #f1f0f0    ;
-    position: fixed;
-    z-index: 99;
-    top: 0;
-    right: 0;
-    background-color: white;
-    left: 0;
+    border-bottom: 1px solid #f1f0f0;
 
 }
-
 .navbar__item {
     display: flex;
     justify-content: space-between;

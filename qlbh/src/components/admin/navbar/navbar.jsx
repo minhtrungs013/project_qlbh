@@ -1,14 +1,15 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import "./navbar.css"
 import {  useNavigate } from "react-router-dom";
-import { getAccountByUsernameAPI } from "../../../api/service/AuthService";
+// import { getAccountByUsernameAPI } from "../../../api/service/AuthService";
+import { useSelector } from 'react-redux';
 
-import { MenuOutlined, SearchOutlined, BellOutlined, PoweroffOutlined, MenuUnfoldOutlined, DownOutlined } from '@ant-design/icons';
+import { MenuOutlined, SearchOutlined, BellOutlined, PoweroffOutlined, MenuUnfoldOutlined } from '@ant-design/icons';
 export default function Navbar(props) {
     const [check, setCheck] = useState(false)
     const navigate = useNavigate();
-    const [userData, setUserData] = useState(null)
-    const username = localStorage.getItem("username");
+    const userName = useSelector(state => state.userReducer.userName);
+
 
     function check1() {
         if (check === false) {
@@ -18,15 +19,6 @@ export default function Navbar(props) {
             setCheck(false)
         }
     }
-
-
-    useEffect(() => {
-        getAccountByUsernameAPI(`accounts?username=${username}`).then((res) => {
-            setUserData(res.data.data);
-        }).catch((Error) => {
-            console.log(Error);
-        })
-    }, [username]);
 
 
 
@@ -50,7 +42,7 @@ export default function Navbar(props) {
                 <div className='navbar__rigth'>
                     <div className='user'>
                         <img src='https://kenh14cdn.com/thumb_w/660/2020/7/17/brvn-15950048783381206275371.jpg' alt="" className='user_img' />
-                        <span className='user__name'>{userData?.username}</span>
+                        <span className='user__name'>{userName}</span>
                         {/* <DownOutlined className='user__icon' /> */}
                         {/* <div className='user__list'>aaa</div> */}
                     </div>

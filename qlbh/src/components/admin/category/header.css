@@ -3,12 +3,12 @@
     color: #ffffff;
     font-size: 18px;
     height: 56px;
-    border-bottom: 2px solid #dedede;
+    border-bottom: 1px solid #dedede;
     position: relative;
     z-index: 10;
     max-width: 100%;
-    -webkit-box-shadow: 0 2px 8px #f0f1f2;
-    box-shadow: 0 2px 8px 2px rgb(210 210 210 / 80%);
+    /* -webkit-box-shadow: 0 2px 8px #f0f1f2;
+    box-shadow: 0 2px 8px 2px rgb(210 210 210 / 80%); */
     padding: 0px 16px;
   }
   .header-page__search{
