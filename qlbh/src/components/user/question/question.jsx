@@ -246,6 +246,7 @@ export default function Question() {
         GetHistory(`testHistories?testId=${objectTypeId}&userId=${userId}`)
             .then((res) => {
                 const historyTesting = res.data.data.find((item) => item.status === "TESTING");
+                const historyDone = res.data.data.filter((item) => item.status === "DONE");
                 if (historyTesting) {
                     setStatus(historyTesting?.status)
                     setListAnswers(historyTesting?.userAnswers || [])
@@ -268,7 +269,19 @@ export default function Question() {
                         value: item?.answerContent
                     }));
                     setValue(dataAnswer);
+                } else {
+                    const lastIndex = historyDone.length - 1;
+                    setStatus(historyDone[lastIndex]?.status)
+                    setListAnswers(historyDone[lastIndex]?.userAnswers || [])
+                    const dataAnswer = historyDone[lastIndex]?.userAnswers.map(item => ({
+                        id: item?.childQuestions[0]?.id,
+                        value: item?.answerContent
+                    }));
+                    setValue(dataAnswer);
+                    setQuestionItem(0)
+                    changeSource(0)
                 }
+
 
             }).catch((error) => {
                 console.log(error);

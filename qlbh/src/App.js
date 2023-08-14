@@ -17,7 +17,7 @@ function App() {
     }
   }, [isLoggedIn]);
   return (
-    <div className={isLoggedIn === 'false' ? 'App_login' : 'App'}>
+    <div className={isLoggedIn === 'false'  || isLoggedIn === null ? 'App_login' : 'App'}>
       <Routes>
         <Route path="/login" exact element={<Login />} />
       </Routes>

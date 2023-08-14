@@ -1,4 +1,4 @@
-import { Route, Routes } from "react-router-dom";
+import { Link, Route, Routes } from "react-router-dom";
 import { Col, Row, Spin } from 'antd';
 import { faEarListen, faCheck } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -7,7 +7,6 @@ import "./practiceTopic.css";
 import { getListenTopicByPracticePartId, getPracticePartsLessonsByPracticeId } from '../../../../api/service/paractice/paractice';
 import { useSelector, useDispatch } from 'react-redux';
 import { setObjectId } from '../../../redux/_actions';
-import { Link } from 'react-router-dom';
 import PracticeLesson from '../practiceLesson/practiceLesson';
 
 export default function PracticeTopic() {
@@ -18,7 +17,7 @@ export default function PracticeTopic() {
     const [dataLesson, setDataLesson] = useState([])
     const dispatch = useDispatch();
     const [lessonId, setLessonId] = useState(null)
-
+    const userId = useSelector(state => state.userReducer.userId);
 
     useEffect(() => {
         setLoading(true)
@@ -28,7 +27,7 @@ export default function PracticeTopic() {
     }, []);
 
     const getListenTopic = () => {
-        getListenTopicByPracticePartId(`partTests?userId=7d3bba49-91b7-4645-b143-dc14a0f49e6b&practicePartId=${practicePartId}`)
+        getListenTopicByPracticePartId(`partTests?userId=${userId}&practicePartId=${practicePartId}`)
             .then((res) => {
                 setData(res.data.data);
                 setLoading(false)
