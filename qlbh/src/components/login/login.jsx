@@ -2,8 +2,8 @@ import { Checkbox, Col, Row, message } from 'antd';
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { loginAPI, getUser } from "../../api/service/AuthService";
-import { useDispatch } from 'react-redux';
-import { setUser, setRoleUser } from '../redux/_actions/user.actions';
+import { useDispatch, useSelector } from 'react-redux';
+import { setUser, setRoleUser, setLoggedIn } from '../redux/_actions/user.actions';
 import "./login.css";
 
 export default function Login() {
@@ -11,8 +11,8 @@ export default function Login() {
     const navigate = useNavigate();
     const [username, setUsername] = useState(null);
     const [password, setPassword] = useState(null);
-    const isLoggedIn = localStorage.getItem("LoggedIn");
     const dispatch = useDispatch();
+    const isLoggedIn = useSelector(state => state.userReducer.loggedIn);
     useEffect(() => {
         if (isLoggedIn === 'true') {
             navigate("/");
@@ -29,17 +29,29 @@ export default function Login() {
         } else {
             await loginAPI('accounts/login', { username, password })
                 .then((response) => {
-                    getUser(`users?accountId=${response.data.data.id}`).then((res) => {
-                        dispatch(setUser(res.data.data))
-                    })
-                    dispatch(setRoleUser(response.data.data.role))
-                    localStorage.setItem("LoggedIn", true);
-                    navigate("/")
+                    if (response) {
+                        getUser(`users?accountId=${response.data.data.id}`).then((res) => {
+                            if (res) {
+                                dispatch(setUser(res.data.data))
+
+                            }
+                        }).catch((error) => {
+                            messageApi.open({
+                                type: 'error',
+                                content: error.response.data,
+                            });
+                            dispatch(setUser(response.data.data))
+                        })
+                        dispatch(setRoleUser(response.data.data.role))
+                        dispatch(setLoggedIn(true))
+                        navigate("/")
+                    }
                 })
                 .catch((error) => {
+                    console.log(error);
                     messageApi.open({
                         type: 'error',
-                        content: error.response.data,
+                        content: error.response?.data?.message,
                     });
                 });
         }

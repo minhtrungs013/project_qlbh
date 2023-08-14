@@ -5,6 +5,18 @@
     margin-right: 50px;
 }
 
+.navbar_user {
+    padding: 0 20px;
+    border-bottom-left-radius: 6px;
+    border-bottom: 1px solid #f1f0f0;
+    position: fixed;
+    z-index: 99;
+    top: 0;
+    right: 0;
+    background-color: white;
+    left: 0;
+}
+
 .user_img1 {
     height: 40px;
     width: 40px;

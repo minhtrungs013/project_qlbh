@@ -12,3 +12,9 @@ export const setRoleUser = (role) => {
       payload: role,
     };
   };
+  export const setLoggedIn = (LoggedIn) => {
+    return {
+      type: Constants.SET_LOGGED_IN,
+      payload: LoggedIn,
+    };
+  };

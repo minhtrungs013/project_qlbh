@@ -3,21 +3,25 @@ import { faBars, faBlog, faBook, faSpellCheck } from '@fortawesome/free-solid-sv
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useEffect, useState } from 'react';
 import { Link, NavLink, useNavigate } from "react-router-dom";
-import { getAccountByUsernameAPI } from "../../../api/service/AuthService";
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+import { setUser, setRoleUser, setLoggedIn } from '../../redux/_actions/user.actions';
 import "./navbar.css";
 
 
 export default function Navbar(props) {
     const navigate = useNavigate();
     const userName = useSelector(state => state.userReducer.userName);
+    const dispatch = useDispatch();
+
     const logOut = () => {
-        localStorage.removeItem("LoggedIn");
+        dispatch(setUser(null))
+        dispatch(setRoleUser(null))
+        dispatch(setLoggedIn(false))
         navigate("/login");
     }
 
     return (
-        <div className='navbar'>
+        <div className='navbar_user'>
             <div className='navbar__item'>
                 <div className='navbar__left'>
                     <div className='Navigate__heading1'>

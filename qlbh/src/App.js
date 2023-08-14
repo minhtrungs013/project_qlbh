@@ -9,24 +9,25 @@ import { useSelector } from 'react-redux';
 
 function App() {
   const navigate = useNavigate();
-  const isLoggedIn = localStorage.getItem("LoggedIn");
   const role = useSelector(state => state.userReducer.role);
+  const isLoggedIn = useSelector(state => state.userReducer.loggedIn);
+
   useEffect(() => {
-    if (isLoggedIn === 'false' || isLoggedIn === null) {
+    if (isLoggedIn === false || isLoggedIn === null) {
       navigate("/login");
     }
   }, [isLoggedIn]);
   return (
-    <div className={isLoggedIn === 'false'  || isLoggedIn === null ? 'App_login' : 'App'}>
+    <div className={isLoggedIn === false || isLoggedIn === null ? 'App_login' : 'App'}>
       <Routes>
         <Route path="/login" exact element={<Login />} />
       </Routes>
       <Routes>
         <Route path="/register" exact element={<Register />} />
       </Routes>
-      {isLoggedIn === "true" ? (
+      {isLoggedIn === true ? (
         <>
-       {role === "admin" ? <Admin></Admin> : <User></User>} 
+          {role === "admin" ? <Admin></Admin> : <User></User>}
         </>
       ) : null}
     </div>

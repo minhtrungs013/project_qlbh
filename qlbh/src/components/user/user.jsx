@@ -9,7 +9,6 @@ import PracticeSkill from './practice/practiceSkill/practiceSkill';
 import PracticeTopic from './practice/practiceTopic/practiceTopic';
 import VocabularyUser from './vocabularyUser/vocabularyUser';
 import Question from './question/question';
-import Notfound from '../notfound/notfound';
 
 
 export default function User() {
@@ -28,7 +27,6 @@ export default function User() {
                             <Route path={`/practice/skill`} element={<PracticeSkill />} />
                             <Route path={`/practice/skill/topic/*`} element={<PracticeTopic />} />
                             <Route path={`/practice/skill/question`} element={<Question />} />
-                            <Route path="*" element={<Notfound />} />
                         </Routes>
                     </div>
                 </Col>
