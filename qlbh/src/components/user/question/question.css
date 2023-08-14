@@ -1,10 +1,23 @@
 .question {
     text-align: left;
     box-shadow: 1px 1px 4px 0px #23caef;
-    min-height: 30vh;
     border-radius: 10px;
     margin-bottom: 20px;
+    overflow: hidden;
     padding: 30px;
+    animation: fadeIn 1.5s ease;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        max-height: 0;
+    }
+
+    to {
+        opacity: 1;
+        max-height: 100%;
+    }
 }
 
 .question h2 {
@@ -383,7 +396,8 @@
     padding: 5px 10px;
     display: block;
     margin-bottom: 10px;
-    border-radius: 10px;
+    padding-left: 10px;
+    border-radius: 6px;
     border: 1px solid rgb(235, 235, 235);
     cursor: pointer;
 }
@@ -396,7 +410,6 @@
 
 .Chill__question {
     overflow: hidden;
-    height: 300px;
     padding-left: 0;
     overflow-y: auto;
     padding: 2px;
@@ -420,5 +433,3 @@
     -webkit-box-shadow: inset 0 0 6px rgba(32, 181, 226, 0.438);
     background-color: #24e4f0;
 }
-
-

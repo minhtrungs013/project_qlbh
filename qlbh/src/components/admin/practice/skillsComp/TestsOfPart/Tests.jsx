@@ -112,7 +112,7 @@ const Tests = props => {
     const getTestById = () => {
         if(id){
           setLoading(true);
-        getDataById(`partTests?practicePartId=${id}`).then((result) => {
+        getDataById(`partTests?userId=7d3bba49-91b7-4645-b143-dc14a0f49e6b&practicePartId=${id}`).then((result) => {
             setDataTest(result.data.data);
             setLoading(false);
         });

@@ -4,30 +4,17 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useEffect, useState } from 'react';
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import { getAccountByUsernameAPI } from "../../../api/service/AuthService";
+import { useSelector } from 'react-redux';
 import "./navbar.css";
 
 
 export default function Navbar(props) {
     const navigate = useNavigate();
-    const username = localStorage.getItem("username");
-    const [userData, setUserData] = useState(null)
-
+    const userName = useSelector(state => state.userReducer.userName);
     const logOut = () => {
         localStorage.removeItem("LoggedIn");
-        localStorage.removeItem("userID");
-        localStorage.removeItem("role");
-        localStorage.removeItem("username");
-        localStorage.removeItem("userId");
         navigate("/login");
     }
-
-    useEffect(() => {
-        getAccountByUsernameAPI(`accounts?username=${username}`).then((res) => {
-            setUserData(res.data.data);
-        }).catch((Error) => {
-            console.log(Error);
-        })
-    }, [username]);
 
     return (
         <div className='navbar'>
@@ -90,7 +77,7 @@ export default function Navbar(props) {
                     <div className='user'>
                         {/* <img src={userData?.image} alt="" className='user_img' /> */}
                         <img src="https://nv.edu.vn/wp-content/uploads/2020/08/english-course.jpg" alt="" className='user_img' />
-                        <span className='user__name'>{userData?.username}</span>
+                        <span className='user__name'>{userName}</span>
                     </div>
                     <div className='navbar__rigth-user-icon'>
                         <BellOutlined />

@@ -46,8 +46,12 @@ import p2_test2_22 from "../p2_test2/p2_test2_21.mp3"
 import p2_test2_23 from "../p2_test2/p2_test2_22.mp3"
 import p2_test2_24 from "../p2_test2/p2_test2_23.mp3"
 import p2_test2_25 from "../p2_test2/p2_test2_24.mp3"
+import p4_test1 from "../p4_test1/p4_test1.mp3"
+import p4_testa1 from "../p4_test1/p4_test1.png"
 
 export {
+    p4_test1,
+    p4_testa1,
     p1_test1_1,
     p1_test1_2,
     p1_test1_3,

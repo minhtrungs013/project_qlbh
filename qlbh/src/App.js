@@ -5,13 +5,12 @@ import Login from './components/login/login';
 import Register from './components/register/register';
 import Admin from './components/admin/admin';
 import User from './components/user/user';
-
+import { useSelector } from 'react-redux';
 
 function App() {
   const navigate = useNavigate();
   const isLoggedIn = localStorage.getItem("LoggedIn");
-  const role = localStorage.getItem("role");
-
+  const role = useSelector(state => state.userReducer.role);
   useEffect(() => {
     if (isLoggedIn === 'false' || isLoggedIn === null) {
       navigate("/login");

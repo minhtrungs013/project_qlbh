@@ -7,16 +7,12 @@ import VocabularyDetailUser from '../vocabularyDetailUser/vocabularyDetailUser';
 import { useDispatch } from 'react-redux';
 import { setPracticeType } from '../../redux/_actions';
 import "./homeUser.css";
-import test from "../../../asset/p1_test02/test2_6.png"
-import test1 from "../../../asset/p3_test1/p3_test1_1-2-3.mp3"
 
 export default function VocabularyUser() {
   const [data, setData] = useState([])
   const [showVocabularyDetail, setShowVocabularyDetail] = useState(false)
   const [vocabularyDetailId, setVocabularyDetailId] = useState(null)
   const dispatch = useDispatch();
-
-  console.log(test1);
 
   const showVocabulary = (idvocabulary) => {
     setShowVocabularyDetail(!showVocabularyDetail)

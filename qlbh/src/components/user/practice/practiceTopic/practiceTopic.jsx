@@ -17,7 +17,8 @@ export default function PracticeTopic() {
     const [data, setData] = useState([])
     const [dataLesson, setDataLesson] = useState([])
     const dispatch = useDispatch();
-    const [lessonId, setLessonId] = useState('')
+    const [lessonId, setLessonId] = useState(null)
+
 
     useEffect(() => {
         setLoading(true)
@@ -98,7 +99,6 @@ export default function PracticeTopic() {
                                     </div>
                                 </Col>
                                 <Col span={18}>
-                                    
                                     <Routes>
                                         <Route path={`/lesson`} element={<PracticeLesson  lessonId={lessonId}/>} />
                                     </Routes>

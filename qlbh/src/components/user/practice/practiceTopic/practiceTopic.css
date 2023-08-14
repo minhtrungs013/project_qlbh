@@ -6,10 +6,20 @@
     box-shadow: 0px 0px 3px 0px #d9d9d9;
     border-radius: 6px;
     padding: 10px;
+    overflow: hidden;
     margin-bottom: 10px;
-    transition: .5s ease;
+    animation: fadeIn 1.5s ease;
 }
 
+@keyframes fadeIn {
+    from {
+        max-height: 0;
+    }
+    to {
+        max-height: 100%;
+
+    }
+}
 
 .lesson__item {
     cursor: pointer;

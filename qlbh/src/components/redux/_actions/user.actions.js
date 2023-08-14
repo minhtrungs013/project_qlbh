@@ -1,29 +1,14 @@
 import { Constants } from "../_constants/constants";
 
-export const setPracticeId = (id) => {
+export const setUser = (user) => {
   return {
-    type: Constants.SET_PRACTICE_ID,
-    payload: id,
+    type: Constants.SET_USER,
+    payload: user,
   };
 };
-
-export const setPracticeType = (type) => {
-  return {
-    type: Constants.SET_PRACTICE_TYPE,
-    payload: type,
+export const setRoleUser = (role) => {
+    return {
+      type: Constants.SET_ROLE_USER,
+      payload: role,
+    };
   };
-};
-
-export const setPracticePartId = (id) => {
-  return {
-    type: Constants.SET_PRACTICE_PART_ID,
-    payload: id,
-  };
-};
-
-export const setObjectId = (id) => {
-  return {
-    type: Constants.SET_OBJECT_ID,
-    payload: id,
-  };
-};

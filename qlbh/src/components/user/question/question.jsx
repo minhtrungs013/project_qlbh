@@ -13,7 +13,6 @@ export default function Question() {
     const [data, setData] = useState([])
     const [chillData, setChillData] = useState([])
     const audioPlayerRef = useRef(null);
-    const userId = '7d3bba49-91b7-4645-b143-dc14a0f49e6b';
     const [messageApi, contextHolder] = message.useMessage();
     const [value, setValue] = useState([]);
     const [questionItem, setQuestionItem] = useState(0)
@@ -23,12 +22,12 @@ export default function Question() {
     const [countCorrect, setCountCorrect] = useState(0)
     const [countInCorrect, setCountInCorrect] = useState(0)
     const [countQuestion, setCountQuestion] = useState(0)
-    const [dataHistory, setDataHistory] = useState([])
     const [status, setStatus] = useState('')
     const [loading, setLoading] = useState(false)
 
     const practiceType = useSelector(state => state.practiceReducer.practiceType);
     const objectTypeId = useSelector(state => state.practiceReducer.objectTypeId);
+    const userId = useSelector(state => state.userReducer.userId);
 
     const onClickStart = () => {
         setValue([])
@@ -70,12 +69,7 @@ export default function Question() {
         }
         sendAnswers(`testHistories/sendAnswer`, dataQuestionAnswers)
             .then((res) => {
-                if (practiceType === 'listen') {
-                    setShowTranscript(true)
-                }
                 setListAnswers((prevListAnswers) => [...prevListAnswers, res.data.data]);
-                setShowTranscript(true)
-
             })
             .catch((error) => {
                 messageApi.open({
@@ -172,22 +166,8 @@ export default function Question() {
         getHistoryByTestId();
     }, []);
 
-    const checkColorPercent = (item) => {
-        const countCorrect = item?.userAnswers.reduce((count, item) => count + (item.correct ? 1 : 0), 0)
-        const percent = parseInt((countCorrect / countQuestion) * 100)
-        if (percent === 0 && percent < 50) {
-            return 'red'
-        } else if (percent > 49 && percent < 75) {
-            return '#f29f05'
-        } else if (percent > 74) {
-            return '#52c41a'
-        } else {
-            return 'red'
-        }
-    }
-
     const checkColorResults = (id, value) => {
-        const answer = listAnswers.find((answer) => answer.questionId === id);
+        const answer = listAnswers?.find((answer) => answer?.childQuestions?.find((item) => item.id === id) || answer?.childQuestionId === id);
         let isValueCorrect;
         let isAnswerCorrect;
         let userAnswer;
@@ -214,32 +194,6 @@ export default function Question() {
         }
     }
 
-    const checkPercent = (item) => {
-        const countCorrect = item?.userAnswers.reduce((count, item) => count + (item.correct ? 1 : 0), 0)
-        return parseInt((countCorrect / countQuestion) * 100)
-
-    }
-
-    const showHistory = (item) => {
-        if (status === "TESTING") {
-            return
-        }
-        if (listAnswers.length < 1) {
-            setStatus("DONE")
-        }
-        const dataAnswer = item.userAnswers.map(item => ({
-            id: item?.childQuestions[0]?.id,
-            value: item?.answerContent
-        }));
-        setValue(dataAnswer);
-        setListAnswers(item.userAnswers)
-        setCountCorrect(item.userAnswers.reduce((count, item) => count + (item.correct ? 1 : 0), 0))
-        setCountInCorrect(item.userAnswers.reduce((count, item) => count + (!item.correct ? 1 : 0), 0))
-        if (startQuestion) {
-            setStartQuestion(false)
-        }
-    }
-
     const OnClickContinue = () => {
         getHistoryByTestId()
         setStartQuestion(!startQuestion)
@@ -254,7 +208,6 @@ export default function Question() {
         setStartQuestion(!startQuestion)
 
     }
-
 
     const onClickTryAgain = () => {
         setStatus("TESTING")
@@ -293,7 +246,6 @@ export default function Question() {
         GetHistory(`testHistories?testId=${objectTypeId}&userId=${userId}`)
             .then((res) => {
                 const historyTesting = res.data.data.find((item) => item.status === "TESTING");
-                const historyDone = res.data.data.filter((item) => item.status === "DONE");
                 if (historyTesting) {
                     setStatus(historyTesting?.status)
                     setListAnswers(historyTesting?.userAnswers || [])
@@ -316,23 +268,6 @@ export default function Question() {
                         value: item?.answerContent
                     }));
                     setValue(dataAnswer);
-
-                } else {
-                    const lastIndex = historyDone.length - 1;
-                    setStatus(historyDone[lastIndex]?.status)
-                    setListAnswers(historyDone[lastIndex]?.userAnswers || [])
-                    const dataAnswer = historyDone[lastIndex]?.userAnswers.map(item => ({
-                        id: item?.childQuestions[0]?.id,
-                        value: item?.answerContent
-                    }));
-                    setValue(dataAnswer);
-                    setQuestionItem(0)
-                    changeSource(0)
-                }
-
-                if (historyDone) {
-                    const reversedArray = historyDone.reverse();
-                    setDataHistory(reversedArray || [])
                 }
 
             }).catch((error) => {
@@ -342,6 +277,16 @@ export default function Question() {
 
     useEffect(() => {
         if (listAnswers.length > 0) {
+            const question = data.find((item) => item.id === data[questionItem].id)
+            if (question) {
+                const isSubset = question.questions?.every(item1 =>
+                    listAnswers.some(item2 => item1.id === (item2?.childQuestions && item2?.childQuestions[0]?.id !== undefined ? item2?.childQuestions[0]?.id : item2.childQuestionId))
+                );
+                if (isSubset) {
+                    console.log("aaa");
+                    setShowTranscript(true)
+                }
+            }
             setCountCorrect(listAnswers.reduce((count, item) => count + (item.correct ? 1 : 0), 0))
             setCountInCorrect(listAnswers.reduce((count, item) => count + (!item.correct ? 1 : 0), 0))
         }
@@ -386,22 +331,6 @@ export default function Question() {
                                         <div> <FontAwesomeIcon className='faCircleXmark' icon={faCircleXmark} /> {countInCorrect} InCorrect</div>
                                     </div>
                                 </div>
-                                <div className=''>
-                                    <h3 className='history__heading'>History</h3>
-                                    {dataHistory.length > 0 ?
-                                        <ul className='history__list' id='history'>
-                                            {dataHistory?.map((item, index) => (
-                                                <li className='history__item' onClick={() => showHistory(item)}>
-                                                    {index === 0 ? "Latest" : 'test ' + (dataHistory.length - (index))}
-                                                    <Progress percent={checkPercent(item)} size="small" strokeColor={checkColorPercent(item)} />
-                                                </li>
-                                            ))}
-                                        </ul>
-                                        :
-                                        <h4>...</h4>
-                                    }
-
-                                </div>
                             </Col>
                             <Col span={18} className=''>
                                 {!startQuestion ?
@@ -423,76 +352,68 @@ export default function Question() {
                                             </div>
                                             <div className='question-item' >
                                                 <div className='Chill__question' id='chill'>
-                                                    {data[questionItem]?.questions?.map((item, index) => (
+                                                    {data[questionItem]?.questions && data[questionItem]?.questions?.map((item, index) => (
                                                         <div >
-                                                            <h2>Question: {chillData.findIndex((a) => a.id === item.id) +1}
+                                                            <h2>Question {chillData.findIndex((a) => a.id === item.id) + 1}:
                                                                 <p>{item.textQuestion}
                                                                 </p>
                                                             </h2>
                                                             <Radio.Group onChange={(e) => onChangeQuestionAnswer(e, data[questionItem], item.id)} value={getValue(item)}>
                                                                 <Space direction="vertical">
-                                                                    <Radio value={item.answerA} className=''>A. {item.answerA} </Radio>
-                                                                    <Radio value={item.answerB} className=''>B. {item.answerB}</Radio>
-                                                                    <Radio value={item.answerC} className=''>C. {item.answerC}</Radio>
+                                                                    <Radio value={item.answerA} style={{ color: checkColorResults(item.id, item?.answerA) }} className=''>A. {data[questionItem]?.questions.length > 1 && item.answerA} </Radio>
+                                                                    <Radio value={item.answerB} style={{ color: checkColorResults(item.id, item?.answerB) }} className=''>B. {data[questionItem]?.questions.length > 1 && item.answerB}</Radio>
+                                                                    <Radio value={item.answerC} style={{ color: checkColorResults(item.id, item?.answerC) }} className=''>C. {data[questionItem]?.questions.length > 1 && item.answerC}</Radio>
                                                                     {
-                                                                        item.answerD ? <Radio value={item.answerD} className=''>D. {item.answerD}</Radio> : <></>
+                                                                        item.answerD && <Radio value={item.answerD} style={{ color: checkColorResults(item?.id, item?.answerD) }} className=''>D. {data[questionItem]?.questions.length > 1 && item.answerD}</Radio>
                                                                     }
                                                                 </Space>
                                                             </Radio.Group>
-                                                            {listAnswers[questionItem]?.correctAnswer !== undefined && practiceType === 'vocabulary' ? (
+                                                            {listAnswers[questionItem]?.correctAnswer !== undefined && practiceType === 'vocabulary' &&
                                                                 <p className='correctAnswer'>The correct answer is:
                                                                     <p>{listAnswers[questionItem]?.correctAnswer}
                                                                     </p>
-                                                                </p>
-                                                            ) : (<p></p>)}
+                                                                </p>}
                                                         </div>))}
                                                 </div>
-                                                {data[questionItem]?.images[0] !== undefined ?
+                                                {data[questionItem]?.images && data[questionItem]?.images[0] !== undefined &&
                                                     <div style={{ marginRight: "0" }}>
                                                         <img className='question-item-img' src={`/static/media/${data[questionItem]?.images[0]}`} alt="" />
                                                     </div>
-                                                    :
-                                                    <></>
                                                 }
                                             </div>
 
                                             {showTranscipt && practiceType === 'listen' && data[questionItem]?.transcript === null ?
                                                 <>
                                                     <div className='Lquestion__action'>
-                                                        <div className='Transcript'>
-                                                            <span>Transcript :</span>
-                                                            <p style={{ color: checkColorResults(data[questionItem]?.id, data[questionItem]?.questions[0]?.answerA) }}>
-                                                                A. {data[questionItem]?.questions[0]?.answerA}
-                                                            </p>
-                                                            <p style={{ color: checkColorResults(data[questionItem]?.id, data[questionItem]?.questions[0]?.answerB) }}>
-                                                                B. {data[questionItem]?.questions[0]?.answerB}
-                                                            </p>
-                                                            <p style={{ color: checkColorResults(data[questionItem]?.id, data[questionItem]?.questions[0]?.answerC) }}>
-                                                                C. {data[questionItem]?.questions[0]?.answerC}
-                                                            </p>
-                                                            {data[questionItem]?.questions[0]?.answerD ?
-                                                                <p style={{ color: checkColorResults(data[questionItem]?.id, data[questionItem]?.questions[0]?.answerD) }}>
-                                                                    D. {data[questionItem]?.questions[0]?.answerD}
+                                                        {data[questionItem]?.questions && data[questionItem]?.questions?.map((item, index) => (
+                                                            <div className='Transcript'>
+                                                                <span>Transcript :</span>
+                                                                <p style={{ color: checkColorResults(item?.id, item?.answerA) }}>
+                                                                    A. {item?.answerA}
                                                                 </p>
-                                                                :
-                                                                <></>
-                                                            }
+                                                                <p style={{ color: checkColorResults(item?.id, item?.answerB) }}>
+                                                                    B. {item?.answerB}
+                                                                </p>
+                                                                <p style={{ color: checkColorResults(item?.id, item?.answerC) }}>
+                                                                    C. {item?.answerC}
+                                                                </p>
+                                                                {item?.answerD &&
+                                                                    <p style={{ color: checkColorResults(item?.id, item?.answerD) }}>
+                                                                        D. {item?.answerD}
+                                                                    </p>
+                                                                }
 
-
-                                                        </div>
+                                                            </div>))}
                                                     </div>
                                                 </>
                                                 :
                                                 <>
-                                                    {showTranscipt && practiceType === 'listen' && data[questionItem]?.transcript !== null ?
+                                                    {showTranscipt && practiceType === 'listen' && data[questionItem]?.transcript !== null &&
                                                         <>
                                                             <div className='Transcript'>
                                                                 <span>Transcript :</span>
                                                                 <p>{data[questionItem]?.transcript}</p>
                                                             </div>
-                                                        </>
-                                                        :
-                                                        <>
                                                         </>
                                                     }
                                                 </>
@@ -517,11 +438,11 @@ export default function Question() {
                                                             >Results</button>
 
                                                             :
+                                                            countQuestion === listAnswers.length &&
                                                             <button type="primary"
                                                                 size="large"
                                                                 disabled={countQuestion !== listAnswers.length}
                                                                 className='question__button btn-submit'
-                                                                style={{backgroundColor: countQuestion !== listAnswers.length ?  "#f4f4f4" : '' , boxShadow: 'none', color: "black"}}
                                                                 onClick={() => onsubmit()}
                                                             >Finish</button>
                                                         }

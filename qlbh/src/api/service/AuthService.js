@@ -15,3 +15,6 @@ export function getAccountByUsernameAPI(endpoint) {
     return API.get(`${API_BASE}/${endpoint}`);
 }
 
+export function getUser(endpoint) {
+    return API.get(`${API_BASE}/${endpoint}`);
+}

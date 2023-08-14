@@ -5,21 +5,22 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useSelector } from 'react-redux';
 import React, { useEffect, useState } from 'react';
 import "./practiceLesson.css"
+import { Link, useNavigate } from 'react-router-dom';
 
 
 export default function PracticeLesson({ lessonId }) {
-    const [loading, setLoading] = useState(false)
     const [loadingLesson, setLoadingLesson] = useState(false)
+    const navigate = useNavigate()
 
     const [dataLessonId, setDataLessonId] = useState([])
-    const practicePartId = useSelector(state => state.practiceReducer.practicePartId);
-    const partLessonId = localStorage.getItem("partLessonId");
-    // const [lessonId, setLessonId] = useState(partLessonId)
 
     useEffect(() => {
         getLessonId()
     }, []);
     useEffect(() => {
+        if(lessonId === null) {
+            navigate("practice/")
+        }
         setLoadingLesson(true)
         getLessonId()
     }, [lessonId]);
@@ -35,18 +36,16 @@ export default function PracticeLesson({ lessonId }) {
             })
     }
 
-    // const changeLesson = (id) => {
-    //     setLessonId(id)
-    // }
-
     return (
         <>
-            <div className='lesson__ls'>
-                {loadingLesson ?
-                    <div style={{ textAlign: "center" }}>
-                        <Spin />
-                    </div> :
-                    <>
+            {loadingLesson ?
+
+                <div style={{ textAlign: "center", paddingBottom: '30px' }}>
+                    <Spin />
+                </div> :
+                <>
+                    <div className='lesson__ls'>
+
                         <Row gutter={45}  >
                             <Col span={24} >
                                 <h2 className='lesson__heading'>{dataLessonId.name}</h2>
@@ -65,9 +64,10 @@ export default function PracticeLesson({ lessonId }) {
                                 ))}
                             </Col>
                         </Row>
-                    </>
-                }
-            </div>
+                    </div>
+
+                </>
+            }
         </>
     )
 }

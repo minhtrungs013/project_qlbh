@@ -1,7 +1,9 @@
 import { Checkbox, Col, Row, message } from 'antd';
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { loginAPI } from "../../api/service/AuthService";
+import { loginAPI, getUser } from "../../api/service/AuthService";
+import { useDispatch } from 'react-redux';
+import { setUser, setRoleUser } from '../redux/_actions/user.actions';
 import "./login.css";
 
 export default function Login() {
@@ -10,7 +12,7 @@ export default function Login() {
     const [username, setUsername] = useState(null);
     const [password, setPassword] = useState(null);
     const isLoggedIn = localStorage.getItem("LoggedIn");
-
+    const dispatch = useDispatch();
     useEffect(() => {
         if (isLoggedIn === 'true') {
             navigate("/");
@@ -27,9 +29,10 @@ export default function Login() {
         } else {
             await loginAPI('accounts/login', { username, password })
                 .then((response) => {
-                    localStorage.setItem("role", response.data.data.role);
-                    localStorage.setItem("username", response.data.data.username);
-                    localStorage.setItem("userId", response.data.data.id);
+                    getUser(`users?accountId=${response.data.data.id}`).then((res) => {
+                        dispatch(setUser(res.data.data))
+                    })
+                    dispatch(setRoleUser(response.data.data.role))
                     localStorage.setItem("LoggedIn", true);
                     navigate("/")
                 })
