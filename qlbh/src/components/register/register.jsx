@@ -42,7 +42,7 @@ export default function Register() {
             password: data.password,
             confirmPassword: data.confirmPassword,
             role: "user",
-            surname: data.username,
+            surname: data.surname,
             name: data.name,
             email: data.email,
             dateOfBirth: data.dateOfBirth,
@@ -50,6 +50,16 @@ export default function Register() {
             phone: data.phone,
             age: data.age
         };
+
+        const regex = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+/;
+        if (regex.test(newAccount.username) || regex.test(newAccount.surname) || regex.test(newAccount.name)) {
+            messageApi.open({
+                type: 'warning',
+                content: 'Cannot contain special characters',
+            });
+            return
+        }
+
         if (data.password !== data.confirmPassword) {
             messageApi.open({
                 type: 'warning',

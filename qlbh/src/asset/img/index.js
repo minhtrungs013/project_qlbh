@@ -141,5 +141,11 @@ export {
     p2_test1_22,
     p2_test1_23,
     p2_test1_24,
+    p1_test1_a1,
+    p1_test1_a2,
+    p1_test1_a3,
+    p1_test1_a4,
+    p1_test1_a5,
+    p1_test1_a6,
 }
 

@@ -21,6 +21,14 @@ export default function Login() {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
+        const regex = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+/;
+        if(regex.test(username)){
+            messageApi.open({
+                type: 'warning',
+                content: 'User name cannot contain special characters',
+            });
+            return
+        }
         if (username === null || password === null) {
             messageApi.open({
                 type: 'warning',
