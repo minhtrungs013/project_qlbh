@@ -1,4 +1,5 @@
 import { faCaretLeft, faCaretRight, faCircleCheck, faCircleXmark } from '@fortawesome/free-solid-svg-icons';
+import { LoadingOutlined } from '@ant-design/icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Col, Radio, Row, Space, message, Spin, Progress, Image } from 'antd';
 import React, { useRef, useState, useEffect } from 'react';
@@ -24,7 +25,7 @@ export default function Question() {
     const [countQuestion, setCountQuestion] = useState(0)
     const [status, setStatus] = useState('')
     const [loading, setLoading] = useState(false)
-
+    const [loadingAnswer, setLoadingAnswer] = useState(false)
     const practiceType = useSelector(state => state.practiceReducer.practiceType);
     const objectTypeId = useSelector(state => state.practiceReducer.objectTypeId);
     const userId = useSelector(state => state.userReducer.userId);
@@ -70,6 +71,7 @@ export default function Question() {
         sendAnswers(`testHistories/sendAnswer`, dataQuestionAnswers)
             .then((res) => {
                 setListAnswers((prevListAnswers) => [...prevListAnswers, res.data.data]);
+                setLoadingAnswer(false)
             })
             .catch((error) => {
                 messageApi.open({
@@ -88,6 +90,7 @@ export default function Question() {
         if (tesst) {
             return
         }
+        setLoadingAnswer(true)
         setValue([...value, data]);
         sendAnswerQuestion(e.target.value, question, id)
     };
@@ -102,11 +105,14 @@ export default function Question() {
 
             if (allQuestionsAnswered || status === "DONE") {
                 setShowTranscript(true);
+                setLoadingAnswer(false)
             } else {
                 setShowTranscript(false);
+                setLoadingAnswer(false)
             }
         } else {
             setShowTranscript(false);
+            setLoadingAnswer(false)
         }
     };
 
@@ -314,6 +320,14 @@ export default function Question() {
             return null
         }
     }
+    const antIcon = (
+        <LoadingOutlined
+            style={{
+                fontSize: 24,
+            }}
+            spin
+        />
+    );
 
     return (
         <>
@@ -431,46 +445,53 @@ export default function Question() {
                                                     }
                                                 </>
                                             }
-                                            <div className='question__action'>
-                                                <button type="primary"
-                                                    size="large"
-                                                    disabled={questionItem === 0}
-                                                    className='question__button'
-                                                    onClick={() => prvOrNext(0, data[questionItem - 1]?.id)}>
-                                                    <FontAwesomeIcon className='faCaretLeft' icon={faCaretLeft} />
-                                                    Previous
-                                                </button>
-                                                {(questionItem + 1) === data.length ? (
-                                                    <>
-                                                        {status === "DONE" ?
-                                                            <button type="primary"
-                                                                size="large"
-                                                                disabled={countQuestion !== listAnswers.length}
-                                                                className='question__button btn-submit'
-                                                                onClick={() => onClickStart()}
-                                                            >Results</button>
+                                            {showTranscipt ?
+                                                <div className='question__action'>
+                                                    {questionItem !== 0 &&
+                                                        <button type="primary"
+                                                            size="large"
+                                                            disabled={questionItem === 0}
+                                                            className='question__button'
+                                                            onClick={() => prvOrNext(0, data[questionItem - 1]?.id)}>
+                                                            <FontAwesomeIcon className='faCaretLeft' icon={faCaretLeft} />
+                                                            Previous
+                                                        </button>
+                                                    }
+                                                    {(questionItem + 1) === data.length ? (
+                                                        <>
+                                                            {status === "DONE" ?
+                                                                <button type="primary"
+                                                                    size="large"
+                                                                    disabled={countQuestion !== listAnswers.length}
+                                                                    className='question__button btn-submit'
+                                                                    onClick={() => onClickStart()}
+                                                                >Results</button>
 
-                                                            :
-                                                            countQuestion === listAnswers.length &&
-                                                            <button type="primary"
-                                                                size="large"
-                                                                disabled={countQuestion !== listAnswers.length}
-                                                                className='question__button btn-submit'
-                                                                onClick={() => onsubmit()}
-                                                            >Finish</button>
-                                                        }
-                                                    </>
+                                                                :
+                                                                countQuestion === listAnswers.length &&
+                                                                <button type="primary"
+                                                                    size="large"
+                                                                    disabled={countQuestion !== listAnswers.length}
+                                                                    className='question__button btn-submit'
+                                                                    onClick={() => onsubmit()}
+                                                                >Finish</button>
+                                                            }
+                                                        </>
 
-                                                ) : (
-                                                    <button type="primary"
-                                                        size="large"
-                                                        className='question__button'
-                                                        onClick={() => prvOrNext(1, data[questionItem + 1]?.id)}>
-                                                        Next
-                                                        <FontAwesomeIcon className='faCaretRight' icon={faCaretRight} />
-                                                    </button>
-                                                )}
-                                            </div>
+                                                    ) : (
+                                                        <button type="primary"
+                                                            size="large"
+                                                            className='question__button'
+                                                            onClick={() => prvOrNext(1, data[questionItem + 1]?.id)}>
+                                                            Next
+                                                            <FontAwesomeIcon className='faCaretRight' icon={faCaretRight} />
+                                                        </button>
+                                                    )}
+                                                </div>
+                                                :
+                                                loadingAnswer &&
+                                                <><Spin indicator={antIcon} /><span>Waiting...</span></>
+                                            }
                                         </div>
                                     </>
                                 }

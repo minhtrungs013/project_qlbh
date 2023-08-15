@@ -51,11 +51,42 @@ export default function Register() {
             age: data.age
         };
 
+        const today = new Date()
+        const year = today.getFullYear();
+        const month = String(today.getMonth() + 1).padStart(2, '0');
+        const day = String(today.getDate()).padStart(2, '0');
+        const currentDate = new Date(`${year}-${month}-${day}`).getTime();
+        const secondDate = new Date(newAccount.dateOfBirth).getTime();
+        const isNumber = /^\d+$/;
         const regex = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+/;
+     
         if (regex.test(newAccount.username) || regex.test(newAccount.surname) || regex.test(newAccount.name)) {
             messageApi.open({
                 type: 'warning',
                 content: 'Cannot contain special characters',
+            });
+            return
+        }
+        if (!isNumber.test(newAccount.phone)) {
+            messageApi.open({
+                type: 'warning',
+                content: 'Phone number is not in the correct format',
+            });
+            return
+        }
+
+        if (!isNumber.test(newAccount.age)) {
+            messageApi.open({
+                type: 'warning',
+                content: 'Age is not in the correct format',
+            });
+            return
+        }
+
+        if (currentDate === secondDate || currentDate < secondDate) {
+            messageApi.open({
+                type: 'warning',
+                content: 'The date of birth must not coincide with the current date',
             });
             return
         }
@@ -99,7 +130,7 @@ export default function Register() {
                                         <input type="text" className='register_input' name="surname" onChange={handleRegisterForm} placeholder='Sur name' required />
                                     </div>
                                     <div className='register_item'>
-                                        <label className='register_text'>name</label>
+                                        <label className='register_text'>Name</label>
                                         <input type="text" className='register_input' name="name" onChange={handleRegisterForm} placeholder='Name' required />
                                     </div>
                                     <div className='register_item'>
@@ -114,7 +145,7 @@ export default function Register() {
                                         <button type="submit" className='register_button'>Register</button>
                                     </div>
                                     <div className='register_item'>
-                                        <span className="register_register-text ">Do not have an account?. </span>
+                                        <span className="register_register-text ">Do you already have an account? </span>
                                         <Link className="register_item-link " to="/login">Login</Link>
                                     </div>
                                 </div>
@@ -127,11 +158,11 @@ export default function Register() {
                                     </div>
                                     <div className='register_item'>
                                         <label className='register_text'>Phone</label>
-                                        <input type="number" className='register_input' name="phone" onChange={handleRegisterForm} placeholder='Phone number' required />
+                                        <input type="text" className='register_input' name="phone" onChange={handleRegisterForm} placeholder='Phone number' required />
                                     </div>
                                     <div className='register_item'>
                                         <label className='register_text'>Age</label>
-                                        <input type="number" className='register_input' name="age" onChange={handleRegisterForm} placeholder='Age' required />
+                                        <input type="text" className='register_input' name="age" onChange={handleRegisterForm} placeholder='Age' required />
                                     </div>
                                     <div className='register_item'>
                                         <label className='register_text'> Password</label>

@@ -72,7 +72,10 @@ import p2_test1_23 from "../p2_test1/p2_test1_23.mp3"
 import p2_test1_24 from "../p2_test1/p2_test1_24.mp3"
 import p4_test1 from "../p4_test1/p4_test1.mp3"
 import p4_testa1 from "../p4_test1/p4_test1.png"
-
+import part_1 from "./part-1.webp"
+import part_2 from "./part-2.webp"
+import part_3 from "./part-3.webp"
+import part_4 from "./part-4.webp"
 
 export {
     p1_test1_1,
@@ -147,5 +150,9 @@ export {
     p1_test1_a4,
     p1_test1_a5,
     p1_test1_a6,
+    part_1,
+    part_2,
+    part_3,
+    part_4,
 }
 

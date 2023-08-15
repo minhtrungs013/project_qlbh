@@ -106,7 +106,7 @@ export default function Login() {
                                         <button type="submit" className='login_button'>Login</button>
                                     </div>
                                     <div className='login_item'>
-                                        <span className="login_register-text ">Do not have an account?. </span>
+                                        <span className="login_register-text ">Do not have an account? </span>
                                         <Link className="login_item-link " to="/register">Create an account</Link>
                                     </div>
                                 </form>
