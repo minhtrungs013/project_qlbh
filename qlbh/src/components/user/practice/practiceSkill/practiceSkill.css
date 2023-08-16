@@ -27,7 +27,7 @@
 }
 
 .pListen:hover {
-    margin-top: -5px;
+    margin-top: -3px;
     box-shadow: 1px 4px 4px 0px #23caef;
     color: #23caef;
 }
@@ -35,7 +35,6 @@
 .pListen p {
     padding: 0 10px;
     text-align: left;
-    width: 221px;
     overflow: hidden;
     display: -webkit-box;
     -webkit-box-orient: vertical;

@@ -1,4 +1,4 @@
-import { Col, Row, Spin } from 'antd';
+import { Col, Row, Spin, Tooltip } from 'antd';
 import { useSelector, useDispatch } from 'react-redux';
 import { faEarListen } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -80,8 +80,10 @@ export default function PracticeSkill() {
                                         <Link to={'/practice/skill/topic'} onClick={() => changePracticePartId(item)} className='pListen__link'>
                                             <div className='pListen' >
                                                 <img className='pListen_img' src={item.image} alt="" />
-                                                <h2>{item.name}</h2>
-                                                <p>{item.description}</p>
+                                                <Tooltip title={item.description} color="#2db7f5" >
+                                                    <h2>{item.name}</h2>
+                                                    <p>{item.description}</p>
+                                                </Tooltip>
                                             </div>
                                         </Link>
                                     </Col>

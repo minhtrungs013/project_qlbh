@@ -380,10 +380,8 @@ export default function Question() {
                                                 <div className='Chill__question' id='chill'>
                                                     {data[questionItem]?.questions && data[questionItem]?.questions?.map((item, index) => (
                                                         <div >
-                                                            <h2>Question {chillData.findIndex((a) => a.id === item.id) + 1}:
-                                                                <p>{item.textQuestion}
-                                                                </p>
-                                                            </h2>
+                                                            <h3 >Question {chillData.findIndex((a) => a.id === item.id) + 1}: {item.textQuestion}
+                                                            </h3>
                                                             <Radio.Group onChange={(e) => onChangeQuestionAnswer(e, data[questionItem], item.id)} value={getValue(item)}>
                                                                 <Space direction="vertical">
                                                                     <Radio value={item.answerA} style={{ color: checkColorResults(item.id, item?.answerA) }} className=''>A. {data[questionItem]?.questions.length > 1 && item.answerA} </Radio>
