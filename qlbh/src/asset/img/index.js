@@ -70,12 +70,23 @@ import p2_test1_21 from "../p2_test1/p2_test1_21.mp3"
 import p2_test1_22 from "../p2_test1/p2_test1_22.mp3"
 import p2_test1_23 from "../p2_test1/p2_test1_23.mp3"
 import p2_test1_24 from "../p2_test1/p2_test1_24.mp3"
-import p4_test1 from "../p4_test1/p4_test1.mp3"
-import p4_testa1 from "../p4_test1/p4_test1.png"
+import p4_test1_123 from "../p4_test1/p4_test1_123.mp3"
+import p4_test1_456 from "../p4_test1/p4_test1_456.mp3"
+import p4_test1_789 from "../p4_test1/p4_test1_789.mp3"
+import p4_test1_101112 from "../p4_test1/p4_test1_101112.mp3"
+import p4_test1_131415 from "../p4_test1/p4_test1_131415.mp3"
+import p4_test1_161718 from "../p4_test1/p4_test1_161718.mp3"
+import p4_test1_a123 from "../p4_test1/p4_test1_123.png"
+import p4_test1_a456 from "../p4_test1/p4_test1_456.png"
 import part_1 from "./part-1.webp"
 import part_2 from "./part-2.webp"
 import part_3 from "./part-3.webp"
 import part_4 from "./part-4.webp"
+import p3_test1_1 from "../p3_test1/p3_test1_1-2-3.mp3"
+import p3_test1_2 from "../p3_test1/p3_test1_07-08-09.mp3"
+import p3_test1_3 from "../p3_test1/p3_test1_10-11-12.mp3"
+
+
 
 export {
     p1_test1_1,
@@ -154,5 +165,16 @@ export {
     part_2,
     part_3,
     part_4,
+    p4_test1_123,
+    p4_test1_456,
+    p4_test1_789,
+    p4_test1_101112,
+    p4_test1_131415,
+    p4_test1_161718,
+    p4_test1_a123 ,
+    p4_test1_a456 ,
+    p3_test1_1,
+    p3_test1_2,
+    p3_test1_3,
 }
 

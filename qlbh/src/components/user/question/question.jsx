@@ -151,7 +151,7 @@ export default function Question() {
         const index = data.findIndex(e => e.id === chillQuestion.idQuestion)
         setQuestionItem(index)
         checkAnswer(chillQuestion.idQuestion)
-        changeSource(value)
+        changeSource(index)
     }
 
     const prvOrNext = (value, idQuestion) => {
@@ -302,7 +302,6 @@ export default function Question() {
                     listAnswers.some(item2 => item1.id === (item2?.childQuestions && item2?.childQuestions[0]?.id !== undefined ? item2?.childQuestions[0]?.id : item2.childQuestionId))
                 );
                 if (isSubset) {
-                    console.log("aaa");
                     setShowTranscript(true)
                 }
             }
