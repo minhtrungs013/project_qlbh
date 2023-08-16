@@ -48,6 +48,10 @@
     font-size: 15px;
     padding: 0 10px;
     text-align: left;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
 }
 
 .pListen__heading {
