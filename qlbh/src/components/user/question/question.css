@@ -20,17 +20,15 @@
     }
 }
 
-.question h2 {
+.question h3 {
     display: flex;
     align-items: center;
-    text-align: center;
-}
-
-.question h2 p {
+    text-align: left;
     font-size: 14px;
     font-weight: 500;
     padding-left: 10px;
 }
+
 
 .question__button {
     border-radius: 25px;
