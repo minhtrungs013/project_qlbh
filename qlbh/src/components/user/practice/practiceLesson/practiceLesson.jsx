@@ -8,10 +8,10 @@ import "./practiceLesson.css"
 import { Link, useNavigate } from 'react-router-dom';
 
 
-export default function PracticeLesson({ lessonId }) {
+export default function PracticeLesson() {
     const [loadingLesson, setLoadingLesson] = useState(false)
     const navigate = useNavigate()
-
+    const lessonId = useSelector(state => state.practiceReducer.lessonId);
     const [dataLessonId, setDataLessonId] = useState([])
 
     useEffect(() => {
@@ -49,18 +49,18 @@ export default function PracticeLesson({ lessonId }) {
                         <Row gutter={45}  >
                             <Col span={24} >
                                 <h2 className='lesson__heading'>{dataLessonId.name}</h2>
-                                {dataLessonId.lessonContents?.map((item) => (
-                                    <>
+                                {dataLessonId.lessonContents?.map((item, index) => (
+                                    <div key={index}>
                                         <h3 className='lesson__title'>{item.title}</h3>
                                         <p className='lesson__content'>{item.content}</p>
-                                        {item.contentExamples?.map((exam) => (
-                                            <>
+                                        {item.contentExamples?.map((exam, i) => (
+                                            <div key={i}>
                                                 <p className='lesson__example-title'>+ {exam?.title}</p>
                                                 <p className='lesson__example-content'><span>E.g.</span> {exam.example}</p>
-                                            </>
+                                            </div>
                                         ))}
 
-                                    </>
+                                    </div>
                                 ))}
                             </Col>
                         </Row>

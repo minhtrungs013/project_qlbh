@@ -10,7 +10,6 @@ import "./question.css";
 import * as img from "../../../asset/img/index"
 
 export default function Question() {
-    console.log(img);
     const [data, setData] = useState([])
     const [chillData, setChillData] = useState([])
     const audioPlayerRef = useRef(null);
@@ -57,7 +56,7 @@ export default function Question() {
             return;
         }
 
-        audioPlayerRef.current.src = `/static/media/${audioQuestion}`;
+        audioPlayerRef.current.src = audioQuestion;
         audioPlayerRef.current.load();
     };
 
@@ -310,7 +309,6 @@ export default function Question() {
         }
     }, [listAnswers]);
 
-
     const getValue = (item) => {
         const data = value?.find((a) => a?.id === item?.id)
         if (data) {
@@ -373,13 +371,13 @@ export default function Question() {
                                         <div className='question'>
                                             <div style={{ display: "flex", justifyContent: "center", marginBottom: "15px" }}>
                                                 <audio controls ref={audioPlayerRef}>
-                                                    <source src={`/static/media/${data[questionItem]?.audioQuestion}`} type="audio/mpeg"></source>
+                                                    <source src={data[questionItem]?.audioQuestion} type="audio/mpeg"></source>
                                                 </audio>
                                             </div>
                                             <div className='question-item' >
                                                 <div className='Chill__question' id='chill'>
                                                     {data[questionItem]?.questions && data[questionItem]?.questions?.map((item, index) => (
-                                                        <div >
+                                                        <div key={item.id} >
                                                             <h3 >Question {chillData.findIndex((a) => a.id === item.id) + 1}: {item.textQuestion}
                                                             </h3>
                                                             <Radio.Group onChange={(e) => onChangeQuestionAnswer(e, data[questionItem], item.id)} value={getValue(item)}>
@@ -399,9 +397,9 @@ export default function Question() {
                                                                 </p>}
                                                         </div>))}
                                                 </div>
-                                                {data[questionItem]?.images && data[questionItem]?.images[0] !== undefined &&
+                                                {data[questionItem]?.imageUrls && data[questionItem]?.imageUrls[0] !== undefined &&
                                                     <div style={{ marginRight: "0" }}>
-                                                        <img className='question-item-img' src={`/static/media/${data[questionItem]?.images[0]}`} alt="" />
+                                                        <img className='question-item-img' src={data[questionItem]?.imageUrls[0]} alt="" />
                                                     </div>
                                                 }
                                             </div>

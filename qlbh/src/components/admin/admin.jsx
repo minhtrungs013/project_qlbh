@@ -4,6 +4,7 @@ import { Col, Row } from 'antd';
 import Navbar from './navbar/navbar';
 import Product from './product/product';
 import Home from './home/home';
+import './admin.css';
 import Chat from './chat/chat';
 // import Navigation from './navigation/navigation';
 import Category from './category/category';
@@ -85,10 +86,10 @@ export default function Admin() {
           {/* Route to Test of Part */}
 
           <Routes>
-            <Route path={`/listening/:id/:name/test`} element={<Tests/>}/>
+            <Route path={`/skill/test`} element={<Tests/>}/>
           </Routes>
           <Routes>
-            <Route path={`/listening/:partId/:id/:name/lession`} element={<Lession/>}/>
+            <Route path={`/skill/lession`} element={<Lession/>}/>
           </Routes>
           <Routes>
             <Route path={`/reading/:id/:name/test`} element={<Tests/>}/>
@@ -113,7 +114,7 @@ export default function Admin() {
 
           {/* Route to Question follow topic */}
           <Routes>
-            <Route path={`/question/:id/:name`} element={<ListQuestionByTopic />}/>
+            <Route path={`/practice/skill/question`} element={<ListQuestionByTopic />}/>
           </Routes>
 
         <Routes>
@@ -132,7 +133,7 @@ export default function Admin() {
           <Route path="/lession" element={<Lession />} />
         </Routes>
         <Routes>
-          <Route path={`/detail-question/:id/:objectTypeId`} element={<DetailQuestion/>}/>
+          <Route path={`/practice/skill/question/details`} element={<DetailQuestion/>}/>
         </Routes>
       </Col>
     </Row>

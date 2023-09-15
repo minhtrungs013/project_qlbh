@@ -7,15 +7,17 @@ import { deleteDataById, getAllData, getDataById } from '../../../api/service/ap
 import HeaderPage from '../category/HeaderPage';
 import ModalLession from './ModalLession';
 import { async } from 'react-input-emoji';
+import { useSelector } from 'react-redux';
 
-const Lession = ({practicePartId}) => {
+const Lession = () => {
   const [data, setData] = useState([]);
   const [isOpen, setIsopen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [idItem, setIdItem] = useState("");
   const [form] = Form.useForm();
   const [ dataPart, setDataPart ] = useState("")
-
+  const practicePartId = useSelector(state => state.practiceReducer.practicePartId);
+  const practiceId = useSelector(state => state.practiceReducer.practiceId);
   let { id, partId } = useParams();
 
 
@@ -24,7 +26,7 @@ const Lession = ({practicePartId}) => {
   };
 
   const getPartById = () => {
-    getDataById(`practiceParts?practiceId=${partId}`).then((res) => {
+    getDataById(`practiceParts?practiceId=${practiceId}`).then((res) => {
       setDataPart(res.data.data)
     });
   };
@@ -51,10 +53,10 @@ const Lession = ({practicePartId}) => {
   );
 
   const getAllDataLession = useCallback(() => {
-    if(id) {
+    if(practiceId) {
       setIsLoading(true)
-    getAllData(`partLessons?practicePartId=${practicePartId ? practicePartId : id}`).then(async(res) => {
-          const { data } = await getDataById(`practiceParts?practiceId=${partId}`)
+    getAllData(`partLessons?practicePartId=${practicePartId}`).then(async(res) => {
+          const { data } = await getDataById(`practiceParts?practiceId=${practiceId}`)
           if(data.data){
             res.data.data.forEach((e, i, arr) => {
               arr[i]["partName"] =  data.data.filter(f => f.id === e.practicePartId)[0]
@@ -64,7 +66,7 @@ const Lession = ({practicePartId}) => {
           setIsLoading(false)      
     });
     }
-  },[id]);
+  },[practiceId]);
 
   const onClickDelete = (values) => {
     Modal.confirm({
@@ -142,7 +144,7 @@ const Lession = ({practicePartId}) => {
             setIsopen(false);
             setIdItem("");
           }}
-          partId={partId}
+          partId={practiceId}
           title={idItem ? "Edit form" : "Add new item"}
           reloadData={() => getAllDataLession()}
           form={form}

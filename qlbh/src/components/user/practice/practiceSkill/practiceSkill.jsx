@@ -76,7 +76,7 @@ export default function PracticeSkill() {
                         <>
                             <Row gutter={70} id='pListen__list' className='test' >
                                 {data?.map((item) => (
-                                    <Col span={6}  >
+                                    <Col span={6} key={item.id} >
                                         <Link to={'/practice/skill/topic'} onClick={() => changePracticePartId(item)} className='pListen__link'>
                                             <div className='pListen' >
                                                 <img className='pListen_img' src={item.image} alt="" />

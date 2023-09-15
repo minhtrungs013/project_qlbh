@@ -5,7 +5,6 @@ const ProgressBar = ({ title = "", onBack = false, step, crumbs }) => {
   const [current, setCurrent] = useState(0);
   const [steps, setSteps] = useState([]);
   const onChange = (value) => {
-    console.log("onChange:", value);
     setCurrent(value);
   };
 

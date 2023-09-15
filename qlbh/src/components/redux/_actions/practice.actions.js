@@ -27,3 +27,17 @@ export const setObjectId = (id) => {
     payload: id,
   };
 };
+
+export const setLessonId = (id) => {
+  return {
+    type: Constants.SET_LESSON,
+    payload: id,
+  };
+};
+
+export const setQuestionId = (id) => {
+  return {
+    type: Constants.SET_QUESTION_ID,
+    payload: id,
+  };
+};

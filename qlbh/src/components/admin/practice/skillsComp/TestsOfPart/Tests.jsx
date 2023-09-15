@@ -6,15 +6,23 @@ import { ExclamationCircleOutlined } from '@ant-design/icons';
 import HeaderPage from '../../../category/HeaderPage';
 import ModalTestsExam from './ModalTestsExam';
 import ProgressBar from '../../../../shared/ProgressBar/ProgressBar';
+import { useSelector, useDispatch } from 'react-redux';
+import { setObjectId } from '../../../../redux/_actions';
 
-const Tests = props => {
-    let { id, name } = useParams();
+const Tests = () => {
 
+  const practiceId = useSelector(state => state.practiceReducer.practicePartId);
+  const practiceType = useSelector(state => state.practiceReducer.practiceType);
   const [dataTest, setDataTest] = useState([])
   const [isOpen, setIsopen] = useState(false);
   const [isLoading, setLoading] = useState(false);
   const [idItem, setIdItem] = useState("");
   const [form] = Form.useForm();
+  const dispatch = useDispatch();
+
+  const onclickShowListenStart = (data) => {
+    dispatch(setObjectId(data.id))
+}
 
   const columns = [
     {
@@ -56,7 +64,7 @@ const Tests = props => {
             Delete
           </Tag>
           <Tag color="geekblue">
-            <NavLink to={`/question/${record.id}/${record.name}`}>Question</NavLink>
+            <NavLink to={`/practice/skill/question`} onClick={()=> onclickShowListenStart(record)}>Question</NavLink>
           </Tag>
         </Space>
       ),
@@ -109,31 +117,32 @@ const Tests = props => {
     });
   };
 
-    const getTestById = () => {
-        if(id){
-          setLoading(true);
-        getDataById(`partTests?userId=7d3bba49-91b7-4645-b143-dc14a0f49e6b&practicePartId=${id}`).then((result) => {
-            setDataTest(result.data.data);
-            setLoading(false);
-        });
-        
-        }
-      };
-    
-      useEffect(() => {
-        getTestById();
-      }, []);
+  const getTestById = () => {
+    if (practiceId) {
+      setLoading(true);
+      getDataById(`partTests?userId=8fd15fce-57b9-404b-962c-d04faee931dc&practicePartId=${practiceId}`).then((result) => {
+        setDataTest(result.data.data);
+        setLoading(false);
+      });
+
+    }
+  };
+
+  useEffect(() => {
+    getTestById();
+  }, []);
+
   return (
     <div>
       <div className="main__application">
-        <HeaderPage title={`Test of ${name}`} onCreate={() => onOpenModel()} onBack={true} />
+        <HeaderPage title={`Test of ${practiceType}`} onCreate={() => onOpenModel()} onBack={true} />
         {/* <ProgressBar title={`Test of ${name}`} onBack={true}/> */}
         <div className="section-wrapper">
           <Table columns={columns} dataSource={dataTest} rowKey={"id"} loading={isLoading} />
         </div>
         <ModalTestsExam
           isOpen={isOpen}
-          partId={id}
+          partId={""}
           onClose={() => {
             setIsopen(false);
             setIdItem("");

@@ -1,0 +1,167 @@
+.profile_item {
+    background-color: rgb(243, 245, 245);
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 1px 1px 3px 1px rgba(0, 0, 0, 0.1);
+}
+
+.profile_item_img {
+    height: 170px;
+    width: 170px;
+    border-radius: 100%;
+    position: relative;
+}
+
+.profile_body {
+    text-align: left;
+}
+
+.profile_body-name {
+    display: flex;
+    align-items: center;
+}
+
+
+.profile_body-name-left {
+    display: flex;
+    padding-left: 17%;
+    align-items: center;
+}
+
+
+
+.inputfile {
+    width: 20px;
+    height: 20px;
+    font-size: 16px;
+    padding: 5px;
+    opacity: 0;
+    overflow: hidden;
+    z-index: 2;
+    position: absolute;
+    cursor: pointer;
+    right: 0;
+    border-radius: 50%;
+}
+
+.faUpload {
+    width: 20px;
+    height: 20px;
+    font-size: 16px;
+    border-radius: 50%;
+    padding: 5px;
+    color: #5c5c5c;
+    background-color: #ffffff;
+    cursor: pointer;
+    position: relative;
+}
+
+.antIcon {
+    position: absolute;
+    border-radius: 50%;
+    right: 79px;
+    top: 20px;
+    background-color: #fcfcfc;
+    padding: 60px;
+    opacity: 0.6;
+}
+
+.upload {
+    position: absolute;
+    right: 90px;
+    top: 150px;
+
+}
+
+.profile_body-name-icon {
+    font-size: 19px;
+    padding-right: 10px;
+    color: #207070;
+}
+
+.profile_body-level {
+    position: relative;
+}
+
+.percent_level {
+    padding-left: 25px;
+    position: absolute;
+    bottom: 0;
+}
+
+.profile_body-list {
+    padding-left: 0;
+    margin: 0;
+}
+
+.profile_body-item {
+    padding: 20px 0 10px 0;
+    text-decoration: none;
+    list-style: none;
+    display: flex;
+    text-align: center;
+    justify-content: space-between;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+
+.profile_body-sub {
+    padding: 20px 0 10px 0;
+    text-decoration: none;
+    list-style: none;
+    align-items: center;
+    display: flex;
+    text-align: center;
+}
+
+.profile_body-text {
+    border: none;
+    outline: none;
+    font-size: 14px;
+    text-align: right;
+    padding: 10px 5px;
+    width: 55%;
+    border-radius: 5px;
+    background-color: transparent;
+}
+
+.profile_body-text-active {
+    text-align: left;
+    background-color: rgb(255, 255, 255);
+
+}
+
+
+.profile_body-Heading {
+    text-decoration: none;
+    list-style: none;
+    display: flex;
+    text-align: center;
+    justify-content: space-between;
+}
+
+.profile_body-Heading h2 {
+    margin: 0;
+}
+
+.profile__btn {
+    padding: 8px;
+    border-radius: 6px;
+    border: none;
+    min-width: 100px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 600;
+    color: rgb(255, 255, 255);
+    background: linear-gradient(98.63deg, #53A6D8 0%, #53A6D8 100%);
+}
+
+.btn_cancel {
+    background: linear-gradient(98.63deg, #ecaf59 0%, #ff5729 100%);
+}
+
+.btn_submit {
+    /* background: linear-gradient(90deg, #b5ff60, #0acf1b); */
+    background: #ff5729;
+
+}

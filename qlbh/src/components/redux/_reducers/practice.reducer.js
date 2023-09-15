@@ -5,6 +5,8 @@ const initialState = {
   practiceType: null,
   practicePartId: null,
   objectTypeId: null,
+  questionId: null,
+  lessonId: null,
 };
 
 const practiceReducer = (state = initialState, action) => {
@@ -19,16 +21,26 @@ const practiceReducer = (state = initialState, action) => {
         ...state,
         practicePartId: action.payload,
       };
-      case Constants.SET_OBJECT_ID:
+    case Constants.SET_OBJECT_ID:
+      return {
+        ...state,
+        objectTypeId: action.payload,
+      };
+    case Constants.SET_PRACTICE_TYPE:
+      return {
+        ...state,
+        practiceType: action.payload,
+      };
+    case Constants.SET_LESSON:
+      return {
+        ...state,
+        lessonId: action.payload,
+      };
+      case Constants.SET_QUESTION_ID:
         return {
           ...state,
-          objectTypeId: action.payload,
+          questionId: action.payload,
         };
-        case Constants.SET_PRACTICE_TYPE:
-          return {
-            ...state,
-            practiceType: action.payload,
-          };
     default:
       return state;
   }

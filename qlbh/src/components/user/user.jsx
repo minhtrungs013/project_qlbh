@@ -9,6 +9,7 @@ import PracticeSkill from './practice/practiceSkill/practiceSkill';
 import PracticeTopic from './practice/practiceTopic/practiceTopic';
 import VocabularyUser from './vocabularyUser/vocabularyUser';
 import Question from './question/question';
+import Profile from './Profile/profile';
 
 
 export default function User() {
@@ -20,7 +21,7 @@ export default function User() {
                     {/* <Slider></Slider> */}
                     <div style={{marginTop: '100px'}}>
                         <Routes>
-                            <Route path="/" element={<h1>Hello</h1>} />
+                            <Route path="/" element={<Profile />} />
                             <Route path="/vocabulary" element={<VocabularyUser />} />
                             <Route path="/grammar" element={<Grammar />} />
                             <Route path="/practice/*" element={<Practice />} />

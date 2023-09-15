@@ -1,5 +1,5 @@
 import { BellOutlined, MenuOutlined, PoweroffOutlined, SearchOutlined } from '@ant-design/icons';
-import { faBars, faBlog, faBook, faSpellCheck } from '@fortawesome/free-solid-svg-icons';
+import { faBars, faBlog, faBook, faPen, faSpellCheck } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React, { useEffect, useState } from 'react';
 import { Link, NavLink, useNavigate } from "react-router-dom";
@@ -54,7 +54,7 @@ export default function Navbar(props) {
                             <NavLink style={({ isActive }) => {
                                 return isActive ? { color: 'red' } : {}
                             }} className="navbar__center-item-link " to="/practice">
-                                <FontAwesomeIcon className='navbar__item-icon' icon={faSpellCheck} />
+                                <FontAwesomeIcon className='navbar__item-icon' icon={faPen} />
                                 Practice
                             </NavLink>
                         </li>

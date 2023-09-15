@@ -6,7 +6,7 @@ import React, { useState, useEffect } from 'react';
 import "./practiceTopic.css";
 import { getListenTopicByPracticePartId, getPracticePartsLessonsByPracticeId } from '../../../../api/service/paractice/paractice';
 import { useSelector, useDispatch } from 'react-redux';
-import { setObjectId } from '../../../redux/_actions';
+import { setObjectId, setLessonId } from '../../../redux/_actions';
 import PracticeLesson from '../practiceLesson/practiceLesson';
 
 export default function PracticeTopic() {
@@ -16,7 +16,6 @@ export default function PracticeTopic() {
     const [data, setData] = useState([])
     const [dataLesson, setDataLesson] = useState([])
     const dispatch = useDispatch();
-    const [lessonId, setLessonId] = useState(null)
     const userId = useSelector(state => state.userReducer.userId);
 
     useEffect(() => {
@@ -50,8 +49,7 @@ export default function PracticeTopic() {
     }
 
     const getLessonsId = (idLesson) => {
-        setLessonId(idLesson)
-        localStorage.setItem("partLessonId", idLesson);
+        dispatch(setLessonId(idLesson))
     }
 
 
@@ -99,7 +97,7 @@ export default function PracticeTopic() {
                                 </Col>
                                 <Col span={18}>
                                     <Routes>
-                                        <Route path={`/lesson`} element={<PracticeLesson  lessonId={lessonId}/>} />
+                                        <Route path={`/lesson`} element={<PracticeLesson  />} />
                                     </Routes>
                                   
                                     <div className='lesson__ls'>

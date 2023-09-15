@@ -6,6 +6,8 @@ import { ExclamationCircleOutlined } from '@ant-design/icons';
 import HeaderPage from '../../category/HeaderPage';
 import CreateAndEditModal from './ModalOfSkills/CreateAndEditModal';
 import ProgressBar from '../../../shared/ProgressBar/ProgressBar';
+import { useDispatch } from 'react-redux';
+import { setPracticeId, setPracticeType, setLessonId ,setPracticePartId} from '../../../redux/_actions';
 
 const PartOfPractice = (props) => {
   const { id, type } = props;
@@ -14,6 +16,13 @@ const PartOfPractice = (props) => {
   const [isLoading, setIsLoading] = useState(false);
   const [idItem, setIdItem] = useState("");
   const [form] = Form.useForm();
+  const dispatch = useDispatch();
+
+  const handleSetId  = (practiceId) => {
+    dispatch(setPracticePartId(practiceId.id));
+    dispatch(setPracticeType(type));
+    dispatch(setPracticeId(id));
+}
 
 
   const columns = [
@@ -60,10 +69,10 @@ const PartOfPractice = (props) => {
             Delete
           </Tag>
           <Tag color="geekblue">
-            <NavLink to={`/${type}/${record.id}/${record.name}/test`}>Test</NavLink>
+            <NavLink to={`/skill/test`} onClick={()=> handleSetId(record)}>Test</NavLink>
           </Tag>
           <Tag color="green">
-            <NavLink to={`/${type}/${id}/${record.id}/${record.name}/lession`}>Lession</NavLink>
+            <NavLink to={`/skill/lession`} onClick={()=> handleSetId()}>Lession</NavLink>
           </Tag>
         </Space>
       ),

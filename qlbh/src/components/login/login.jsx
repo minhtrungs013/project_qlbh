@@ -1,7 +1,9 @@
 import { Checkbox, Col, Row, message } from 'antd';
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { loginAPI, getUser } from "../../api/service/AuthService";
+import { loginAPI } from "../../api/service/AuthService";
+import { getUser } from "../../api/service/UserService";
+
 import { useDispatch, useSelector } from 'react-redux';
 import { setUser, setRoleUser, setLoggedIn } from '../redux/_actions/user.actions';
 import "./login.css";
@@ -22,7 +24,7 @@ export default function Login() {
     const handleSubmit = async (event) => {
         event.preventDefault();
         const regex = /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]+/;
-        if(regex.test(username)){
+        if (regex.test(username)) {
             messageApi.open({
                 type: 'warning',
                 content: 'User name cannot contain special characters',
@@ -38,6 +40,7 @@ export default function Login() {
             await loginAPI('accounts/login', { username, password })
                 .then((response) => {
                     if (response) {
+                        localStorage.setItem('token', response.data.data.token)
                         getUser(`users?accountId=${response.data.data.id}`).then((res) => {
                             if (res) {
                                 dispatch(setUser(res.data.data))

@@ -49,7 +49,7 @@ const ModalTestsExam = (props) => {
       },
       [handleCancel, reloadData]
     );
-  
+
     const handleCreate = (values) => {
       const formControl = {
         practicePartId: partId,
