@@ -37,11 +37,11 @@ export default function Login() {
                 content: 'You need to enter all the information',
             });
         } else {
-            await loginAPI('accounts/login', { username, password })
+            await loginAPI('auth/login', { username, password })
                 .then((response) => {
                     if (response) {
                         localStorage.setItem('token', response.data.data.token)
-                        getUser(`users?accountId=${response.data.data.id}`).then((res) => {
+                        getUser(`users?id=${response.data.data.userId}`).then((res) => {
                             if (res) {
                                 dispatch(setUser(res.data.data))
 
@@ -49,7 +49,7 @@ export default function Login() {
                         }).catch((error) => {
                             messageApi.open({
                                 type: 'error',
-                                content: error.response.data,
+                                content: error?.response?.data,
                             });
                             dispatch(setUser(response.data.data))
                         })

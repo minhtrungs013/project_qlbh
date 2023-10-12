@@ -97,7 +97,7 @@ export default function Register() {
                 content: 'Password does not match, please re-enter',
             });
         } else {
-            await registerAPI('accounts/register', newAccount)
+            await registerAPI('auth/register', newAccount)
                 .then((response) => {
                     navigate("/login")
                 })

@@ -27,7 +27,7 @@ function App() {
       </Routes>
       {isLoggedIn === true ? (
         <>
-          {role === "admin" ? <Admin></Admin> : <User></User>}
+          {role === "Admin" ? <Admin></Admin> : <User></User>}
         </>
       ) : null}
     </div>
