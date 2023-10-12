@@ -19,7 +19,7 @@ export default function User() {
                 <Col span={24} className=''>
                     <Navbar></Navbar>
                     {/* <Slider></Slider> */}
-                    <div style={{marginTop: '100px'}}>
+                    <div style={{ marginTop: '100px' }}>
                         <Routes>
                             <Route path="/" element={<Profile />} />
                             <Route path="/vocabulary" element={<VocabularyUser />} />

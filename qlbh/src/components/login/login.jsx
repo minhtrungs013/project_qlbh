@@ -2,7 +2,6 @@ import { Checkbox, Col, Row, message } from 'antd';
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { loginAPI } from "../../api/service/AuthService";
-import { getUser } from "../../api/service/UserService";
 
 import { useDispatch, useSelector } from 'react-redux';
 import { setUser, setRoleUser, setLoggedIn } from '../redux/_actions/user.actions';
@@ -15,6 +14,7 @@ export default function Login() {
     const [password, setPassword] = useState(null);
     const dispatch = useDispatch();
     const isLoggedIn = useSelector(state => state.userReducer.loggedIn);
+
     useEffect(() => {
         if (isLoggedIn === 'true') {
             navigate("/");
@@ -41,20 +41,9 @@ export default function Login() {
                 .then((response) => {
                     if (response) {
                         localStorage.setItem('token', response.data.data.token)
-                        getUser(`users?id=${response.data.data.userId}`).then((res) => {
-                            if (res) {
-                                dispatch(setUser(res.data.data))
-
-                            }
-                        }).catch((error) => {
-                            messageApi.open({
-                                type: 'error',
-                                content: error?.response?.data,
-                            });
-                            dispatch(setUser(response.data.data))
-                        })
                         dispatch(setRoleUser(response.data.data.role))
                         dispatch(setLoggedIn(true))
+                        dispatch(setUser(response.data.data))
                         navigate("/")
                     }
                 })

@@ -2,12 +2,11 @@ import { ExclamationCircleFilled, LoadingOutlined } from '@ant-design/icons';
 import { Col, Modal, Row, Space, Spin, Table, Tag, message } from 'antd';
 import React, { useEffect, useState } from 'react';
 import "./profile.css";
-// import { BellOutlined, MenuOutlined, PoweroffOutlined, SearchOutlined } from '@ant-design/icons';
 import { faAddressCard, faArrowUpRightDots, faBars, faBook, faCalendarDays, faEnvelope, faKey, faLocationDot, faPen, faPersonWalkingLuggage, faPhoneVolume, faSpellCheck, faUpload, faUser, faUserShield } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useDispatch, useSelector } from 'react-redux';
-import { useNavigate, useLocation } from "react-router-dom";
-import { changePasswordAPI, getAccountByUsernameAPI } from "../../../api/service/AuthService";
+import { useLocation, useNavigate } from "react-router-dom";
+import { changePasswordAPI } from "../../../api/service/AuthService";
 import { getUser, updateUser } from "../../../api/service/UserService";
 import { handleUpload } from '../../../utils/utils';
 import { setLoggedIn, setRoleUser, setUser } from '../../redux/_actions/user.actions';
@@ -21,8 +20,6 @@ export default function Profile() {
     const [loadingImage, setLoadingImage] = useState(false)
     const [messageApi, contextHolder] = message.useMessage();
     const [dataUser, setDataUser] = useState({})
-    const [dataAccount, setDataAccount] = useState({})
-    const accountId = useSelector(state => state.userReducer.accountId);
     const userId = useSelector(state => state.userReducer.userId);
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -32,7 +29,7 @@ export default function Profile() {
     const [code, setCode] = useState(parts[1] === undefined ? "" : parts[1]);
     const URIPath = `http://localhost:3000${location.pathname}`;
     const { confirm } = Modal;
-
+    const noImage = "https://www.dropbox.com/scl/fi/j2jzyxg6q9hw9shxhe6m4/no-image.png?rlkey=zc2jnd2rdyb9oxe20bfmklcnz&raw=1"
     const columns = [
         {
             title: 'Name',
@@ -99,14 +96,13 @@ export default function Profile() {
         },
     ];
     const [newData, setNewData] = useState({
-        accountId: null,
         surname: null,
         name: null,
         email: null,
         dateOfBirth: null,
         address: null,
         phone: null,
-        image: null,
+        imageURL: null,
         age: null
     });
 
@@ -120,7 +116,6 @@ export default function Profile() {
     };
 
     const [newPassword, setNewPassword] = useState({
-        id: null,
         oldPassword: null,
         newPassword: null,
         confirmNewPassword: null,
@@ -136,17 +131,16 @@ export default function Profile() {
     };
 
     useEffect(() => {
-        if (accountId) {
+        if (userId) {
             getUserById()
-            getAccountByName()
         }
-    }, [accountId])
+    }, [userId])
 
     const getUserById = () => {
-        getUser(`users?accountId=${accountId}`).then((res) => {
+        getUser(`users?id=${userId}`).then((res) => {
             if (res) {
                 setDataUser(res.data.data)
-                setNewData(res.data.data)
+                setNewData(res.data.data?.userInfo)
                 setShowChangeUser(false)
                 setLoading(false)
                 setTimeout(() => {
@@ -158,22 +152,11 @@ export default function Profile() {
         })
     }
 
-    const getAccountByName = () => {
-        getAccountByUsernameAPI(`accounts?idAccount=${accountId}`).then((res) => {
-            if (res) {
-                setDataAccount(res.data.data)
-            }
-        }).catch((error) => {
-            console.log(error);
-        })
-    }
-
     const changePassword = () => {
         setShowChangePassword(!showChangePassword)
     }
     const handleChangePassword = () => {
-        newPassword.id = accountId
-        changePasswordAPI(`accounts/changePassword`, newPassword).then((res) => {
+        changePasswordAPI(`users/change-password?id=${userId}`, newPassword).then((res) => {
             if (res) {
                 dispatch(setUser(null))
                 dispatch(setRoleUser(null))
@@ -192,7 +175,7 @@ export default function Profile() {
     }
     const handleUpdateUser = () => {
         setLoading(true)
-        updateUser(`users?userId=${userId}`, newData).then((res) => {
+        updateUser(`user-infos?user-id=${userId}`, newData).then((res) => {
             if (res) {
                 getUserById()
             }
@@ -209,17 +192,17 @@ export default function Profile() {
 
         if (image === "Invalid Access Token") {
             window.location.href = `https://www.dropbox.com/oauth2/authorize?response_type=code&client_id=lntimln3hpjnwx4&redirect_uri=${encodeURIComponent(URIPath)}&response_type=code`
-        } else if (image === "Image already exists") {
+        } else if (image === "Image name already exists") {
             messageApi.open({
                 type: 'warning',
                 content: image,
             });
             setLoadingImage(false)
         } else {
-            newData.image = image[0]
+            newData.imageURL = image[0]
             handleUpdateUser()
             setCode("")
-        } 
+        }
     };
 
     function convertToISODate(dateString) {
@@ -290,7 +273,7 @@ export default function Profile() {
                         <Row gutter={45}>
                             <Col span={6}>
                                 <div className='profile_item'>
-                                    <img src={dataUser.image} alt="" className='profile_item_img' />
+                                    <img src={dataUser?.userInfo?.imageURL ? dataUser?.userInfo?.imageURL : noImage} className='profile_item_img' alt="" />
                                     {loadingImage && <Spin className='antIcon' indicator={loadImage} />}
                                     <div className='upload'>
                                         <FontAwesomeIcon icon={faUpload} className='faUpload' />
@@ -325,49 +308,49 @@ export default function Profile() {
                                                                 <FontAwesomeIcon className='profile_body-name-icon' icon={faUser} />
                                                                 <span >Name</span>
                                                             </div>
-                                                            <input type="text" className={showChangeUser ? 'profile_body-text profile_body-text-active ' : 'profile_body-text'} onChange={handleUpdateUserForm} name="name" disabled={!showChangeUser} defaultValue={dataUser.name} />
+                                                            <input type="text" className={showChangeUser ? 'profile_body-text profile_body-text-active ' : 'profile_body-text'} onChange={handleUpdateUserForm} name="name" disabled={!showChangeUser} defaultValue={dataUser?.userInfo?.name} />
                                                         </li>
                                                         <li className='profile_body-item'>
                                                             <div className='profile_body-name'>
                                                                 <FontAwesomeIcon className='profile_body-name-icon' icon={faUser} />
                                                                 <span >Sur Name</span>
                                                             </div>
-                                                            <input type="text" className={showChangeUser ? 'profile_body-text profile_body-text-active ' : 'profile_body-text'} onChange={handleUpdateUserForm} name="surname" disabled={!showChangeUser} defaultValue={dataUser.surname} />
+                                                            <input type="text" className={showChangeUser ? 'profile_body-text profile_body-text-active ' : 'profile_body-text'} onChange={handleUpdateUserForm} name="surname" disabled={!showChangeUser} defaultValue={dataUser?.userInfo?.surname} />
                                                         </li>
                                                         <li className='profile_body-item'>
                                                             <div className='profile_body-name'>
                                                                 <FontAwesomeIcon className='profile_body-name-icon' icon={faEnvelope} />
                                                                 <span >Email</span>
                                                             </div>
-                                                            <input type="email" className={showChangeUser ? 'profile_body-text profile_body-text-active ' : 'profile_body-text'} onChange={handleUpdateUserForm} name="email" disabled={!showChangeUser} defaultValue={dataUser.email} />
+                                                            <input type="email" className={showChangeUser ? 'profile_body-text profile_body-text-active ' : 'profile_body-text'} onChange={handleUpdateUserForm} name="email" disabled={!showChangeUser} defaultValue={dataUser?.userInfo?.email} />
                                                         </li>
                                                         <li className='profile_body-item'>
                                                             <div className='profile_body-name'>
                                                                 <FontAwesomeIcon className='profile_body-name-icon' icon={faCalendarDays} />
                                                                 <span >Date Of Birth</span>
                                                             </div>
-                                                            <input type="date" className={showChangeUser ? 'profile_body-text profile_body-text-active ' : 'profile_body-text'} onChange={handleUpdateUserForm} name="dateOfBirth" disabled={!showChangeUser} defaultValue={convertToISODate(dataUser.dateOfBirth)} />
+                                                            <input type="date" className={showChangeUser ? 'profile_body-text profile_body-text-active ' : 'profile_body-text'} onChange={handleUpdateUserForm} name="dateOfBirth" disabled={!showChangeUser} defaultValue={convertToISODate(dataUser?.userInfo?.dateOfBirth)} />
                                                         </li>
                                                         <li className='profile_body-item'>
                                                             <div className='profile_body-name'>
                                                                 <FontAwesomeIcon className='profile_body-name-icon' icon={faLocationDot} />
                                                                 <span >Address</span>
                                                             </div>
-                                                            <input type="text" className={showChangeUser ? 'profile_body-text profile_body-text-active ' : 'profile_body-text'} onChange={handleUpdateUserForm} name="address" disabled={!showChangeUser} defaultValue={dataUser.address} />
+                                                            <input type="text" className={showChangeUser ? 'profile_body-text profile_body-text-active ' : 'profile_body-text'} onChange={handleUpdateUserForm} name="address" disabled={!showChangeUser} defaultValue={dataUser?.userInfo?.address} />
                                                         </li>
                                                         <li className='profile_body-item'>
                                                             <div className='profile_body-name'>
                                                                 <FontAwesomeIcon className='profile_body-name-icon' icon={faPhoneVolume} />
                                                                 <span >Phone Number</span>
                                                             </div>
-                                                            <input type="text" className={showChangeUser ? 'profile_body-text profile_body-text-active ' : 'profile_body-text'} onChange={handleUpdateUserForm} name="phone" disabled={!showChangeUser} defaultValue={dataUser.phone} />
+                                                            <input type="text" className={showChangeUser ? 'profile_body-text profile_body-text-active ' : 'profile_body-text'} onChange={handleUpdateUserForm} name="phone" disabled={!showChangeUser} defaultValue={dataUser?.userInfo?.phone} />
                                                         </li>
                                                         <li className='profile_body-item'>
                                                             <div className='profile_body-name'>
                                                                 <FontAwesomeIcon className='profile_body-name-icon' icon={faPersonWalkingLuggage} />
                                                                 <span >Age</span>
                                                             </div>
-                                                            <input type="text" className={showChangeUser ? 'profile_body-text profile_body-text-active ' : 'profile_body-text'} onChange={handleUpdateUserForm} name="age" disabled={!showChangeUser} defaultValue={dataUser.age} />
+                                                            <input type="text" className={showChangeUser ? 'profile_body-text profile_body-text-active ' : 'profile_body-text'} onChange={handleUpdateUserForm} name="age" disabled={!showChangeUser} defaultValue={dataUser?.userInfo?.age} />
                                                         </li>
                                                         {showChangeUser &&
                                                             <li className='profile_body-sub'>
@@ -397,7 +380,7 @@ export default function Profile() {
                                                                 <FontAwesomeIcon className='profile_body-name-icon' icon={faUser} />
                                                                 <span >User Name</span>
                                                             </div>
-                                                            <input type="text" className='profile_body-text' name='username' disabled={!showChangePassword} value={dataAccount.username} />
+                                                            <input type="text" className='profile_body-text' name='username' disabled={!showChangePassword} value={dataUser.username} />
                                                         </li>
                                                         <li className='profile_body-item'>
                                                             <div className='profile_body-name'>
@@ -434,7 +417,7 @@ export default function Profile() {
                                                                 <FontAwesomeIcon className='profile_body-name-icon' icon={faUserShield} />
                                                                 <span >Role</span>
                                                             </div>
-                                                            <input type="text" className='profile_body-text' disabled={true} value={dataAccount.role} />
+                                                            <input type="text" className='profile_body-text' disabled={true} value={dataUser.role} />
                                                         </li>
                                                         {showChangePassword &&
                                                             <li className='profile_body-sub'>

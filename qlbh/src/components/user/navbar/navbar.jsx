@@ -25,11 +25,7 @@ export default function Navbar(props) {
             <div className='navbar__item'>
                 <div className='navbar__left'>
                     <div className='Navigate__heading1'>
-                        <img src="https://vapa.vn/wp-content/uploads/2022/12/anh-dep-lam-hinh-nen-002.jpg" alt="" className='user_img1' />
-                    </div>
-                    <input type="text" className='user__search_item' placeholder='Search...' />
-                    <div className='user__search_item-icon'>
-                        <SearchOutlined />
+                        <img src="https://estudyme.com/_next/image/?url=%2Fimages%2Fapp%2Festudyme%2Ficon-support-3d.png&w=256&q=100" alt="" className='user_img1' />
                     </div>
                 </div>
                 <div className='navbar__center'>

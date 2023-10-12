@@ -3,7 +3,6 @@ import { Constants } from "../_constants/constants";
 
 const initialState = {
     userId: null,
-    accountId: null,
     userName: null,
     role: null,
     loggedIn: false
@@ -14,9 +13,8 @@ const userReducer = (state = initialState, action) => {
         case Constants.SET_USER:
             return {
                 ...state,
-                userId: action.payload?.id,
+                userId: action.payload?.userId,
                 userName: action.payload?.name || action.payload?.username,
-                accountId: action.payload?.accountId
             };
         case Constants.SET_ROLE_USER:
             return {
