@@ -1,0 +1,20 @@
+.card__meta{
+    padding-bottom: 20px;
+}
+.card__vectorDot{
+    position: absolute;
+    right: 0;
+    top: 0;
+    padding: 10px;
+    cursor: pointer
+}
+.ant-card-body{
+    padding: 10px !important
+}
+.card__btnOption{
+    gap: 20px !important;
+}
+.card-item{
+    width: 160px;
+    padding: 10px 10px;
+}

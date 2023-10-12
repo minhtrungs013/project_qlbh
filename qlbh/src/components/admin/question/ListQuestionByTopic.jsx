@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react'
 import HeaderPage from '../category/HeaderPage'
-import { NavLink, useParams } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import { deleteDataById, getAllData } from '../../../api/service/api';
 import { Table, Space, Tag, Form, Modal, message } from 'antd';
 // import ProgressBar from '../../shared/ProgressBar/ProgressBar';
@@ -133,7 +133,7 @@ const ListQuestionByTopic = props => {
   return (
     <div>
       <div className="main__application">
-        <HeaderPage title={`Question `} onBack={true} onCreate={() => onOpenModel()} />
+        <HeaderPage onBack={true} onCreate={() => onOpenModel()} />
         {/* <ProgressBar title={name} onBack={true}/> */}
         <div className="section-wrapper">
           <Table columns={columns} dataSource={data} rowKey={"id"} loading={isLoading} />

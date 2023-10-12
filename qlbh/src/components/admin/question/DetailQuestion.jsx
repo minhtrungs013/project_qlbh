@@ -14,16 +14,16 @@ import React, {
   useEffect,
   useMemo,
   useState,
-  useRef
+  useRef,
+  useCallback
 } from "react";
-import { useParams, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import "./styleQuestion.css";
 import Loading from "../../shared/Loading/Loading";
-import { UploadOutlined, PlusOutlined, SaveOutlined, MinusCircleOutlined } from "@ant-design/icons";
+import { PlusOutlined, SaveOutlined, MinusCircleOutlined } from "@ant-design/icons";
 import HeaderPage from "../category/HeaderPage";
 import { getAllData, updateData } from "../../../api/service/api";
 import './style.css'
-import { useCallback } from "react";
 import { arrLevel } from "./ModalCreateQuestionByTopic";
 import { handleUpload } from "../../../utils/utils";
 import { useSelector } from 'react-redux';
@@ -36,6 +36,7 @@ const DetailQuestion = (props) => {
   const [messageApi, contextHolder] = message.useMessage();
   const [loadingSpinImg, setLoadingSpinImg] = useState(false)
   const [form] = Form.useForm();
+  // eslint-disable-next-line no-unused-vars
   const [imageUrl, setImageUrl] = useState();
   const location = useLocation();
   const audioPlayerRef = useRef(null);
@@ -43,6 +44,7 @@ const DetailQuestion = (props) => {
   const [audio, setAudio] = useState("")
   const currentUri = location.search;
   const parts = currentUri.split("?code=");
+  // eslint-disable-next-line no-unused-vars
   const [code, setCode] = useState(parts[1] === undefined ? "" : parts[1]);
   const URIPath = `http://localhost:3000${location.pathname}`;
   const objectTypeId = useSelector(state => state.practiceReducer.objectTypeId);
@@ -83,7 +85,7 @@ const DetailQuestion = (props) => {
     return <HeaderPage onBack={true} />;
   }, []);
 
-  const handleUpdate = () => {
+  const handleUpdate = useCallback(() => {
     if (dataQuestion) {
       const formValues = form.getFieldsValue();
       const questionsArray = formValues.questions !== undefined && formValues.questions.map((question) => {
@@ -91,6 +93,7 @@ const DetailQuestion = (props) => {
         return { textQuestion, answerA, answerB, answerC, answerD, correctAnswer };
       });
 
+      // eslint-disable-next-line no-unused-vars
       const imageArray = formValues.images !== null && formValues?.images?.fileList?.map((image) => {
         return image.name;
         // return image.name.replace('.png', '.webp');
@@ -116,7 +119,7 @@ const DetailQuestion = (props) => {
         });
 
     }
-  }
+  },[audio, dataQuestion, form, images, objectTypeId, questionId])
 
   const btnEdit = useMemo(
     () => (
@@ -168,14 +171,8 @@ const DetailQuestion = (props) => {
   //     </div>
   //   }
 
-  const normFile = (e) => {
-    if (Array.isArray(e)) {
-      return e;
-    }
-    return e?.fileList;
-  };
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+  // eslint-disable-next-line no-unused-vars
   const uploadButton = (
     <div style={{ position: "absolute", left: "240%", top: "-35px" }}>
       <Button
@@ -187,7 +184,7 @@ const DetailQuestion = (props) => {
     </div>
   )
 
-  const handleFileChange = async (event, type) => {
+  const handleFileChange = useCallback(async(event, type) => {
     const checkType = event.target?.files[0]?.type.indexOf("image") !== -1
     if (type === "audio" && !checkType) {
       setLoadingSpin(true)
@@ -218,7 +215,7 @@ const DetailQuestion = (props) => {
       setAudio(image[0])
       setLoadingSpin(false)
     }
-  };
+  },[URIPath, code, messageApi]);
   const antIcon = (
     <LoadingOutlined
       style={{
@@ -411,7 +408,8 @@ const DetailQuestion = (props) => {
         </Form>
       </>
     );
-  }, [form, btnEdit, imageUrl, uploadButton]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [contextHolder, form, btnEdit, loadingSpin, audio, loadingSpinImg, images, handleFileChange]);
 
   return (
     <div>

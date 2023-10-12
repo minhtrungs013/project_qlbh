@@ -1,142 +1,96 @@
-import React, { useCallback, useEffect, useState } from 'react'
-import { deleteDataById, getDataById } from '../../../../api/service/api'
-import { Form, Modal, Space, Table, Tag, message } from 'antd';
-import { NavLink } from 'react-router-dom';
-import { ExclamationCircleOutlined } from '@ant-design/icons';
-import HeaderPage from '../../category/HeaderPage';
-import CreateAndEditModal from './ModalOfSkills/CreateAndEditModal';
-import ProgressBar from '../../../shared/ProgressBar/ProgressBar';
-import { useDispatch } from 'react-redux';
-import { setPracticeId, setPracticeType, setLessonId ,setPracticePartId} from '../../../redux/_actions';
+import React, { useEffect, useState } from "react";
+import { getDataById } from "../../../../api/service/api";
+import { Button, Card, Col, Form, Row, Skeleton, Space } from "antd";
+import HeaderPage from "../../category/HeaderPage";
+import CreateAndEditModal from "./ModalOfSkills/CreateAndEditModal";
+import { useCallback } from "react";
+import iconPart from '../../../shared/Folder/Part.png'
+import iconDot from '../../../shared/Folder/dot.png'
+import Meta from "antd/es/card/Meta";
+import './style.css'
+import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { setObjectId } from "../../../redux/_actions";
+
+const dataFake = [
+  {
+    id: "e01d2fb4-5aa1-467e-becb-5f497aee04fa",
+    practiceId: "e3e65aea-049a-495c-8489-e2a685fd7ab3",
+    path: 'path 1',
+    name: "Part 1: Name of Part 11",
+    image: "https://media.istockphoto.com/id/1193476717/photo/male-hands-making-a-to-do-list-in-a-notebook-over-an-office-desk.jpg?b=1&s=612x612&w=0&k=20&c=QFWZyHoAvAvcUz8tCHi4WufJEke-G1TFJO-KfZu7ErQ=",
+    description: "Description 1",
+  },
+  {
+    id: "8d048a47-15ba-42cb-8798-468396e52fac",
+    practiceId: "e3e65aea-049a-495c-8489-e2a685fd7ab3",
+    path: 'path 2',
+    name: "Part 2: Name of Part 2",
+    image: "https://media.istockphoto.com/id/1193476717/photo/male-hands-making-a-to-do-list-in-a-notebook-over-an-office-desk.jpg?b=1&s=612x612&w=0&k=20&c=QFWZyHoAvAvcUz8tCHi4WufJEke-G1TFJO-KfZu7ErQ=",
+    description: "Description 2",
+  },
+  {
+    id: "e01d2fb4-5aa1-467e-becb-5f497aee04fa",
+    practiceId: "e3e65aea-049a-495c-8489-e2a685fd7ab3",
+    path: 'path 3',
+    name: "Part 3: Name of Part 3",
+    image: "https://media.istockphoto.com/id/1193476717/photo/male-hands-making-a-to-do-list-in-a-notebook-over-an-office-desk.jpg?b=1&s=612x612&w=0&k=20&c=QFWZyHoAvAvcUz8tCHi4WufJEke-G1TFJO-KfZu7ErQ=",
+    description: "Description 3",
+  },
+  {
+    id: "8d048a47-15ba-42cb-8798-468396e52fac",
+    practiceId: "e3e65aea-049a-495c-8489-e2a685fd7ab3",
+    path: 'path 4',
+    name: "Part 4: Name of Part 4",
+    image: "https://media.istockphoto.com/id/1193476717/photo/male-hands-making-a-to-do-list-in-a-notebook-over-an-office-desk.jpg?b=1&s=612x612&w=0&k=20&c=QFWZyHoAvAvcUz8tCHi4WufJEke-G1TFJO-KfZu7ErQ=",
+    description: "Description 4",
+  },
+];
 
 const PartOfPractice = (props) => {
-  const { id, type } = props;
-  const [dataPart, setDataPart] = useState([])
+  const { id } = props;
+  const [dataPart, setDataPart] = useState([]);
   const [isOpen, setIsopen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [idItem, setIdItem] = useState("");
+  const [currentSite, setCurrentSite] = useState([]);
   const [form] = Form.useForm();
   const dispatch = useDispatch();
-
-  const handleSetId  = (practiceId) => {
-    dispatch(setPracticePartId(practiceId.id));
-    dispatch(setPracticeType(type));
-    dispatch(setPracticeId(id));
+  
+    const onclickShowListenStart = (data) => {
+    dispatch(setObjectId(data.name))
+    let arr = currentSite;
+    arr.push(data.name);
+    localStorage.setItem("breadcrumbs", JSON.stringify(arr));
 }
 
-
-  const columns = [
-    {
-      title: "STT",
-      dataIndex: "id",
-      key: "id",
-      sorter: (a, b) => a.id - b.id,
-      render: (id, record, index) => {
-        ++index;
-        return index;
-      },
-      showSorterTooltip: false,
-    },
-    {
-      title: "Name",
-      dataIndex: "name",
-      key: "name",
-      width: '20%',
-      render: (text) => <a>{text}</a>,
-    },
-    {
-      title: "Description",
-      dataIndex: "description",
-      key: "description",
-      width: '40%',
-      render: (text) => <a>{text}</a>,
-    },
-    {
-      title: "Image",
-      dataIndex: "image",
-      key: "image",
-      render: (imgUrl) => <img width={100} alt={imgUrl} src={imgUrl} />,
-    },
-    {
-      title: "Action",
-      key: "action",
-      render: (_, record) => (
-        <Space size="middle" style={{ cursor: "pointer" }}>
-          <Tag color="green" onClick={() => onClickUpdate(record)}>
-            Edit
-          </Tag>
-          <Tag color="volcano" onClick={() => onClickDelete(record)}>
-            Delete
-          </Tag>
-          <Tag color="geekblue">
-            <NavLink to={`/skill/test`} onClick={()=> handleSetId(record)}>Test</NavLink>
-          </Tag>
-          <Tag color="green">
-            <NavLink to={`/skill/lession`} onClick={()=> handleSetId()}>Lession</NavLink>
-          </Tag>
-        </Space>
-      ),
-    },
-  ];
   const onOpenModel = () => {
     setIsopen(true);
   };
 
-  
+  const handleSetDataFake = useCallback(() => {
+    setIsLoading(true)
+    setTimeout(() => {
+      setDataPart(dataFake);
+    }, 1000);
+    if(dataPart.length){
+      setIsLoading(false)
+    }
+  },[dataPart.length])
 
   useEffect(() => {
-    if(id){
-      getPartOfPractice()
-    }
-  }, [id])
-  
+    handleSetDataFake();
+    setTimeout(() => {
+      setCurrentSite(JSON.parse(localStorage.getItem("breadcrumbs")))
+    }, 1000);
+    
+  }, [handleSetDataFake]);
+
   const getPartOfPractice = () => {
-    setIsLoading(true)
+    setIsLoading(true);
     getDataById(`practiceParts?practiceId=${id}`).then((res) => {
-      setDataPart(res.data.data)
-      setIsLoading(false)
-    })
-  }
-
-  const onClickOpenModal = useCallback(
-    (record = {}) => {
-      const formControl = {
-        id: record.id,
-        practiceId: record.practiceId,
-        name: record.name,
-        description: record.description,
-        image: record.image,
-      };
-      form.setFieldsValue(formControl);
-      setIsopen(true);
-    },
-    [form]
-  );
-
-  const onClickUpdate = useCallback(
-    (value) => {
-      setIdItem(value.id);
-      onClickOpenModal(value);
-    },
-    [onClickOpenModal]
-  );
-
-  const onClickDelete = (values) => {
-    Modal.confirm({
-      title: "Confirm",
-      icon: <ExclamationCircleOutlined />,
-      content: "Delete this item?",
-      okText: "OK",
-      cancelText: "Cancel",
-      onOk: () => handleDelete(values),
-      confirmLoading: isLoading,
-    });
-  };
-
-  const handleDelete = (value) => {
-    deleteDataById(`practiceParts?id=${value.id}`).then((res) => {
-      message.success("DELETE SUCCESSFULLY");
-      getPartOfPractice();
+      setDataPart(res.data.data);
+      setIsLoading(false);
     });
   };
 
@@ -144,10 +98,39 @@ const PartOfPractice = (props) => {
   return (
     <div>
       <div className="main__application">
-        <HeaderPage title={`Part of ${type}`} onCreate={() => onOpenModel()} />
-        {/* <ProgressBar title={`Part ${type}`}/> */}
+        <HeaderPage onCreate={() => onOpenModel()} />
         <div className="section-wrapper">
-          <Table columns={columns} dataSource={dataPart} rowKey={"id"} loading={isLoading} />
+
+          <Row gutter={100} mt={10} style={{margin: "20px"}}>
+          {isLoading ? dataFake?.map((item, index) => (
+                <Col span={4} key={index}>
+                    <Card style={{ width: 200 }} className="card-item" cover={ isLoading ? <Skeleton.Image style={{width: "180px", height: "180px"}} active={isLoading} /> : <img
+                    alt="example"
+                    src={`${iconPart}`} />} >
+                      <Meta title={item.name} className="card__meta" />
+                      <Space size={"small"} className="card__btnOption">
+                        <Button><b>Lession</b></Button>
+                        <Button><b>Test</b></Button>
+                      </Space>
+                    </Card>
+                </Col>
+            )) : dataPart?.map((item, index) => (
+                <Col span={4} key={index}>
+                    <Card style={{ width: 200 }} className="card-item" cover={ <img alt="example" src={`${iconPart}`} /> } >
+                      <Meta title={item.name} className="card__meta"/>
+                      <Space size={"small"} className="card__btnOption">
+                        <Button><b>Lession</b></Button>
+                        <Link onClick={() => onclickShowListenStart(item)} to={`/skill/${currentSite}/test`}>
+                          <Button><b>Test</b></Button>
+                        </Link>
+                      </Space>
+                      <Space className="card__vectorDot">
+                        <img alt="example" width={10} height={10} src={`${iconDot}`}/>
+                      </Space> 
+                    </Card>
+                </Col>
+            ))}  
+          </Row>
         </div>
         <CreateAndEditModal
           isOpen={isOpen}
@@ -162,9 +145,9 @@ const PartOfPractice = (props) => {
         />
       </div>
     </div>
-  )
-}
+  );
+};
 
-PartOfPractice.propTypes = {}
+PartOfPractice.propTypes = {};
 
-export default PartOfPractice
+export default PartOfPractice;

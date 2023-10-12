@@ -1,0 +1,8 @@
+.wrapper strong{
+    color: #1677ff;
+    cursor: pointer;
+
+}
+.wrapper strong:hover{
+    color: #69b1ff;
+}

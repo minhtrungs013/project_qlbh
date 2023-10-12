@@ -6,7 +6,6 @@ import Product from './product/product';
 import Home from './home/home';
 import './admin.css';
 import Chat from './chat/chat';
-// import Navigation from './navigation/navigation';
 import Category from './category/category';
 import Vocabulary from './vocabulary/vocabulary';
 import Practice from './practice/practice';
@@ -18,6 +17,7 @@ import { getAllData } from '../../api/service/api';
 import Tests from './practice/skillsComp/TestsOfPart/Tests';
 import ListQuestionByTopic from './question/ListQuestionByTopic';
 import Lession from './lession/Lession';
+import TestManagement from './test-management/TestManagement';
 
 
 
@@ -26,6 +26,7 @@ export default function Admin() {
   const [checkNavigate, setCheckNavigate] = useState(false)
   const [dataPractice, setDataPractice] = useState([])
   let { pathname } = useLocation();
+  const token = localStorage.getItem('token')
 
   function handleClick() {
     if (checkNavigate === false) {
@@ -46,8 +47,10 @@ export default function Admin() {
   };
 
   useEffect(() => {
-    getDataPractice()
-  }, [])
+    if(token){
+      getDataPractice()
+    }
+  }, [token])
   
 
   return (
@@ -65,28 +68,32 @@ export default function Admin() {
           <Route path="/product" element={<Product />} />
         </Routes>
 
-        <Routes>
+        {/* <Routes>
           <Route path="/practice" element={<Practice />} />
-        </Routes>
+        </Routes> */}
           {/* SubMenu Practice */}
           <Routes>
-            <Route path="/listening" element={<PartOfPractice id={dataPractice.filter(f=>f.type === "listen")[0]?.id} type={"listening"} />} />
+            <Route path="/skill/listening" element={<PartOfPractice id={dataPractice.filter(f=>f.type === "listen")[0]?.id} type={"listening"} />} />
           </Routes>
           <Routes>
-            <Route path="/reading" element={<PartOfPractice id={dataPractice.filter(f=>f.type === "read")[0]?.id} type={"reading"} />} />
+            <Route path="/skill/reading" element={<PartOfPractice id={dataPractice.filter(f=>f.type === "read")[0]?.id} type={"reading"} />} />
           </Routes>
           <Routes>
-            <Route path="/speaking" element={<PartOfPractice id={dataPractice.filter(f=>f.type === "speak")[0]?.id} type={"speaking"} />} />
+            <Route path="/skill/speaking" element={<PartOfPractice id={dataPractice.filter(f=>f.type === "speak")[0]?.id} type={"speaking"} />} />
           </Routes>
           <Routes>
-            <Route path="/writing" element={<PartOfPractice id={dataPractice.filter(f=>f.type === "write")[0]?.id} type={"writing"} />} />
+            <Route path="/skill/writing" element={<PartOfPractice id={dataPractice.filter(f=>f.type === "write")[0]?.id} type={"writing"} />} />
           </Routes>
           {/* SubMenu Practice */}
          
           {/* Route to Test of Part */}
 
           <Routes>
-            <Route path={`/skill/test`} element={<Tests/>}/>
+            <Route path={`/skill`} element={<Practice/>}/>
+          </Routes>
+
+          <Routes>
+            <Route path={`/skill/:currentSite/test`} element={<Tests/>}/>
           </Routes>
           <Routes>
             <Route path={`/skill/lession`} element={<Lession/>}/>
@@ -134,6 +141,9 @@ export default function Admin() {
         </Routes>
         <Routes>
           <Route path={`/practice/skill/question/details`} element={<DetailQuestion/>}/>
+        </Routes>
+        <Routes>
+          <Route path="/exam" element={<TestManagement/>}/>
         </Routes>
       </Col>
     </Row>

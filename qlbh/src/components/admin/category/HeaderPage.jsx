@@ -1,15 +1,28 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { Row, Col, Input, Button, Typography } from 'antd';
+import { Row, Col, Input, Button } from 'antd';
 import { PlusCircleOutlined } from '@ant-design/icons';
 import './header.css';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCaretLeft } from '@fortawesome/free-solid-svg-icons';
+import BreadcrumbCustom from '../../shared/Breadcrumb/BreadcrumbCustom';
+import { useLocation, useNavigate } from 'react-router-dom';
+import './style.css'
 const { Search } = Input;
 
-const HeaderPage = ({ title = '', actions = 'default', onAdd = true, onCreate, onBack = false, search = false }) => {
-  const onSearch = (text) => {
-  };
+
+const Separator = ({ children, ...props }) => (
+  <span style={{ color: 'teal' }} {...props}>
+    {children}
+  </span>
+)
+
+const HeaderPage = ({ title = '', actions = 'default', onAdd = true, onCreate, onBack = false, search = false, type, optionBreadCrumb }) => {
+  const [option, setOption] = useState([]);
+  const [currentSite, setCurrentSite] = useState("");
+  // eslint-disable-next-line no-unused-vars
+  let { pathname } = useLocation();
+  const onSearch = (text) => {};
+  const navigate = useNavigate();
+  
 
   const styleButton = {
     display: "flex",
@@ -18,24 +31,54 @@ const HeaderPage = ({ title = '', actions = 'default', onAdd = true, onCreate, o
     marginRight: "10px",
   };
 
-  const backToPrevPage = () => {
-    window.history.back()
+  useEffect(() => {
+    setCurrentSite(JSON.parse(localStorage.getItem('submenu')))
+    setOption(JSON.parse(localStorage.getItem('breadcrumbs')))
+    handleCheckUserClickBtnBack()
+  }, [])
+  
+  const handleCheckUserClickBtnBack = () => {
+    window.addEventListener('popstate', () => {
+      let arr = [];
+      localStorage.setItem('breadcrumbs', JSON.stringify(arr));
+    });
   }
+  
+  const handleCheckPrevSite = () => {
+    let arr = [];
+    localStorage.setItem('breadcrumbs', JSON.stringify(arr));
+    navigate(`/${currentSite}`)
+  }
+  
+  const handleCheckCurrSite = (item, index) => {
+    let _breadCrumbs = [];
+    if(index === 0){
+      _breadCrumbs = JSON.parse(localStorage.getItem('breadcrumbs')).toSpliced(1,1)
+      localStorage.setItem('breadcrumbs', JSON.stringify(_breadCrumbs));
+      navigate(`/${currentSite}/${item}`)
+    }
+  } 
 
   return (
     <div className="header-page">
       <Row className="wrapper" justify="space-around" align="center">
         <Col>
-        {
-          onBack && 
-            <Button style={styleButton} onClick={backToPrevPage}>
-              <FontAwesomeIcon className='faCaretLeft' icon={faCaretLeft} />
-            {'Back'}
-            </Button>
-        }
+        <BreadcrumbCustom separator={<Separator>{'>>'}</Separator>}>
+
+        {/* <Link onClick={() => handleCheckPrevSite()} to={`/${currentSite}`}>{currentSite}</Link> */}
+        <strong onClick={() => handleCheckPrevSite()} >{currentSite}</strong>
+
+        {option !== null && option.map((item, index) => {
+        return (
+          <div key={index} className='some-custom-classname'>
+            {/* <Link onClick={() => handleCheckCurrSite(item)}>{item}</Link> */}
+            <strong onClick={() => handleCheckCurrSite(item, index)}>{item}</strong>
+          </div>
+        )
+      })}
+    </BreadcrumbCustom>
         </Col>
         <Col className="header-page__title">
-          <Typography.Title level={3}>{title}</Typography.Title>
         </Col>
         <Col flex={1} style={{ textAlign: 'right' }}>
           {actions === 'default' && (

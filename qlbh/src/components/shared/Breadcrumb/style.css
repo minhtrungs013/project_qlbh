@@ -1,0 +1,39 @@
+.breadcrumb-separator {
+    color: #333;
+    margin: auto 6px;
+    user-select: none;
+  }
+  
+  .breadcrumb-collapser {
+    display: flex;
+    align-items: center;
+  }
+  
+  .breadcrumb-collapser svg {
+    cursor: pointer;
+    transition: all 0.2s ease-out;
+    color: #000;
+    width: 25px;
+    height: 25px;
+  }
+  .breadcrumb-collapser svg:hover,
+  .breadcrumb-collapser svg:focus {
+    color: #999;
+    transform: scale(1.15);
+  }
+  
+  .breadcrumb-collapser svg:active {
+    color: #333;
+  }
+
+  ol{
+    display: flex;
+  }
+  ol li {
+    list-style-type: none;
+    }
+  .breadcrumb-item{
+    font-size: large;
+    font-weight: bold;
+    text-transform: capitalize; /** Viet hoa chu cai dau */
+  }

@@ -8,6 +8,7 @@ import { BackwardOutlined } from '@ant-design/icons'
 const IndexLession = props => {
     const [dataPractice, setDataPractice] = useState([])
     const [dataPart, setDataPart] = useState([])
+    // eslint-disable-next-line no-unused-vars
     const [ isLoading, setIsLoading ] = useState(false)
     const [ selected, setSeleceted ] = useState(false)
     const [ selectedPart, setSelecetedPart ] = useState(false)
@@ -44,6 +45,7 @@ const IndexLession = props => {
     useEffect(() => {
         getDataPractice()
         getDataPartOfPractice()
+      // eslint-disable-next-line react-hooks/exhaustive-deps
       }, [practiceId])
 
     const buttonBack = useMemo(() => {
