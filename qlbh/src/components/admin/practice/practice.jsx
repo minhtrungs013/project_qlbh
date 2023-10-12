@@ -2,53 +2,15 @@ import React, { useCallback, useEffect, useState } from "react";
 import { Card, Col, Row } from "antd";
 import HeaderPage from "../category/HeaderPage";
 import { Link } from "react-router-dom";
-import iconListening from "../../shared/Folder/listening.png";
-import iconReading from "../../shared/Folder/reading.png";
-import iconWriting from "../../shared/Folder/writing.png";
-import iconSpeaking from "../../shared/Folder/speaking.png";
 import Meta from "antd/es/card/Meta";
 import './partStyle.css'
-
-const dataFake = [
-  {
-    id: "e01d2fb4-5aa1-467e-becb-5f497aee04fa",
-    practiceId: "e3e65aea-049a-495c-8489-e2a685fd7ab3",
-    path: "listening",
-    name: "Listening",
-    image: iconListening,
-    description: "Listening 1",
-  },
-  {
-    id: "8d048a47-15ba-42cb-8798-468396e52fac",
-    practiceId: "e3e65aea-049a-495c-8489-e2a685fd7ab3",
-    path: "reading",
-    name: "Reading",
-    image: iconReading,
-    description: "Reading 2",
-  },
-  {
-    id: "e01d2fb4-5aa1-467e-becb-5f497aee04fa",
-    practiceId: "e3e65aea-049a-495c-8489-e2a685fd7ab3",
-    path: "speaking",
-    name: "Speaking",
-    image: iconWriting,
-    description: "Speaking 3",
-  },
-  {
-    id: "8d048a47-15ba-42cb-8798-468396e52fac",
-    practiceId: "e3e65aea-049a-495c-8489-e2a685fd7ab3",
-    path: "writing",
-    name: "Writing",
-    image: iconSpeaking,
-    description: "Writing 4",
-  },
-];
+import { dataFakePractice } from "../../../api/service/dataFake";
 
 const Practice = (props) => {
   const [dataSkill, setDataSkill] = useState([]);
 
   const handleSetDataFake = useCallback(() => {
-    setDataSkill(dataFake);
+    setDataSkill(dataFakePractice);
   }, []);
 
   useEffect(() => {
