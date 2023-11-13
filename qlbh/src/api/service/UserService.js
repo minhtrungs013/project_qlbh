@@ -13,6 +13,7 @@ export function getUser(endpoint) {
 export function getAllUser(endpoint) {
     return API.get(`${API_BASE}/${endpoint}`, null);
 }
+
 export function updateUser(endpoint, body) {
     return API.put(`${API_BASE}/${endpoint}`, body);
 }

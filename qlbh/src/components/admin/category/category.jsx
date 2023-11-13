@@ -1,10 +1,10 @@
 import React, { useCallback, useEffect, useState } from 'react'
-import { getAllVocabularyCategory } from '../../../api/service/VocabularyCategory';
+// import { getAllVocabularyCategory } from '../../../api/service/VocabularyCategory';
 import { ExclamationCircleOutlined } from '@ant-design/icons';
 import { Checkbox, Form, Modal, Radio, Space, Table, Tag, message } from 'antd';
 import HeaderPage from './HeaderPage';
 import ModalCategory from './ModalCategory';
-import { deleteCategoryById } from '../../../api/service/Category';
+// import { deleteCategoryById } from '../../../api/service/Category';
 // import { responsiveArray } from 'antd/es/_util/responsiveObserver';
 
 const Category = props => {
@@ -79,19 +79,19 @@ const Category = props => {
 
       const reload = useCallback(() => {
         setIsLoading(true)
-        getAllVocabularyCategory('vocabularyCategories').then((res) => {
-        setData(res.data.data)
-          setIsLoading(false)
-        })
+        // getAllVocabularyCategory('vocabularyCategories').then((res) => {
+        // setData(res.data.data)
+        //   setIsLoading(false)
+        // })
       },[])
 
     const getAllCategory = () => {
         setIsLoading(true)
-        getAllVocabularyCategory(`vocabularyCategories`)
-            .then((res) => {
-                setData(res.data.data);
-                setIsLoading(false)
-            });
+        // getAllVocabularyCategory(`vocabularyCategories`)
+        //     .then((res) => {
+        //         setData(res.data.data);
+        //         setIsLoading(false)
+        //     });
     }
 
     const onClickDelete = (values) => {
@@ -108,10 +108,10 @@ const Category = props => {
     
     
       const handleDelete = (value) => {
-        deleteCategoryById(`vocabularyCategories?id=${value.id}`).then((res) => {
-          message.success("SUCCESS");
-          reload()
-        })
+        // deleteCategoryById(`vocabularyCategories?id=${value.id}`).then((res) => {
+        //   message.success("SUCCESS");
+        //   reload()
+        // })
       }
 
     useEffect(() => {

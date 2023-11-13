@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import {  Route, Routes, useLocation  } from "react-router-dom";
 import { Col, Row } from 'antd';
-import Navbar from './navbar/navbar';
+import Navbar from '../navbar/navbar';
 import Product from './product/product';
 import Home from './home/home';
 import './admin.css';
-import Chat from './chat/chat';
 import Category from './category/category';
 import Vocabulary from './vocabulary/vocabulary';
 import Practice from './practice/practice';
@@ -123,10 +122,6 @@ export default function Admin() {
           <Routes>
             <Route path={`/practice/skill/question`} element={<ListQuestionByTopic />}/>
           </Routes>
-
-        <Routes>
-          <Route path="/chat" element={<Chat />} />
-        </Routes>
         <Routes>
           <Route path="/category" element={<Category />} />
         </Routes>

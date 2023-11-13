@@ -9,7 +9,7 @@ import {
   Select,
 } from "antd";
 import React, { useCallback, useEffect, useState } from "react";
-import { createProduct, updateProduct } from "../../../api/service/VocabularyService";
+// import { createProduct, updateProduct } from "../../../api/service/VocabularyService";
 
 
 const arrType = [
@@ -44,17 +44,17 @@ const ModalQuestion = (props) => {
         image: values.image,
       };
       setIsLoading(true);
-      updateProduct(`practices/updateWithoutParts?id=${IdItem}`, formControl)
-        .then((res) => {
-          if (res.data) {
-            handleCancel();
-            message.success("UPDATE SUCCESS");
-            reloadData();
-          }
-        })
-        .catch(() => {
-          message.error("Error");
-        });
+      // updateProduct(`practices/updateWithoutParts?id=${IdItem}`, formControl)
+      //   .then((res) => {
+      //     if (res.data) {
+      //       handleCancel();
+      //       message.success("UPDATE SUCCESS");
+      //       reloadData();
+      //     }
+      //   })
+      //   .catch(() => {
+      //     message.error("Error");
+      //   });
       setIsLoading(false);
     },
     [handleCancel, reloadData]
@@ -67,13 +67,13 @@ const ModalQuestion = (props) => {
       image: values.image,
     };
     setIsLoading(true);
-    createProduct("practices/createWithoutParts", formControl).then((res) => {
-      if (res.data) {
-        reloadData();
-        handleCancel();
-        message.success("CREATE SUCCESS");
-      }
-    });
+    // createProduct("practices/createWithoutParts", formControl).then((res) => {
+    //   if (res.data) {
+    //     reloadData();
+    //     handleCancel();
+    //     message.success("CREATE SUCCESS");
+    //   }
+    // });
     setIsLoading(false);
   };
 

@@ -4,14 +4,13 @@ import {
   Col,
   Form,
   Input,
-  message,
   Modal,
   Row,
-  Select,
+  Select
 } from "antd";
 import React, { useCallback, useEffect, useState } from "react";
-import { getAllVocabularyCategory } from "../../../api/service/VocabularyCategory";
-import { createProduct, updateProduct } from "../../../api/service/VocabularyService";
+// import { getAllVocabularyCategory } from "../../../api/service/VocabularyCategory";
+// import { createProduct, updateProduct } from "../../../api/service/VocabularyService";
 
 const ModalVocabulary = (props) => {
   const { isOpen, title, form, reloadData, onClose } = props;
@@ -43,17 +42,17 @@ const ModalVocabulary = (props) => {
         isActive: values.isActive,
       };
       setIsLoading(true);
-      updateProduct(`vocabularies?id=${IdItem}`, formControl)
-        .then((res) => {
-          if (res.data) {
-            handleCancel();
-            message.success("UPDATE SUCCESS");
-            reloadData();
-          }
-        })
-        .catch(() => {
-          message.error("Error");
-        });
+      // updateProduct(`vocabularies?id=${IdItem}`, formControl)
+      //   .then((res) => {
+      //     if (res.data) {
+      //       handleCancel();
+      //       message.success("UPDATE SUCCESS");
+      //       reloadData();
+      //     }
+      //   })
+      //   .catch(() => {
+      //     message.error("Error");
+      //   });
       setIsLoading(false);
     },
     [handleCancel, reloadData]
@@ -69,13 +68,13 @@ const ModalVocabulary = (props) => {
       isActive: values.isActive,
     };
     setIsLoading(true);
-    createProduct("vocabularies/create", formControl).then((res) => {
-      if (res.data) {
-        reloadData();
-        handleCancel();
-        message.success("CREATE SUCCESS");
-      }
-    });
+    // createProduct("vocabularies/create", formControl).then((res) => {
+    //   if (res.data) {
+    //     reloadData();
+    //     handleCancel();
+    //     message.success("CREATE SUCCESS");
+    //   }
+    // });
     setIsLoading(false);
   };
 
@@ -92,16 +91,16 @@ const ModalVocabulary = (props) => {
   };
 
   const getAllCategory = () => {
-    getAllVocabularyCategory(`vocabularyCategories`).then((res) => {
-      const _options = [];
-      res.data.data.forEach((e, i) => {
-        _options.push({
-            value: e.id ,
-            label: e.name
-        })
-      });
-      setOptions(_options);
-    });
+    // getAllVocabularyCategory(`vocabularyCategories`).then((res) => {
+    //   const _options = [];
+    //   res.data.data.forEach((e, i) => {
+    //     _options.push({
+    //         value: e.id ,
+    //         label: e.name
+    //     })
+    //   });
+    //   setOptions(_options);
+    // });
   };
 
   useEffect(() => {

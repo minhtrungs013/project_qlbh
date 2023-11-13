@@ -1,0 +1,255 @@
+.Navigate__heading1 {
+    display: flex;
+    align-items: center;
+    text-align: center;
+}
+
+.navbar__pc {
+    display: none;
+}
+
+.navbar__item {
+    display: flex;
+    justify-content: space-between;
+    height: 70px;
+    align-items: center;
+}
+
+.navbar__left {
+    padding-left: 10px;
+    align-items: center;
+    display: flex;
+}
+
+.navbar__rigth {
+    align-items: center;
+    display: flex;
+}
+
+.navbar_user {
+    border-bottom-left-radius: 6px;
+    border-bottom: 1px solid #f1f0f0;
+    background-color: white;
+
+}
+
+.user_img1 {
+    height: 40px;
+    width: 40px;
+    border-radius: 50px;
+}
+
+.user__search_item {
+    position: relative;
+    padding: 10px 100px 10px 35px;
+    font-size: 16px;
+    border-radius: 50px;
+    border-style: none;
+    border: none;
+    outline: none;
+    color: #656a6e;
+    width: 100%;
+    box-shadow: 1px 2px 2px 0px rgba(17, 18, 19, 0.35);
+    transition: .25s ease;
+}
+
+.user__search_item-icon {
+    color: #656a6e;
+    position: absolute;
+    font-size: 15px;
+    left: 135px;
+}
+
+.navbar__center-list {
+    display: flex;
+    padding-left: 0;
+}
+
+.navbar__center-item {
+    list-style: none;
+    text-decoration: none;
+    display: block;
+    cursor: pointer;
+    align-items: center;
+    text-align: left;
+    margin: 0 10px;
+    border-radius: 6px;
+    width: 120px;
+}
+
+.navbar__center-item:hover {
+    background: #f3f7f9;
+}
+
+.navbar__center-item-link:hover {
+    color: #000000;
+}
+
+.navbar__center-item-link {
+    display: block;
+    color: #000000;
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: 500;
+    padding: 10px 0px;
+
+}
+
+.navbar__item-icon {
+    padding-right: 10px;
+    color: #ff0909ad;
+}
+
+.navbar__rigth-user-icon {
+    font-size: 16px;
+    color: #495057;
+    border-radius: 6px;
+    cursor: pointer;
+    display: flex;
+    padding: 7px 10px;
+    justify-content: space-between;
+}
+
+.navbar__rigth-user-icon:hover {
+    background: #f3f7f9;
+}
+
+.user_Profile-text {
+    padding-right: 20px;
+}
+
+.user {
+    display: flex;
+    align-items: center;
+    position: relative;
+    margin-right: 13px;
+    cursor: pointer;
+}
+
+.user_img {
+    height: 40px;
+    width: 40px;
+    border-radius: 50px;
+}
+
+.user__name {
+    font-size: 16px;
+    padding: 0 10px;
+    color: #353131;
+}
+
+.user__icon {
+    position: relative;
+    padding-top: 6px;
+    font-size: 10px;
+    font-weight: 800;
+    color: #e44adc;
+}
+
+.user::before {
+    position: absolute;
+    content: "";
+    background-color: transparent;
+    height: 29px;
+    width: 131px;
+    top: 33px;
+    right: 0px;
+}
+
+.user:hover .user_Profile_body {
+    display: block !important;
+}
+
+.user_Profile_body {
+    z-index: 20;
+    display: none;
+    position: absolute;
+    right: 0;
+    top: 45px;
+    background-color: #ffff;
+    text-decoration: none;
+    border-radius: 6px;
+    box-shadow: 1px 1px 4px 0px #c0c2c2;
+}
+
+.user_Profile {
+    margin: 0;
+    text-decoration: none;
+    padding-left: 0;
+}
+
+.user_Profile li {
+    list-style: none;
+    padding: 5px 10px;
+}
+
+
+
+.navbar__tablet-mobile-icon {
+    font-size: 20px;
+    cursor: pointer;
+    padding: 0 15px;
+    color: #ff0909ad;
+}
+
+
+.todo {
+    position: fixed;
+    z-index: 10;
+    max-height: 874px;
+    height: 100%;
+    width: 300px;
+    background: white;
+    left: -300px;
+    top: 70px;
+    transition: .5s ease;
+    transform: scaleX(0px);
+    box-shadow: 0 1px 1px 1px rgba(17, 18, 19, 0.35);
+}
+
+.cancel {
+    position: fixed;
+    background-color: transparent;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    left: 46px;
+    display: none;
+    z-index: 9;
+}
+
+.showcancel {
+    display: block;
+}
+
+
+.todo1 {
+    left: 0;
+}
+
+
+.todo__list {
+    text-decoration: none;
+    list-style: none;
+    padding-left: 0px;
+    margin: 0;
+}
+
+.todo__item {
+    border-bottom: 1px solid #d6d4d4;
+    display: flex;
+    justify-content: space-between;
+    padding-bottom: 5px;
+    padding-top: 10px;
+}
+
+.todo__item:hover {
+    background-color: rgb(246, 247, 247);
+}
+
+.menu {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}

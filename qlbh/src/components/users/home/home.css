@@ -1,0 +1,21 @@
+.home {
+    background: linear-gradient(180deg,#fbf3f1,rgba(245,248,253,0) 48.23%,hsla(0,0%,100%,.63));
+    height: 400px;
+}
+
+.header-box {
+    padding-top: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.content {
+    font-size: 24px;
+    font-weight: 600;
+    color: #000;
+}
+.content span {
+
+    color: #ff8159;
+}

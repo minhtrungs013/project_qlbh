@@ -1,14 +1,14 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { getAllVocabularyCategory } from "../../../api/service/VocabularyCategory";
+// import { getAllVocabularyCategory } from "../../../api/service/VocabularyCategory";
 import { ExclamationCircleOutlined } from "@ant-design/icons";
 import { Checkbox, Form, Modal, Radio, Space, Table, Tag, message } from "antd";
 import ModalCategory from "./ModalVocabulary";
-import { deleteCategoryById } from "../../../api/service/Category";
+// import { deleteCategoryById } from "../../../api/service/Category";
 import HeaderPage from "../category/HeaderPage";
-import {
-  deleteProductById,
-  getAllVocabulary,
-} from "../../../api/service/VocabularyService";
+// import {
+//   deleteProductById,
+//   getAllVocabulary,
+// } from "../../../api/service/VocabularyService";
 
 const Vocabulary = (props) => {
   const [data, setData] = useState([]);
@@ -131,51 +131,51 @@ const Vocabulary = (props) => {
 
   const reload = useCallback(() => {
     setIsLoading(true);
-    getAllVocabulary("vocabularies").then((res) => {
-      getAllDataVocabulary()
-      setData(res.data.data);
-      setIsLoading(false);
-    });
+    // getAllVocabulary("vocabularies").then((res) => {
+    //   // getAllDataVocabulary()
+    //   setData(res.data.data);
+    //   setIsLoading(false);
+    // });
   }, []);
 
-  const getAllDataVocabulary = () => {
-    setIsLoading(true)
-    getAllVocabulary(`vocabularies`).then((res) => {
-      if (res) {
-        getAllVocabularyCategory(`vocabularyCategories`).then((resCate) => {
-          res.data.data.forEach((e, i, arr) => {
-            let idCategory = ""
-            e.categoryIds !== null && e.categoryIds.forEach(item => {return idCategory = item})
-            arr[i]["parentName"] = e.categoryIds !== null ? 
-            resCate.data.data.filter((f) => f.id === idCategory) : [];
-          });
-          setData(res.data.data);
-          setIsLoading(false)
-        });
+  // const getAllDataVocabulary = () => {
+  //   setIsLoading(true)
+  //   getAllVocabulary(`vocabularies`).then((res) => {
+  //     if (res) {
+  //       getAllVocabularyCategory(`vocabularyCategories`).then((resCate) => {
+  //         res.data.data.forEach((e, i, arr) => {
+  //           let idCategory = ""
+  //           e.categoryIds !== null && e.categoryIds.forEach(item => {return idCategory = item})
+  //           arr[i]["parentName"] = e.categoryIds !== null ? 
+  //           resCate.data.data.filter((f) => f.id === idCategory) : [];
+  //         });
+  //         setData(res.data.data);
+  //         setIsLoading(false)
+  //       });
 
-        // getAllVocabularyCategory(`vocabularyCategories`).then((category) => {
-        //   let newArr = [];
-        //   let _category = category.data.data
-        //   res.data.data.forEach((e, i, arr) => {
-        //       if(e.categoryIds !== null) {
-        //         for (let i = 0; i < e.categoryIds.length; i++) {
-        //           const element = e.categoryIds[i];
-        //           for (let j = 0; j < _category.length; j++) {
-        //             const item = _category[j];
-        //             if(element === item.id){
-        //               newArr.push(item)
-        //             }
-        //           }
-        //         }
-        //       }
-        //     arr[i]["parentName"] = e.categoryIds !== null ? newArr : []
-        //   })
-        //   setData(res.data.data);
-        //   setIsLoading(false)
-        // })          
-      }
-    });
-  };
+  //       // getAllVocabularyCategory(`vocabularyCategories`).then((category) => {
+  //       //   let newArr = [];
+  //       //   let _category = category.data.data
+  //       //   res.data.data.forEach((e, i, arr) => {
+  //       //       if(e.categoryIds !== null) {
+  //       //         for (let i = 0; i < e.categoryIds.length; i++) {
+  //       //           const element = e.categoryIds[i];
+  //       //           for (let j = 0; j < _category.length; j++) {
+  //       //             const item = _category[j];
+  //       //             if(element === item.id){
+  //       //               newArr.push(item)
+  //       //             }
+  //       //           }
+  //       //         }
+  //       //       }
+  //       //     arr[i]["parentName"] = e.categoryIds !== null ? newArr : []
+  //       //   })
+  //       //   setData(res.data.data);
+  //       //   setIsLoading(false)
+  //       // })          
+  //     }
+  //   });
+  // };
 
   const onClickDelete = (values) => {
     Modal.confirm({
@@ -190,15 +190,15 @@ const Vocabulary = (props) => {
   };
 
   const handleDelete = (value) => {
-    deleteProductById(`vocabularies?id=${value.id}`).then((res) => {
-      message.success("SUCCESS");
-      reload();
-    });
+    // deleteProductById(`vocabularies?id=${value.id}`).then((res) => {
+    //   message.success("SUCCESS");
+    //   reload();
+    // });
   };
 
-  useEffect(() => {
-    getAllDataVocabulary();
-  }, []);
+  // useEffect(() => {
+  //   getAllDataVocabulary();
+  // }, []);
 
   return (
     <div>

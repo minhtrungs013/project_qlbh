@@ -1,9 +1,10 @@
 import { combineReducers } from "@reduxjs/toolkit";
-import practiceReducer from "./practice.reducer";
 import userReducer from "./user.reducer";
+import practiceReducer from "./practice.reducer";
+
 const rootReducer = combineReducers({
-    practiceReducer,
-    userReducer
+    userReducer,
+    practiceReducer
 })
 
 export default rootReducer

@@ -8,7 +8,7 @@ import NoImg from '../../../asset/no-image.png';
 import { ExclamationCircleOutlined } from '@ant-design/icons';
 import ModalCreateQuestionByTopic from './ModalCreateQuestionByTopic';
 import { useSelector, useDispatch } from 'react-redux';
-import { setQuestionId } from '../../redux/_actions';
+// import { setQuestionId } from '../../redux/_actions';
 
 const ListQuestionByTopic = props => {
   const [data, setData] = useState([])
@@ -16,10 +16,10 @@ const ListQuestionByTopic = props => {
   const [isOpen, setIsopen] = useState(false);
   const [form] = Form.useForm();
   const objectTypeId = useSelector(state => state.practiceReducer.objectTypeId);
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
   const audioPlayerRef = useRef(null);
   const onClickSetQuestionId = (record) => {
-    dispatch(setQuestionId(record.id))
+    // dispatch(setQuestionId(record.id))
   }
   const columns = [
     {
