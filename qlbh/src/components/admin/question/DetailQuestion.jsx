@@ -80,7 +80,6 @@ const DetailQuestion = (props) => {
             }
           ))
           }
-          console.log(configFormData)
       setDataQuestion(configFormData);
       form.setFieldsValue(configFormData)
     });
