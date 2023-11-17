@@ -4,20 +4,29 @@ import { Col, Row } from 'antd'
 import Folder from '../../shared/Folder/Folder'
 import iconExam from '../../shared/Folder/Exam.png'
 import { Link } from 'react-router-dom'
-import { dataFakeTestManagement } from '../../../api/service/dataFake'
+// import { dataFakeTestManagement } from '../../../api/service/dataFake'
+import { getAllData } from '../../../api/service/api/index';
 
 
 const TestManagement = props => {
 
   const [dataSkill, setDataSkill] = useState([]);
 
-  const handleSetDataFake = useCallback(() => {
-    setDataSkill(dataFakeTestManagement);
+  // const handleSetDataFake = useCallback(() => {
+  //   setDataSkill(dataFakeTestManagement);
+  // },[])
+
+  const getDataTest = useCallback(() => {
+    getAllData(`tests?page=1&size=10`).then((res) => {
+      if(res){
+        setDataSkill(res.data.data);
+      }
+  });
   },[])
 
   useEffect(() => {
-    handleSetDataFake();
-  }, [handleSetDataFake]);
+    getDataTest();
+  }, [getDataTest]);
 
   const handleSelect = (e) => {
     let arr = [];

@@ -19,7 +19,7 @@ const Practice = (props) => {
 
   const handleSelect = (e) => {
     let arr = [];
-    arr.push(e.path);
+    arr.push(e.name);
     localStorage.setItem("breadcrumbs", JSON.stringify(arr));
   };
 
@@ -30,8 +30,8 @@ const Practice = (props) => {
         <Row gutter={100} mt={10} style={{ margin: "20px", display: "flex", justifyContent: "center" }}>
           {dataSkill?.map((item, index) => (
             <Col className="item-skill" span={5} key={index} onClick={() => handleSelect(item)}>
-              <Link to={`/skill/${item.path}`}>
-                <Card className="card-skill" cover={ <img alt="example" src={item.image} /> } >
+              <Link to={`/skill/${item.name}`}>
+                <Card className="card-skill" cover={ <img alt="example" src={item.imageURL} /> } >
                   <Meta title={item.name} description={item.description} />
                 </Card>
               </Link>

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { Row, Col, Input, Button } from 'antd';
-import { PlusCircleOutlined } from '@ant-design/icons';
+import { PlusCircleOutlined, SaveOutlined } from '@ant-design/icons';
 import './header.css';
 import BreadcrumbCustom from '../../shared/Breadcrumb/BreadcrumbCustom';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -10,12 +10,20 @@ const { Search } = Input;
 
 
 const Separator = ({ children, ...props }) => (
-  <span style={{ color: 'teal' }} {...props}>
+  <span style={{ fontWeight: "bold" }} {...props}>
     {children}
   </span>
 )
 
-const HeaderPage = ({ title = '', actions = 'default', onAdd = true, onCreate, onBack = false, search = false, type, optionBreadCrumb }) => {
+// eslint-disable-next-line no-unused-vars
+const TextCustom = ({ children, ...props }) => (
+  <div className='text' {...props} style={{width: '150px', overflow: 'hidden', textOverflow: 'ellipsis', color: '#1677ff',
+  cursor: 'pointer'}}>
+    {children}
+  </div>
+)
+
+const HeaderPage = ({ title = '', actions = 'default', onAdd = true, onSave = false, handleUpdate, onCreate, onBack = false, search = false, type, optionBreadCrumb }) => {
   const [option, setOption] = useState([]);
   const [currentSite, setCurrentSite] = useState("");
   // eslint-disable-next-line no-unused-vars
@@ -53,9 +61,15 @@ const HeaderPage = ({ title = '', actions = 'default', onAdd = true, onCreate, o
   const handleCheckCurrSite = (item, index) => {
     let _breadCrumbs = [];
     if(index === 0){
-      _breadCrumbs = JSON.parse(localStorage.getItem('breadcrumbs')).toSpliced(1,1)
+      _breadCrumbs = JSON.parse(localStorage.getItem('breadcrumbs')).toSpliced(1,3)
       localStorage.setItem('breadcrumbs', JSON.stringify(_breadCrumbs));
       navigate(`/${currentSite}/${item}`)
+    } else if(index === 1){
+      _breadCrumbs = JSON.parse(localStorage.getItem('breadcrumbs')).toSpliced(2,3)
+      localStorage.setItem('breadcrumbs', JSON.stringify(_breadCrumbs));
+      navigate(`/skill/Listening/test`)
+    } else {
+      navigate(`/question`)
     }
   } 
 
@@ -63,7 +77,7 @@ const HeaderPage = ({ title = '', actions = 'default', onAdd = true, onCreate, o
     <div className="header-page">
       <Row className="wrapper" justify="space-around" align="center">
         <Col>
-        <BreadcrumbCustom separator={<Separator>{'>>'}</Separator>}>
+        <BreadcrumbCustom separator={<Separator>{'>'}</Separator>}>
 
         {/* <Link onClick={() => handleCheckPrevSite()} to={`/${currentSite}`}>{currentSite}</Link> */}
         <strong onClick={() => handleCheckPrevSite()} >{currentSite}</strong>
@@ -96,6 +110,11 @@ const HeaderPage = ({ title = '', actions = 'default', onAdd = true, onCreate, o
               {
                 onCreate && onAdd && <Button /** className='btnBack' */ type='primary' style={styleButton} onClick={() => onCreate()} icon={<PlusCircleOutlined />}>
                 {'Create'}
+              </Button>
+              }
+              {
+                onSave && <Button /** className='btnBack' */ type='primary' style={styleButton} onClick={() => handleUpdate()} icon={<SaveOutlined />}>
+                {'Save'}
               </Button>
               }
             </Row>

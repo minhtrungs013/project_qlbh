@@ -1,26 +1,8 @@
-import {
-  Button,
-  Card,
-  Col,
-  FloatButton,
-  Form,
-  Input,
-  Row,
-  Select,
-  Spin,
-  message,
-} from "antd";
-import React, {
-  useEffect,
-  useMemo,
-  useState,
-  useRef,
-  useCallback
-} from "react";
+import { Card, Col, FloatButton, Form, Input, Modal, Row, Select, Spin, Upload, message, } from "antd";
+import React, { useEffect, useMemo, useState, useRef, useCallback } from "react";
 import { useLocation } from "react-router-dom";
 import "./styleQuestion.css";
-import Loading from "../../shared/Loading/Loading";
-import { PlusOutlined, SaveOutlined, MinusCircleOutlined } from "@ant-design/icons";
+import { PlusOutlined, MinusCircleOutlined, UploadOutlined } from "@ant-design/icons";
 import HeaderPage from "../category/HeaderPage";
 import { getAllData, updateData } from "../../../api/service/api";
 import './style.css'
@@ -28,50 +10,93 @@ import { arrLevel } from "./ModalCreateQuestionByTopic";
 import { handleUpload } from "../../../utils/utils";
 import { useSelector } from 'react-redux';
 import { LoadingOutlined } from '@ant-design/icons';
+import TabCustomize from "../../shared/Tabs";
+import TextArea from "antd/es/input/TextArea";
+
+ export const getBase64 = (file) =>
+  new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = (error) => reject(error);
+  });
 
 const DetailQuestion = (props) => {
   const [dataQuestion, setDataQuestion] = useState([]);
-  const [loading, setLoading] = useState(false);
   const [loadingSpin, setLoadingSpin] = useState(false)
   const [messageApi, contextHolder] = message.useMessage();
+  // eslint-disable-next-line no-unused-vars
   const [loadingSpinImg, setLoadingSpinImg] = useState(false)
   const [form] = Form.useForm();
-  // eslint-disable-next-line no-unused-vars
-  const [imageUrl, setImageUrl] = useState();
   const location = useLocation();
   const audioPlayerRef = useRef(null);
   const [images, setImages] = useState([])
   const [audio, setAudio] = useState("")
+
+  /** Custom Image File */
+  const [previewOpen, setPreviewOpen] = useState(false);
+  const [previewImage, setPreviewImage] = useState('');
+  const [previewTitle, setPreviewTitle] = useState('');
+  const [tabPosition, setTabPosition] = useState('top');
+  
+  /** Custom Image File */
+
   const currentUri = location.search;
   const parts = currentUri.split("?code=");
   // eslint-disable-next-line no-unused-vars
-  const [code, setCode] = useState(parts[1] === undefined ? "" : parts[1]);
+  const [code, setCode] = useState(parts[1] === undefined ? "" : parts[1]); 
   const URIPath = `http://localhost:3000${location.pathname}`;
   const objectTypeId = useSelector(state => state.practiceReducer.objectTypeId);
   const questionId = useSelector(state => state.practiceReducer.questionId);
 
 
+  // eslint-disable-next-line no-unused-vars
+  const changeTabPosition = (e) => {
+    setTabPosition(e.target.value);
+  };
+
   const getDataQuestion = () => {
-    setLoading(true);
-    getAllData(`questions?objectTypeId=${objectTypeId}`).then((res) => {
-      const arrQuestionById = res.data.data.filter((f) => f.id === questionId);
-      setDataQuestion(arrQuestionById);
-      const formControl = {
-        id: arrQuestionById[0].id,
-        audioQuestion: arrQuestionById[0].audioQuestion,
-        images: arrQuestionById[0].imageUrls,
-        level: arrQuestionById[0].level,
-        objectTypeId: arrQuestionById[0].objectTypeId,
-        type: arrQuestionById[0].type,
-        questions: arrQuestionById[0].questions,
-      };
-      setImageUrl(arrQuestionById[0].imageUrls)
-      form.setFieldsValue(formControl)
-      setLoading(false);
-      setAudio(arrQuestionById[0].audioQuestion)
-      setImages(arrQuestionById[0].imageUrls)
+    getAllData(`questions?id=${questionId}`).then((res) => {
+      let configFormData = {
+          id: res.data.data?.id,
+          type: res.data.data?.type,
+          objectTypeId: res.data.data?.objectTypeId,
+          level: res.data.data?.level,
+          imageURLs: res.data.data?.imageURLs,
+          audioURL: res.data.data?.audioURL,
+          transcript: res.data.data?.transcript,
+          questionDetails: res.data.data.questionDetails.map((child, index) => (
+            {
+              id: child.id,
+              questionId: child.questionId,
+              contentQuestion: child.contentQuestion,
+              answers: [{
+                A: child?.answers?.A,
+                B: child?.answers?.B,
+                C: child?.answers?.C,
+                D: child?.answers?.D,
+              }],
+              correctAnswer: child.correctAnswer,
+            }
+          ))
+          }
+          console.log(configFormData)
+      setDataQuestion(configFormData);
+      form.setFieldsValue(configFormData)
     });
   };
+
+  const handleCancel = () => setPreviewOpen(false);
+  const handlePreview = async (file) => {
+    if (!file.url && !file.preview) {
+      file.preview = await getBase64(file.originFileObj);
+    }
+    setPreviewImage(file.url || file.preview);
+    setPreviewOpen(true);
+    setPreviewTitle(file.name || file.url.substring(file.url.lastIndexOf('/') + 1));
+  };
+  const handleChange = ({ fileList: newFileList }) => setImages(newFileList);
+
 
 
   useEffect(() => {
@@ -81,16 +106,15 @@ const DetailQuestion = (props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [questionId]);
 
-  const handleBack = useMemo(() => {
-    return <HeaderPage onBack={true} />;
-  }, []);
+ 
 
   const handleUpdate = useCallback(() => {
     if (dataQuestion) {
       const formValues = form.getFieldsValue();
-      const questionsArray = formValues.questions !== undefined && formValues.questions.map((question) => {
-        const { textQuestion, answerA, answerB, answerC, answerD, correctAnswer } = question;
-        return { textQuestion, answerA, answerB, answerC, answerD, correctAnswer };
+      const questionsArray = formValues.questionDetails !== undefined && formValues.questionDetails.map((question) => {
+        const { contentQuestion, correctAnswer, questionId, id } = question;
+        let answers = question.answers[0];
+        return { contentQuestion, answers, correctAnswer, questionId, id };
       });
 
       // eslint-disable-next-line no-unused-vars
@@ -100,18 +124,18 @@ const DetailQuestion = (props) => {
       });
 
       const formControl = {
+        id: questionId,
         type: 'practice',
         objectTypeId: objectTypeId,
         level: formValues.level,
         audioQuestion: audio,
-        imageUrls: images,
-        questions: questionsArray,
+        imageURLs: images,
+        transcript: formValues.transcript,
+        questionDetails: questionsArray,
       };
-      setLoading(true)
       updateData(`questions?id=${questionId}`, formControl).then((res) => {
         if (res.data) {
           message.success("UPDATE SUCCESS");
-          setLoading(false)
         }
       })
         .catch(() => {
@@ -121,23 +145,11 @@ const DetailQuestion = (props) => {
     }
   },[audio, dataQuestion, form, images, objectTypeId, questionId])
 
-  const btnEdit = useMemo(
-    () => (
-      <div style={{ position: "absolute", left: "190%", top: "-75px", zIndex: "99" }}>
-        <Button
-          type="primary"
-          key="submit"
-          htmlType="submit"
-          form="myForm"
-          icon={<SaveOutlined />}
-          onClick={(values) => handleUpdate(values)}
-        >
-          Save
-        </Button>
-      </div>
-    ),
-    [handleUpdate]
-  );
+
+  const handleBack = useMemo(() => {
+    return <HeaderPage onBack={true} onSave={true} handleUpdate={handleUpdate} />;
+  }, [handleUpdate]);
+
 
   // const renderAddQuestions = useCallback(() => {
   //   const _dataQuestion = [...dataQuestion]
@@ -172,17 +184,32 @@ const DetailQuestion = (props) => {
   //   }
 
 
-  // eslint-disable-next-line no-unused-vars
-  const uploadButton = (
-    <div style={{ position: "absolute", left: "240%", top: "-35px" }}>
-      <Button
-        type="dashed"
-        icon={<PlusOutlined />}
-        style={{ marginRight: "5px" }}
-        size="small"
-      > Upload </Button>
+  const uploadButton = useMemo(() => {
+    return <>
+      <div>
+      <PlusOutlined />
+      <div
+        style={{
+          marginTop: 8,
+        }}
+      >
+        Upload
+      </div>
     </div>
-  )
+    </>
+  },[])
+  // const uploadButton = useMemo(() => {
+  //   return <>
+  //     <div style={{ position: "absolute", left: "240%", top: "-35px" }}>
+  //     <Button
+  //       type="dashed"
+  //       icon={<PlusOutlined />}
+  //       style={{ marginRight: "5px" }}
+  //       size="small"
+  //     > Upload </Button>
+  //   </div>
+  //   </>
+  // },[])
 
   const handleFileChange = useCallback(async(event, type) => {
     const checkType = event.target?.files[0]?.type.indexOf("image") !== -1
@@ -216,6 +243,8 @@ const DetailQuestion = (props) => {
       setLoadingSpin(false)
     }
   },[URIPath, code, messageApi]);
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const antIcon = (
     <LoadingOutlined
       style={{
@@ -224,6 +253,30 @@ const DetailQuestion = (props) => {
       spin
     />
   );
+
+  const CustomButtonFile = useMemo(() => {
+    return <>
+       <Upload
+        action="https://run.mocky.io/v3/435e224c-44fb-4773-9faf-380c5e6a2188"
+        listType="picture-card"
+        fileList={images}
+        onPreview={handlePreview}
+        onChange={handleChange}
+      >
+        {images.length >= 8 ? null : uploadButton}
+      </Upload>
+      <Modal open={previewOpen} title={previewTitle} footer={null} onCancel={handleCancel}>
+        <img
+          alt="example"
+          style={{
+            width: '100%',
+          }}
+          src={previewImage}
+        />
+      </Modal>
+    </>
+  },[images, previewImage, previewOpen, previewTitle, uploadButton])
+
   const renderForm = useMemo(() => {
     return (
       <>
@@ -238,16 +291,23 @@ const DetailQuestion = (props) => {
             <Col span={12}>
               <Card className="cardGroup">
                 <div className="wrapperText">Audio Question</div>
-                {btnEdit}
                 <Row gutter={24}>
                   <Col span={10}>
                     <Form.Item
-                      name="audioQuestion"
+                      name="audioURL"
                       label="Audio Question"
-                      valuePropName="audioQuestion"
+                      valuePropName="audioURL"
                     >
                       <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "15px" }}>
-                        <input type="file" onChange={(e) => handleFileChange(e, "audio")} />
+                        <div className="file-input-container">
+                          <input type="file" id="fileInput" onChange={(e) => handleFileChange(e, "audio")} className="file-input" />
+                          <label htmlFor="fileInput" className="custom-file-input">
+                            <div style={{display: 'flex', alignItems: 'center'}}>
+                              <UploadOutlined style={{paddingRight: "5px"}} />Upload
+                            </div>
+                          </label>
+                        </div>
+
                         {loadingSpin ?
                           <Spin indicator={antIcon} />
                           :
@@ -286,31 +346,45 @@ const DetailQuestion = (props) => {
           </Row>
 
           <Row>
-            <Col span={24}>
+            <Col span={12}>
               <Card className="cardGroup">
                 <div className="wrapperText">Image</div>
                 <Row gutter={24}>
                   <Col span={12}>
                     <Form.Item >
-                      <input type="file" multiple onChange={(e) => handleFileChange(e, "image")} />
-                      {loadingSpinImg ?
-                        <Spin indicator={antIcon} />
-                        :
-                        <>
-                          {images?.map((item) =>
-                            <img className='Description_item_img' src={item} alt="" />
-                          )}
-                        </>
-                      }
+                      {CustomButtonFile}
                     </Form.Item>
                   </Col>
                 </Row>
               </Card>
             </Col>
-          </Row>
 
+            <Col span={12}>
+              <Card className="cardGroup">
+                <div className="wrapperText">Transcript</div>
+                  <Form.Item name="transcript" value={[form.getFieldValue('transcript') ? form.getFieldValue('transcript') : []]}>
+                    <TextArea rows={5} />
+                  </Form.Item>
+              </Card>
+            </Col>
+          </Row>
+        </Form>
+      </>
+    );
+  }, [contextHolder, form, loadingSpin, antIcon, audio, CustomButtonFile, handleFileChange]);
+
+  const renderQuestion = useMemo(() => {
+    return (
+      <>
+        {contextHolder}
+        <Form
+          id="myForm"
+          form={form}
+          labelAlign={"left"}
+          wrapperCol={{ span: 18 }}
+        >
           <Row gutter={24}>
-            <Form.List name="questions">
+            <Form.List name="questionDetails">
               {(fields, { add, remove }) => (
                 <>
                   {fields.map((key, name, index, ...restField) => (
@@ -338,63 +412,64 @@ const DetailQuestion = (props) => {
 
                         <div style={{ marginTop: "15px" }}>
                           <Form.Item
-                            // key={key.key}
                             label={`Question`}
-                            name={[name, 'textQuestion']}
+                            name={[name, 'contentQuestion']}
                           >
                             <Input />
-                            {/* {isUpdate ? <Input /> : <Text strong>{itemQuestion.textQuestion}</Text>} */}
                           </Form.Item>
 
-                          <Row gutter={24}>
-                            <Col span={12}>
-                              <Form.Item
-                                // key={key.key}
-                                label={`Answer A`}
-                                name={[name, 'answerA']}
-                              >
-                                <Input />
-                                {/* {isUpdate ? <Input /> : <Text className="textField" strong>{itemQuestion?.answerA === "" ? '-' : itemQuestion?.answerA}</Text>} */}
-                              </Form.Item>
+                          <Row gutter={24} style={{marginLeft: 0}}>
+                            <Form.List name={[key.name, 'answers']}>
+                              {(subFields, subOpt) => (
+                                <>
+                                {subFields.map((subField) => (
+                                  <Row gutter={24} key={subField.key} style={{marginLeft: 0}}>
+                                    <Col span={12}>
+                                    <Form.Item
+                                      label={`Answer A`}
+                                      name={[subField.name, 'A']}
+                                    >
+                                      <Input />
+                                    </Form.Item>
 
-                              <Form.Item
-                                // key={key.key}
-                                label={`Answer B`}
-                                name={[name, 'answerB']}
-                              >
-                                <Input />
-                                {/* {isUpdate ? <Input /> : <Text className="textField" strong>{itemQuestion?.answerB === "" ? '-' : itemQuestion?.answerB}</Text>} */}
-                              </Form.Item>
+                                    <Form.Item
+                                      label={`Answer B`}
+                                      name={[subField.name, 'B']}
+                                    >
+                                      <Input />
+                                    </Form.Item>
+                                    
+                                    </Col>
 
+                                    <Col span={12}>
                               <Form.Item
-                                // key={key.key}
-                                label={`Correct Answer`}
-                                name={[name, 'correctAnswer']}
-                              >
-                                <Input />
-                                {/* {isUpdate ? <Input /> : <Text className="textField" strong>{itemQuestion?.correctAnswer === "" ? '-' : itemQuestion?.correctAnswer}</Text>} */}
-                              </Form.Item>
-                            </Col>
-
-                            <Col span={12}>
-                              <Form.Item
-                                // key={key.key}
+  
                                 label={`Answer C`}
-                                name={[name, 'answerC']}
+                                name={[subField.name, 'C']}
                               >
                                 <Input />
-                                {/* {isUpdate ? <Input /> : <Text className="textField" strong>{itemQuestion?.answerC === "" ? '-' : itemQuestion?.answerC}</Text>} */}
                               </Form.Item>
 
                               <Form.Item
-                                // key={key.key}
+  
                                 label={`Answer D`}
-                                name={[name, 'answerD']}
+                                name={[subField.name, 'D']}
                               >
                                 <Input />
-                                {/* {isUpdate ? <Input /> : <Text className="textField" strong>{itemQuestion?.answerD === "" ? '-' : itemQuestion?.answerD}</Text>} */}
                               </Form.Item>
                             </Col>
+                                  </Row>
+                                ))}
+                                </>
+                              )}
+                            </Form.List>
+                            
+                            <Form.Item
+                              label={`Correct Answer`}
+                              name={[name, 'correctAnswer']}
+                              >
+                                <Input />
+                              </Form.Item>
                           </Row>
                         </div>
                       </Card>
@@ -408,13 +483,29 @@ const DetailQuestion = (props) => {
         </Form>
       </>
     );
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [contextHolder, form, btnEdit, loadingSpin, audio, loadingSpinImg, images, handleFileChange]);
+  }, [contextHolder, form]);
+
+  const items = [
+    { label: <>Information</>, key: '1', children: renderForm },
+    { label: <>Question</>, key: '2', children: renderQuestion }
+  ];
+
+
 
   return (
     <div>
       {handleBack}
-      {loading ? <Loading /> : renderForm}
+      {/* <Radio.Group value={tabPosition} onChange={changeTabPosition}>
+          <Radio.Button value="top">top</Radio.Button>
+          <Radio.Button value="bottom">bottom</Radio.Button>
+          <Radio.Button value="left">left</Radio.Button>
+          <Radio.Button value="right">right</Radio.Button>
+        </Radio.Group> */}
+      <TabCustomize 
+        items={items}
+        tabPosition={tabPosition}
+      />
+      {/* {loading ? <Loading /> : renderForm} */}
     </div>
   );
 };

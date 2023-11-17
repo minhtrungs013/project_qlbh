@@ -1,8 +1,10 @@
 .wrapper strong{
-    color: #1677ff;
+    /* color: #1677ff; */
+    color: black;
     cursor: pointer;
 
 }
 .wrapper strong:hover{
-    color: #69b1ff;
+    /* color: #69b1ff; */
+    color: rgb(95, 86, 86);
 }

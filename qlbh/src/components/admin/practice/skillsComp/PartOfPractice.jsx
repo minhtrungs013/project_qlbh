@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
-import { getDataById } from "../../../../api/service/api";
-import { Button, Card, Col, Form, Row, Skeleton, Space } from "antd";
+import React, { useEffect, useMemo, useState } from "react";
+import { deleteDataById, getDataById } from "../../../../api/service/api";
+import { Button, Card, Col, Form, Modal, Popover, Row, Skeleton, Space, Tag, message } from "antd";
 import HeaderPage from "../../category/HeaderPage";
 import CreateAndEditModal from "./ModalOfSkills/CreateAndEditModal";
 import { useCallback } from "react";
@@ -10,8 +10,9 @@ import Meta from "antd/es/card/Meta";
 import './style.css'
 import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { setObjectId } from "../../../redux/_actions";
+import { setDataTests, setPracticePartId } from "../../../redux/_actions";
 import { dataFakePartOfPractice } from "../../../../api/service/dataFake";
+import { ExclamationCircleOutlined } from "@ant-design/icons";
 
 const PartOfPractice = (props) => {
   const { id } = props;
@@ -20,43 +21,89 @@ const PartOfPractice = (props) => {
   const [isLoading, setIsLoading] = useState(false);
   const [idItem, setIdItem] = useState("");
   const [currentSite, setCurrentSite] = useState([]);
+  // eslint-disable-next-line no-unused-vars
+  const [arrow, setArrow] = useState('Show');
   const [form] = Form.useForm();
   const dispatch = useDispatch();
   
     const onclickShowListenStart = (data) => {
-    dispatch(setObjectId(data.name))
-    let arr = currentSite;
-    arr.push(data.name);
-    localStorage.setItem("breadcrumbs", JSON.stringify(arr));
+      dispatch(setPracticePartId(data.id))
+      dispatch(setDataTests(data.tests))
+      let arr = currentSite;
+      arr.push(data.name);
+      localStorage.setItem("breadcrumbs", JSON.stringify(arr));
 }
+
+  const mergedArrow = useMemo(() => {
+    if (arrow === 'Hide') {
+      return false;
+    }
+    if (arrow === 'Show') {
+      return true;
+    }
+    return {
+      pointAtCenter: true,
+    };
+  }, [arrow]);
 
   const onOpenModel = () => {
     setIsopen(true);
   };
 
-  const handleSetDataFake = useCallback(() => {
-    setIsLoading(true)
-    setTimeout(() => {
-      setDataPart(dataFakePartOfPractice);
-    }, 1000);
-    if(dataPart.length){
-      setIsLoading(false)
-    }
-  },[dataPart.length])
-
-  useEffect(() => {
-    handleSetDataFake();
-    setTimeout(() => {
-      setCurrentSite(JSON.parse(localStorage.getItem("breadcrumbs")))
-    }, 1000);
-    
-  }, [handleSetDataFake]);
-
-  const getPartOfPractice = () => {
+  const getPartOfPractice = useCallback(() => {
     setIsLoading(true);
-    getDataById(`practiceParts?practiceId=${id}`).then((res) => {
+    getDataById(`parts?practice-id=${id}`).then((res) => {
       setDataPart(res.data.data);
       setIsLoading(false);
+    });
+  },[id]);
+
+  useEffect(() => {
+    setCurrentSite(JSON.parse(localStorage.getItem("breadcrumbs")))
+    if(id){
+      getPartOfPractice();
+    }
+  }, [getPartOfPractice, id]);
+
+  const onClickOpenModal = useCallback(
+    (record = {}) => {
+      const formControl = {
+        id: record.id,
+        practiceId: record.practiceId,
+        name: record.name,
+        description: record.description,
+        image: record.image,
+      };
+      form.setFieldsValue(formControl);
+      setIsopen(true);
+    },
+    [form]
+  );
+
+  const onClickUpdate = useCallback(
+    (value) => {
+      setIdItem(value.id);
+      onClickOpenModal(value);
+    },
+    [onClickOpenModal]
+  );
+
+  const onClickDelete = (values) => {
+    Modal.confirm({
+      title: "Confirm",
+      icon: <ExclamationCircleOutlined />,
+      content: "Delete this item?",
+      okText: "OK",
+      cancelText: "Cancel",
+      onOk: () => handleDelete(values),
+      confirmLoading: isLoading,
+    });
+  };
+
+  const handleDelete = (value) => {
+    deleteDataById(`parts?id=${value.id}`).then((res) => {
+      message.success("DELETE SUCCESSFULLY");
+      getPartOfPractice();
     });
   };
 
@@ -73,10 +120,10 @@ const PartOfPractice = (props) => {
                     <Card style={{ width: 200 }} className="card-item" cover={ isLoading ? <Skeleton.Image style={{width: "180px", height: "180px"}} active={isLoading} /> : <img
                     alt="example"
                     src={`${iconPart}`} />} >
-                      <Meta title={item.name} className="card__meta" />
+                      <Meta  className="card__meta" />
                       <Space size={"small"} className="card__btnOption">
-                        <Button><b>Lession</b></Button>
-                        <Button><b>Test</b></Button>
+                        {/* <Button><b>Lession</b></Button>
+                        <Button><b>Test</b></Button> */}
                       </Space>
                     </Card>
                 </Col>
@@ -91,7 +138,11 @@ const PartOfPractice = (props) => {
                         </Link>
                       </Space>
                       <Space className="card__vectorDot">
-                        <img alt="example" width={10} height={10} src={`${iconDot}`}/>
+                        <Popover placement="bottom" content={<div>
+                            <Tag className="btn-edit" color="#2db7f5" onClick={() => onClickUpdate(item)}>Edit</Tag>
+                            <Tag className="btn-delete" color="#f50" onClick={() => onClickDelete(item)}>Delete</Tag> </div>} arrow={mergedArrow}>
+                            <img alt="example" width={10} height={10} src={`${iconDot}`}/>
+                        </Popover>
                       </Space> 
                     </Card>
                 </Col>

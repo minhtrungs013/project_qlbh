@@ -54,3 +54,22 @@ export const setQuestionsByTestId = (questions) => {
   };
 };
 
+export const setQuestionId = (id) => {
+  return {
+    type: Constants.SET_QUESTION_ID,
+    payload: id,
+  };
+};
+
+export const setDataTests = (id) => {
+  return {
+    type: Constants.SET_LIST_TESTS_ITEMS,
+    payload: id,
+  };
+};
+export const setDataQuestions = (id) => {
+  return {
+    type: Constants.SET_LIST_QUESTIONS,
+    payload: id,
+  };
+};

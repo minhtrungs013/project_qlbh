@@ -1,5 +1,5 @@
 import { Button, Col, Form, Input, message, Modal, Row, Select } from "antd";
-import React, { useCallback, useEffect, useMemo, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { createData, updateData } from "../../../../../api/service/api";
 
 const arrType = [
@@ -10,11 +10,12 @@ const arrType = [
 ];
 
 const ModalTestsExam = (props) => {
-    const { isOpen, title, form, reloadData, onClose, partId, idItem } = props;
+    const { isOpen, title, form, reloadData, onClose, partId } = props;
     const [isLoading, setIsLoading] = useState(false);
     const IdItem = form.getFieldValue("id");
     const [options, setOptions] = useState([]);
   
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     const handleCancel = () => {
       onClose();
       form.resetFields();
@@ -29,12 +30,13 @@ const ModalTestsExam = (props) => {
     const handleUpdate = useCallback(
       (values) => {
         const formControl = {
-          practicePartId: values.practicePartId,
+          id: IdItem,
+          partId: partId,
           name: values.name,
           type: values.type,
         };
         setIsLoading(true);
-        updateData(`partTests?id=${IdItem}`, formControl)
+        updateData(`tests`, formControl)
           .then((res) => {
             if (res.data) {
               handleCancel();
@@ -47,17 +49,17 @@ const ModalTestsExam = (props) => {
           });
         setIsLoading(false);
       },
-      [handleCancel, reloadData]
+      [IdItem, handleCancel, partId, reloadData]
     );
 
     const handleCreate = (values) => {
       const formControl = {
-        practicePartId: partId,
+        partId: partId,
         name: values.name,
         type: values.type,
       };
       setIsLoading(true);
-      createData("partTests/create", formControl).then((res) => {
+      createData("tests", formControl).then((res) => {
         if (res.data) {
           reloadData();
           handleCancel();

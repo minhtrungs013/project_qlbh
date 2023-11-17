@@ -1,3 +1,28 @@
 .ant-form-item-control-input-content{
     display: flex;
 }
+
+.file-input-container {
+    position: relative;
+    display: inline-block;
+    padding-right: 10px;
+  }
+  
+  .file-input {
+    position: absolute;
+    left: -9999px;
+  }
+  
+  .custom-file-input {
+    display: inline-block;
+    padding: 10px 15px;
+    cursor: pointer;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+
+/* Hide the default file input */
+input[type="file"] {
+  display: none;
+}
