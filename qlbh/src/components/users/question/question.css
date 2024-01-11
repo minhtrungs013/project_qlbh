@@ -1,6 +1,6 @@
 .question {
     text-align: left;
-    box-shadow: 1px 1px 4px 0px #23caef;
+    box-shadow: 1px 1px 4px 0px var(--box-shadow);
     border-radius: 10px;
     margin-bottom: 20px;
     overflow: hidden;
@@ -26,12 +26,11 @@
     text-align: left;
     font-size: 14px;
     font-weight: 500;
-    padding-left: 10px;
 }
 
 .question__button {
     border-radius: 25px;
-    color: #02c2e8;
+    color: var(--blue-color);
     background-color: rgb(225, 250, 254);
     border: none;
     min-width: 100px;
@@ -40,14 +39,14 @@
     margin-bottom: 20px;
     font-weight: 600;
     cursor: pointer;
-    box-shadow: 1px 1px 4px 0px #02c2e8;
+    box-shadow: 1px 1px 4px 0px var(--blue-color);
 
 }
 
 .btn-submit {
     background-color: rgb(253, 240, 240);
-    color: #ff5252;
-    box-shadow: 1px 1px 4px 0px #ff5252;
+    color: var(--primary-color);
+    box-shadow: 1px 1px 4px 0px var(--primary-color);
 
 }
 
@@ -79,20 +78,20 @@
 }
 
 .action {
-    box-shadow: 1px 1px 4px 0px #02c2e8;
-    border: 2px solid #02c2e8;
+    box-shadow: 1px 1px 4px 0px var(--blue-color);
+    border: 2px solid var(--blue-color);
 }
 
 .action_success {
-    background-color: #85de77;
-    border: 2px solid #85de77;
+    background-color: var(--success-color);
+    border: 2px solid var(--success-color);
     /* background: linear-gradient(90deg, #b5ff60, #0acf1ab4); */
     color: #ffffff;
 }
 
 .action_fail {
-    background-color: #FF756d;
-    border: 2px solid #FF756d;
+    background-color: var(--fail-color);
+    border: 2px solid var(--fail-color);
     color: #ffffff;
 
 }
@@ -104,8 +103,8 @@
 
 .correctAnswer p {
     padding-left: 10px;
-    color: #4CAF50;
-    font-weight: 600;
+    color: var(--success-color);
+    font-weight: 00;
     font-size: 16px;
     margin: 0;
 }
@@ -120,11 +119,11 @@
 }
 
 .faCircleCheck {
-    color: #4CAF50;
+    color: var(--success-color);
 }
 
 .faCircleXmark {
-    color: #FF5252;
+    color: var(--fail-color);
 }
 
 .checkQuantityCorrect div {
@@ -333,7 +332,7 @@
 
 .Lquestion__btn {
     border-radius: 25px;
-    color: #02c2e8;
+    color: var(--blue-color);
     background-color: rgb(225, 250, 254);
     border: none;
     min-width: 100px;
@@ -342,7 +341,7 @@
     margin-bottom: 20px;
     font-weight: 600;
     cursor: pointer;
-    box-shadow: 1px 1px 4px 0px #02c2e8;
+    box-shadow: 1px 1px 4px 0px var(--blue-color);
 
 }
 
@@ -408,7 +407,7 @@
 
 
 .history__item:hover {
-    box-shadow: 1px 1px 4px 0px #02c2e8;
+    box-shadow: 1px 1px 4px 0px var(--blue-color);
 
 }
 
@@ -441,7 +440,7 @@
 
 
 .vocabulary__detail-left {
-    box-shadow: 1px 1px 4px 0px #afafaf;
+    box-shadow: 1px 1px 4px 0px var(--box-shadow);
     border-radius: 10px;
     position: relative;
     margin-bottom: 20px;
@@ -511,7 +510,7 @@
 }
 
 .question__test-item:hover {
-  color: #02c2e8;
+  color: var(--blue-color);
 }
 
 

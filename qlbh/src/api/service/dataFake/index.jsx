@@ -37,32 +37,28 @@ export const dataFakePractice = [
   //   description: "Writing 4",
   // },
   {
-    id: "cb92e595-eb07-47f3-9892-e4d14d133d55",
+    id: "a6c42bf7-9d48-4f26-8170-ed59281bade9",
     name: "Listening",
     type: "Listen",
-    imageURL: iconListening
-      // "https://www.dropbox.com/scl/fi/uv5tnrwaxp1ei8xzco4k2/part-1.webp?rlkey=wtzbmuqvt13asy37qlarp2fm6&raw=1",
+    imageURL: "https://res.cloudinary.com/dax8xvyhi/image/upload/v1704940099/ztd3jtaowxva1quof6bj.png"
   },
   {
-    id: "7798a033-07e8-4658-ac2c-13a3a8b61a20",
+    id: "9429d14f-8dc5-4278-8910-ecc880d63cf5",
     name: "Reading",
     type: "Read",
-    imageURL: iconReading
-      // "https://www.dropbox.com/scl/fi/w5orgfqhf0tjacrzz4t2a/profile.jpg?rlkey=knaq6fmxhua1dckm9rh6ecuyh&raw=1",
+    imageURL: "https://res.cloudinary.com/dax8xvyhi/image/upload/v1704940099/eeydn8wd3o33fnyayvn4.png"
   },
   {
-    id: "7499e644-431b-418e-bf00-5dc8e4a73482",
+    id: "aa52088a-4516-424b-878b-286eb258d814",
     name: "Speaking",
     type: "Speak",
-    imageURL: iconSpeaking
-      // "https://www.dropbox.com/scl/fi/w5orgfqhf0tjacrzz4t2a/profile.jpg?rlkey=knaq6fmxhua1dckm9rh6ecuyh&raw=1",
+    imageURL: "https://res.cloudinary.com/dax8xvyhi/image/upload/v1704940099/dcpyj2mgnr3snk1lzwfd.png"
   },
   {
-    id: "7ba4acf7-7dc7-4ffb-b1a5-c069724f975c",
+    id: "fa55f181-a2f3-489b-8289-e64b2d159601",
     name: "Writing",
     type: "Write",
-    imageURL: iconWriting
-      // "https://www.dropbox.com/scl/fi/w5orgfqhf0tjacrzz4t2a/profile.jpg?rlkey=knaq6fmxhua1dckm9rh6ecuyh&raw=1",
+    imageURL: "https://res.cloudinary.com/dax8xvyhi/image/upload/v1704940100/pwl7aqlfz29wtfo5rfcb.png",
   },
 ];
 

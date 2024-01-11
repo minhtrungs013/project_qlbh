@@ -355,7 +355,7 @@ export default function Question() {
             // Set the loading flag to false after 500 milliseconds.
             setTimeout(() => {
                 setLoading(false)
-            }, 500);
+            }, 1000);
         }
     }
 

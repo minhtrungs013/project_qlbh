@@ -1,10 +1,40 @@
-body {
-  margin: 0;
-  
-}
 :root {
   font-family: "Exo 2", "Lato", "Helvetica Neue", sans-serif !important;
+  --primary-color: #ff5252;
+  --box-shadow: #afafaf;
+  --blue-color: #02c2e8;
+  --fail-color: #FF756d;
+  --success-color: #81e272;
+  --white-color: #ffffff;
+  --back-color: #010819;
+  --text-color: #333;
+  --border-color: #dbdbdb;
+  --navbar-height: 40.2px;
+  --header__sofr-bar: 46px;
+  --header-height: 120px;
+  --star-color: #ffce3e;
+  --header-with-search-height: calc(var(--header-height) - var(--navbar-height));
+  --hue: 0;
+  --bg: hsl(var(--hue), 0%, 100%);
+  --fg: hsl(var(--hue), 0%, 0%);
+  --primary: hsl(var(--hue), 90%, 55%);
+  --primaryT: hsla(var(--hue), 90%, 55%, 0);
+  --transDur: 0.3s;
+  --test: linear-gradient(180deg, #fbf3f1, rgba(245, 248, 253, 0) 48.23%, hsla(0, 0%, 100%, .63))
+    /* font-size: calc(16px + (32 - 16) * (100vw - 320px) / (1280 - 320)); */
 }
 
-code {
+body {
+  margin: 0;
+  height: 100vh !important;
+  background: var(--test);
+  color: var(--fg);
+ 
 }
+
+html,
+body {
+  background-color: var(--bg);
+}
+
+@media (prefers-color-scheme: dark) {}

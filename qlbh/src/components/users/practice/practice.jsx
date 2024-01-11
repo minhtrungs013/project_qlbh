@@ -1,6 +1,6 @@
 import { Spin } from 'antd';
 import React, { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { getPractices } from '../../../api/service/PracticeService';
 import { setPracticeId, setPracticeType } from '../../redux/_actions/practice.actions';
@@ -11,7 +11,7 @@ export default function Practice() {
     const [data, setData] = useState([])
     const [loading, setLoading] = useState(false)
     const dispatch = useDispatch();
-
+    const theme = useSelector(state => state.userReducer.theme);
     /**
      * Sets the practice ID and type.
      *
@@ -54,7 +54,7 @@ export default function Practice() {
                     <div className='test row ' >
                         {data?.map((item) => (
                             <div className='col l-2 m-5 c-6' key={item.id}>
-                                <Link to={`/practice/part`} className='practice__link'>
+                                <Link to={`/practice/part`} className={`practice__link `}>
                                     <div className='practice'>
                                         <img className='practice_img' onClick={() => handleSetId(item)} src={item.imageURL} alt=""  loading="eager" />
                                         <h2>{item.name}</h2>

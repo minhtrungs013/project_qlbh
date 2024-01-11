@@ -1,6 +1,5 @@
 .home {
-    background: linear-gradient(180deg,#fbf3f1,rgba(245,248,253,0) 48.23%,hsla(0,0%,100%,.63));
-    height: 400px;
+    height: 100vh;
 }
 
 .header-box {

@@ -5,16 +5,14 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, Route, Routes } from "react-router-dom";
 import { COLOR_DEFAULT, COLOR_FAIL, COLOR_MEDIUM, COLOR_SUCCESS } from '../../../../../commom/messageConstant';
-import { setObjectId, setQuestionsByTestId, setPracticePartId } from '../../../../redux/_actions/practice.actions';
+import { setObjectId, setPracticePartId, setQuestionsByTestId } from '../../../../redux/_actions/practice.actions';
 import Lesson from "../lesson/lesson";
-
 import "./test.css";
 
 export default function Test() {
 
     const [data, setData] = useState([])
     const [dataLesson, setDataLesson] = useState([])
-    const [test, setTest] = useState(false)
     const [loading, setLoading] = useState(false)
     const [dataLessonId, setDataLessonId] = useState(null)
     const dispatch = useDispatch();
@@ -53,13 +51,7 @@ export default function Test() {
      * @param {object} data The lesson data.
      */
     const getLessonsId = (data) => {
-        if (dataLessonId !== null && dataLessonId?.id === data?.id) {
-            setDataLessonId(null)
-            setTest(false)
-        } else {
-            setDataLessonId(data)
-            setTest(true)
-        }
+        setDataLessonId(data)
     }
 
     /**
@@ -98,7 +90,7 @@ export default function Test() {
                                 <h3>Lesson</h3>
                                 <ul className='lesson__list'>
                                     {dataLesson?.map((item, index) => (
-                                        <Link to={test ? '/practice/part/topic' : '/practice/part/topic/lesson'} className='lesson__item' key={item.id} onClick={() => getLessonsId(item)}>
+                                        <Link to={'/practice/part/topic/lesson'} className='lesson__item' key={item.id} onClick={() => getLessonsId(item)}>
                                             <div>
                                                 Lesson {index + 1}: <span>{item.name}</span>
                                             </div>
