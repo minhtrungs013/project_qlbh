@@ -103,39 +103,42 @@ const ModalCreateQuestionByTopic = (props) => {
 
 
   const handleFileChange = async (event, type) => {
-    const checkType = event.target?.files[0]?.type.indexOf("image") !== -1
-    if (type === "audio" && !checkType) {
-      setLoadingSpin(true)
-    } else if (type === "image" && checkType) {
-      setLoadingSpinImg(true)
-    } else {
-      messageApi.open({
-        type: 'warning',
-        content: "Please choose the correct format file",
-      });
-      return
-    }
+    const files = event.target?.files
+    const test =  handleUpload(files)
+    console.log(test);
+    // const checkType = event.target?.files[0]?.type.indexOf("image") !== -1
+    // if (type === "audio" && !checkType) {
+    //   setLoadingSpin(true)
+    // } else if (type === "image" && checkType) {
+    //   setLoadingSpinImg(true)
+    // } else {
+    //   messageApi.open({
+    //     type: 'warning',
+    //     content: "Please choose the correct format file",
+    //   });
+    //   return
+    // }
 
-    const selectedFile = event.target.files
-    const image = await handleUpload(selectedFile, code, URIPath)
-    if (image === "Invalid Access Token") {
-      window.location.href = `https://www.dropbox.com/oauth2/authorize?response_type=code&client_id=lntimln3hpjnwx4&redirect_uri=${encodeURIComponent(URIPath)}&response_type=code`
-    } else if (image === "Image already exists") {
-      messageApi.open({
-        type: 'warning',
-        content: image,
-      });
-      setLoadingSpin(false)
-      setLoadingSpinImg(false)
-    } else if (type === "image") {
-      setImages(image)
-      setCode("")
-      setLoadingSpinImg(false)
-    } else if (type === "audio") {
-      setAudio(image[0])
-      setCode("")
-      setLoadingSpin(false)
-    }
+    // const selectedFile = event.target.files
+    // const image = await handleUpload(selectedFile, code, URIPath)
+    // if (image === "Invalid Access Token") {
+    //   window.location.href = `https://www.dropbox.com/oauth2/authorize?response_type=code&client_id=lntimln3hpjnwx4&redirect_uri=${encodeURIComponent(URIPath)}&response_type=code`
+    // } else if (image === "Image already exists") {
+    //   messageApi.open({
+    //     type: 'warning',
+    //     content: image,
+    //   });
+    //   setLoadingSpin(false)
+    //   setLoadingSpinImg(false)
+    // } else if (type === "image") {
+    //   setImages(image)
+    //   setCode("")
+    //   setLoadingSpinImg(false)
+    // } else if (type === "audio") {
+    //   setAudio(image[0])
+    //   setCode("")
+    //   setLoadingSpin(false)
+    // }
 
   };
 

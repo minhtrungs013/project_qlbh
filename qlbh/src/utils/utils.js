@@ -1,3 +1,4 @@
+import axios from 'axios';
 import { upload } from '../api/service/uploadService'
 
 
@@ -15,23 +16,20 @@ export const CURRENT_DATE = () => {
 }
 
 
-export const handleUpload = async (selectedFiles, code, URIPath) => {
-    if (selectedFiles.length > 0) {
-        let data
-        const formData = new FormData();
-        Object.keys(selectedFiles).forEach((key) => {
-            formData.append('files', selectedFiles[key]); // Đổi tên thành 'image1'
-        });
-
-        await upload(`upload/uploadFile?code=${code}&uriPath=${URIPath}`, formData, {
-            headers: {
-                'Content-Type': 'multipart/form-data',
-            }
-        }).then((response) => {
-            data = response.data.data
-        }).catch((error) => {
-            data = error.response.data.message
-        })
-        return data
+export const handleUpload = async (files) => {
+    if (files.length > 0) {
+        let newImages = []
+        for (let i = 0; i < files.length; i++) {
+          const fromData = new FormData()
+          fromData.append("file", files[i])
+          fromData.append("upload_preset", "kozqobqt")
+         await axios.post(`https://api.cloudinary.com/v1_1/dax8xvyhi/upload`, fromData)
+            .then((res) => {
+              newImages.push(res.data.url);
+            }).catch((error) => {
+              console.log(error);
+            })
+        }
+        return newImages
     }
 };

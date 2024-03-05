@@ -1,31 +1,22 @@
-import { Button, Col, Form, Input, message, Modal, Row, Select, Upload } from "antd";
-import React, { useCallback, useEffect, useState } from "react";
+import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
+import { faUpload } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Button, Col, Form, Input, message, Modal, Row, Select, Spin } from "antd";
+import React, { useCallback, useEffect, useMemo, useState } from "react";
 import {
   createData,
   getAllData,
   updateData,
 } from "../../../../../api/service/api";
-import { useLocation } from "react-router-dom";
+import { DEFAULT_IMAGE } from "../../../../../commom/messageConstant";
 import { handleUpload } from "../../../../../utils/utils";
-import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
-import { getBase64 } from "../../../question/DetailQuestion";
-import { useMemo } from "react";
 const CreateAndEditModal = (props) => {
   const { isOpen, title, form, reloadData, onClose, practiceId } = props;
   const [isLoading, setIsLoading] = useState(false);
-  const [newImage, setNewImage] = useState(null);
-  const [images, setImages] = useState([])
-  const [previewOpen, setPreviewOpen] = useState(false);
-  const [previewImage, setPreviewImage] = useState('');
-  const [previewTitle, setPreviewTitle] = useState('');
+  const [image, setImage] = useState([])
   const [loadingSpin, setLoadingSpin] = useState(false)
   const IdItem = form.getFieldValue("id");
   const [messageApi, contextHolder] = message.useMessage();
-  const location = useLocation();
-  const currentUri = location.search;
-  const parts = currentUri.split("?code=");
-  const [code, setCode] = useState(parts[1] === undefined ? "" : parts[1]);
-  const URIPath = `http://localhost:3000${location.pathname}`;
   const [dataPractice, setDataPractice] = useState([]);
   const handleCancel = useCallback(() => {
     onClose();
@@ -40,17 +31,6 @@ const CreateAndEditModal = (props) => {
       spin
     />
   );
-
-  const handleCancelReview = () => setPreviewOpen(false);
-  const handlePreview = async (file) => {
-    if (!file.url && !file.preview) {
-      file.preview = await getBase64(file.originFileObj);
-    }
-    setPreviewImage(file.url || file.preview);
-    setPreviewOpen(true);
-    setPreviewTitle(file.name || file.url.substring(file.url.lastIndexOf('/') + 1));
-  };
-  const handleChange = ({ fileList: newFileList }) => setImages(newFileList);
 
   const getDataPractice = () => {
     getAllData(`practices`).then((res) => {
@@ -101,24 +81,24 @@ const CreateAndEditModal = (props) => {
   const uploadButton = useMemo(() => {
     return <>
       <div>
-      <PlusOutlined />
-      <div
-        style={{
-          marginTop: 8,
-        }}
-      >
-        Upload
+        <PlusOutlined />
+        <div
+          style={{
+            marginTop: 8,
+          }}
+        >
+          Upload
+        </div>
       </div>
-    </div>
     </>
-  },[])
+  }, [])
 
   const handleCreate = (values) => {
     const formControl = {
       practiceId: practiceId,
       name: values.name,
       description: values.description,
-      imageURL: form.getFieldValue('imageURL') ? form.getFieldValue('imageURL') : "abc",
+      imageURL: image,
     };
     setIsLoading(true);
     createData("parts", formControl).then((res) => {
@@ -140,57 +120,13 @@ const CreateAndEditModal = (props) => {
   };
 
   const handleFileChange = async (event) => {
-    const checkType = event.target?.files[0]?.type.indexOf("image") !== -1
-    if (checkType) {
-      setLoadingSpin(true)
-    } else {
-      messageApi.open({
-        type: 'warning',
-        content: "Please choose the correct format file",
-      });
-      return
-    }
-    const selectedFile = event.target.files
-    const image = await handleUpload(selectedFile, code, URIPath)
-    if (image === "Invalid Access Token") {
-      window.location.href = `https://www.dropbox.com/oauth2/authorize?response_type=code&client_id=lntimln3hpjnwx4&redirect_uri=${encodeURIComponent(URIPath)}&response_type=code`
-    } else if (image === "Image already exists") {
-      messageApi.open({
-        type: 'warning',
-        content: image,
-      });
-      setLoadingSpin(false)
-    } else {
-      setNewImage(image)
-      form.setFieldValue('image', image[0])
-      setLoadingSpin(false)
-      setCode("")
-    }
+    setLoadingSpin(true)
+    const files = event.target?.files
+    const images = await handleUpload(files)
+    setImage(images[0])
+    setLoadingSpin(false)
+
   }
-
-  const CustomButtonFile = useMemo(() => {
-    return <>
-       <Upload
-        action="https://run.mocky.io/v3/435e224c-44fb-4773-9faf-380c5e6a2188"
-        listType="picture-card"
-        fileList={images}
-        onPreview={handlePreview}
-        onChange={handleChange}
-      >
-        {images.length >= 8 ? null : uploadButton}
-      </Upload>
-      <Modal open={previewOpen} title={previewTitle} footer={null} onCancel={handleCancelReview}>
-        <img
-          alt="example"
-          style={{
-            width: '100%',
-          }}
-          src={previewImage}
-        />
-      </Modal>
-    </>
-  },[images, previewImage, previewOpen, previewTitle, uploadButton])
-
   return (
     <div>
       {contextHolder}
@@ -221,7 +157,6 @@ const CreateAndEditModal = (props) => {
               <Form.Item hidden={true} name="id">
                 <Input />
               </Form.Item>
-
               <Form.Item label="Name" name="name"
                 rules={[
                   {
@@ -245,7 +180,7 @@ const CreateAndEditModal = (props) => {
                 ></Select>
               </Form.Item>}
               <Form.Item>
-                {/* <img className='Description_item_img' src={newImage ? newImage : form.getFieldValue("imageURL")} alt="" />
+                <img className='Description_item_img' src={image.length > 0 ? image : DEFAULT_IMAGE} alt="" />
                 {loadingSpin ?
                   <Spin indicator={antIcon} />
                   :
@@ -253,8 +188,7 @@ const CreateAndEditModal = (props) => {
                     <FontAwesomeIcon icon={faUpload} className='Description_faUpload' />
                     <input type="file" className='Description_inputfile' onChange={handleFileChange} />
                   </div>
-                } */}
-                {CustomButtonFile}
+                }
               </Form.Item>
             </Col>
           </Row>

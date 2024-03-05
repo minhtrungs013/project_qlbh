@@ -1,7 +1,8 @@
-.card__meta{
+.card__meta {
     padding-bottom: 20px;
 }
-.card__vectorDot{
+
+.card__vectorDot {
     position: absolute;
     right: 0;
     top: 0;
@@ -9,7 +10,8 @@
     cursor: pointer;
     z-index: 9;
 }
-.card__vectorDot_test{
+
+.card__vectorDot_test {
     position: absolute;
     right: 50px;
     top: -5px;
@@ -17,40 +19,82 @@
     cursor: pointer;
     z-index: 9;
 }
-.card-test{
+
+.card-test {
     position: relative;
 }
-.ant-card-body{
+
+.ant-card-body {
     padding: 10px !important
 }
-.card__btnOption{
+
+.card__btnOption {
     gap: 20px !important;
 }
-.card-item{
+
+.card-item {
     width: 160px;
     padding: 10px 10px;
 }
 
 .btn-edit {
-	-webkit-transform: scale(1);
-	transform: scale(1);
-	-webkit-transition: .3s ease-in-out;
-	transition: .3s ease-in-out;
+    -webkit-transform: scale(1);
+    transform: scale(1);
+    -webkit-transition: .3s ease-in-out;
+    transition: .3s ease-in-out;
 }
+
 .btn-edit:hover {
-	-webkit-transform: scale(1.1);
-	transform: scale(1.1);
+    -webkit-transform: scale(1.1);
+    transform: scale(1.1);
     cursor: pointer;
 }
 
 .btn-delete {
-	-webkit-transform: scale(1);
-	transform: scale(1);
-	-webkit-transition: .3s ease-in-out;
-	transition: .3s ease-in-out;
+    -webkit-transform: scale(1);
+    transform: scale(1);
+    -webkit-transition: .3s ease-in-out;
+    transition: .3s ease-in-out;
 }
+
 .btn-delete:hover {
-	-webkit-transform: scale(1.1);
-	transform: scale(1.1);
+    -webkit-transform: scale(1.1);
+    transform: scale(1.1);
     cursor: pointer;
+}
+
+.modal__test {
+    display: grid;
+    justify-content: center;
+    margin-bottom: 30px;
+}
+
+.modal__test_btn {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 10px;
+}
+
+.modal__test_btn_generate {}
+
+.modal__test_btn_custom {
+    margin-left: 20px;
+}
+
+.Filter__option {
+    display: flex;
+    justify-content: space-between;
+}
+
+.Filter__option_item:first-child {
+    margin-right: 10px;
+    display: block;
+}
+
+.Filter__option_item_heading {
+    margin: 0;
+}
+
+.Filter__heading {
+    margin-top: 0;
 }

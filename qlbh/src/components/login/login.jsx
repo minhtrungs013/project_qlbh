@@ -76,9 +76,9 @@ export default function Login() {
     await loginAPI('auth/login', userLogin)
       .then((response) => {
         if (response) {
-          localStorage.setItem(ACCESS_TOKEN, response.data.data.token)
+          localStorage.setItem(ACCESS_TOKEN, response.data.data.tokens.accessToken)
           dispatch(setLoggedIn(true))
-          dispatch(setUser(response.data.data))
+          dispatch(setUser(response.data.data.information))
           navigate(SLASH)
         }
       })

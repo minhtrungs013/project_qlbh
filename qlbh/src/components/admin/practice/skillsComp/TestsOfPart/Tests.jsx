@@ -10,8 +10,9 @@ import { setDataQuestions, setObjectId } from '../../../../redux/_actions';
 import { useCallback } from 'react';
 import { ExclamationCircleOutlined } from '@ant-design/icons';
 import { deleteDataById, getDataById } from '../../../../../api/service/api';
-import ModalTestsExam from './ModalTestsExam';
+// import ModalTestsExam from './ModalTestsExam';
 import { useMemo } from 'react';
+import ModalTest from './ModalTest';
 
 const Tests = () => {
 
@@ -28,10 +29,13 @@ const Tests = () => {
   const [form] = Form.useForm();
   const navigate = useNavigate();
 
-
-  const onOpenModel = () => {
-    setIsopen(true);
+  const onClickShowModal = () => {
+    setIsopen(!isOpen);
   };
+  const onOpenModel = () => {
+    onClickShowModal()
+  };
+
 
   const onClickOpenModal = useCallback(
     (record = {}) => {
@@ -135,7 +139,7 @@ const Tests = () => {
             ))}
           </Row>
         </div>
-        <ModalTestsExam
+        {/* <ModalTestsExam
           isOpen={isOpen}
           partId={practicePartId}
           onClose={() => {
@@ -146,7 +150,8 @@ const Tests = () => {
           title={idItem ? "Edit form" : "Add new item"}
           reloadData={() => getDataTest()}
           form={form}
-        />
+        /> */}
+        <ModalTest isOpen={isOpen} onClickShowModal={onClickShowModal}  />
       </div>
     </div>
   )
